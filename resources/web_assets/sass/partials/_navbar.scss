@@ -1,0 +1,234 @@
+header {
+    .phone-nav {
+        @media (min-width: 992px) {
+            display: none;
+        }
+
+        display: flex;
+        justify-content: space-between;
+        padding: 1.3rem 1.7rem;
+        transition: all 0.37s cubic-bezier(0.215, 0.610, 0.355, 1);
+
+        .toggle-nav-menu {
+            transition: transform 0.37s ease-in-out;
+
+            .toggle-nav & {
+                transform: rotate(-180deg);
+
+                .fill-dark {
+                    fill: var(--main-blue);
+                }
+            }
+        }
+
+        ion-icon {
+            font-size: 23px;
+        }
+    }
+
+    &.fixed-nav {
+
+        #navbar,
+        .phone-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background-color: var(--main-white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #navbar {
+            padding: 17px 0;
+        }
+    }
+
+    &.hide {
+        .phone-nav {
+            transform: translateY(-100%);
+        }
+        .toggle-nav & {
+            .phone-nav {
+                transform: translateY(0);
+            }
+        }
+
+        @media (min-width: 992px) {
+            #navbar {
+                transform: translateY(-100%);
+            }
+        }
+    }
+
+    @media (max-width: 991px) {
+        .nav-overlay {
+            position: fixed;
+            top: 62px;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: #00000069;
+            z-index: 98;
+            display: none;
+
+            .toggle-nav & {
+                display: block;
+                animation: opacity0to1 0.23s ease-in-out;
+
+                @keyframes opacity0to1 {
+                    from {
+                        opacity: 0;
+                    }
+
+                    to {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    #navbar {
+        padding: 36px 0;
+        overflow: hidden;
+        transition: all 0.37s cubic-bezier(0.215, 0.610, 0.355, 1);
+
+        @media (max-width: 991px) {
+            position: fixed;
+            top: 62px !important;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background-color: var(--main-white);
+            box-shadow: unset !important;
+            width: 300px;
+            transition: transform .37s cubic-bezier(.215, .61, .355, 1);
+            transform: translateX(100%);
+            overflow: auto;
+
+            .toggle-nav & {
+                transform: translateX(0);
+            }
+        }
+
+        >.container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            @media (max-width: 991px) {
+                align-items: start;
+                flex-direction: column;
+                justify-content: unset;
+                height: 100%;
+
+
+                .d-mobile-none {
+                    display: none;
+                }
+
+                .logo {
+                    margin-bottom: 2rem;
+                }
+            }
+
+            ul {
+                list-style: none;
+                margin: 0;
+                display: flex;
+                gap: 24px;
+
+                @media (max-width: 991px) {
+                    flex-direction: column;
+                    gap: 12px;
+                    background-color: var(--main-white);
+                }
+
+                a {
+                    font-size: 1.25rem;
+                    color: var(--main-dark);
+
+                    &.active {
+                        color: var(--main-blue);
+                    }
+
+                    ion-icon {
+                        font-size: 1.6rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Toggle
+/* Custom CSS for dark mode toggle button */
+#darkModeToggle {
+    display: none;
+}
+
+.mode-toggle-label {
+    width: 77px;
+    height: 34px;
+    position: relative;
+    display: block;
+    background: #fff;
+    border-radius: 200px;
+    box-shadow: inset 1px 1px 15px rgb(0 0 0 / 6%), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: 0.3s;
+
+    &::after {
+        content: "";
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        background: linear-gradient(180deg, #ffcc89, #d8860b);
+        border-radius: 24.3px;
+        transition: 0.3s;
+    }
+    &:active::after {
+        width: 40px; 
+    }
+    svg {
+        position: absolute;
+        width: 23px;
+        top:5.4px;
+        z-index: 100;
+      }
+    svg.sun {
+        left:5.4px;
+        fill:#fff;
+        transition: 0.3s;
+      }
+    svg.moon {
+        left:48px;
+        fill:#7e7e7e;
+        transition: 0.3s;
+    }
+      
+}
+
+#darkModeToggle{
+    &:checked+label {
+        background: #242424;
+    }
+    &:checked+label:after {
+        left: 74.15px;
+        transform: translateX(-100%);
+        background: linear-gradient(180deg, #777, #3a3a3a);
+    }
+    &:checked + label svg.sun {
+        fill:#7e7e7e;
+      }
+    &:checked + label svg.moon {
+        fill:#fff;
+    }
+}
+
+
+

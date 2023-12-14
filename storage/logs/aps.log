@@ -1,0 +1,27 @@
+2023-12-10 07:44:59 - (74825:INFO) - Arrived on the redirect page
+2023-12-10 07:44:59 - (74825:DEBUG) - Received POST: {"amount":"150000","response_code":"14000","card_number":"****************","card_holder_name":"****","signature":"f71398a9aaea8e9c45ff90e4f6ab51a398c3b629a488c4e96165684f59885e48","merchant_identifier":"CyLXZQaH","access_code":"d8HgekBYUUKBvipDtfJ7","order_description":"Test product 1","payment_option":"VISA","expiry_date":"****","customer_ip":"*********","language":"en","eci":"ECOMMERCE","fort_id":"169996200013186059","command":"PURCHASE","response_message":"Success","merchant_reference":"O-00001-10237","authorization_code":"880210","customer_email":"************","token_name":"dc11be6ce4884b85a2434643846d1c01","currency":"AED","status":"14"}
+2023-12-10 07:44:59 - (74825:INFO) - Response signature: f71398a9aaea8e9c45ff90e4f6ab51a398c3b629a488c4e96165684f59885e48
+2023-12-10 07:44:59 - (74825:INFO) - Calculated signature: f71398a9aaea8e9c45ff90e4f6ab51a398c3b629a488c4e96165684f59885e48
+2023-12-10 07:44:59 - (74825:INFO) - Received discriminator: 5b1de90dda5d5fda4bbb4122fc2c432b25324fab24966db79107a3022b54c42b
+2023-12-10 07:44:59 - (74825:INFO) - Matched response handler: AmazonPaymentServicesSdk\FrontEndAdapter\Response\CCRedirectResponse
+2023-12-10 07:44:59 - (74825:INFO) - Returned resultObject is ResponseModel
+2023-12-10 07:44:59 - (74825:INFO) - Result discriminator = 5b1de90dda5d5fda4bbb4122fc2c432b25324fab24966db79107a3022b54c42b
+2023-12-10 07:44:59 - (74825:INFO) - Response status = 14 which is success
+2023-12-10 08:15:57 - (55158:INFO) - Arrived on the redirect page
+2023-12-10 08:15:57 - (55158:DEBUG) - Received POST: {"amount":"150000","response_code":"00047","signature":"90fa3b92a3bbcda83abba05817067d760d87b6e6ed095d13b9538e249c9b7161","merchant_identifier":"CyLXZQaH","access_code":"d8HgekBYUUKBvipDtfJ7","order_description":"Test product 1","customer_ip":"127.0.0.1","language":"en","command":"PURCHASE","response_message":"Order already processed","merchant_reference":"O-00001-72601","customer_email":"test@aps.com","return_url":"http:\/\/zamim.test\/register\/redirect-aps-payment?discriminator=5b1de90dda5d5fda4bbb4122fc2c432b25324fab24966db79107a3022b54c42b","currency":"AED","status":"00"}
+2023-12-10 08:15:57 - (55158:INFO) - Response signature: 90fa3b92a3bbcda83abba05817067d760d87b6e6ed095d13b9538e249c9b7161
+2023-12-10 08:15:57 - (55158:INFO) - Calculated signature: 90fa3b92a3bbcda83abba05817067d760d87b6e6ed095d13b9538e249c9b7161
+2023-12-10 08:15:57 - (55158:INFO) - Received discriminator: 5b1de90dda5d5fda4bbb4122fc2c432b25324fab24966db79107a3022b54c42b
+2023-12-10 08:15:57 - (55158:INFO) - Matched response handler: AmazonPaymentServicesSdk\FrontEndAdapter\Response\CCRedirectResponse
+2023-12-10 08:15:57 - (55158:INFO) - Returned resultObject is ResponseModel
+2023-12-10 08:15:57 - (55158:INFO) - Result discriminator = 5b1de90dda5d5fda4bbb4122fc2c432b25324fab24966db79107a3022b54c42b
+2023-12-10 08:15:57 - (55158:INFO) - Response status = 00 which is fail
+2023-12-10 08:16:57 - (85793:INFO) - Arrived on the redirect page
+2023-12-10 08:16:57 - (85793:DEBUG) - Received POST: {"amount":"150000","response_code":"14000","card_number":"****************","card_holder_name":"****","signature":"2d85b1f5c43dce375b6c843288e348fec6ab6008582b4e1914c08d31ae87d42e","merchant_identifier":"CyLXZQaH","access_code":"d8HgekBYUUKBvipDtfJ7","order_description":"Test product 1","payment_option":"VISA","expiry_date":"****","customer_ip":"*********","language":"en","eci":"ECOMMERCE","fort_id":"169996200013186756","command":"PURCHASE","response_message":"Success","merchant_reference":"O-00001-90690","authorization_code":"543699","customer_email":"************","token_name":"4192591f0f8a42ef8dc265325adf5364","currency":"AED","status":"14"}
+2023-12-10 08:16:57 - (85793:INFO) - Response signature: 2d85b1f5c43dce375b6c843288e348fec6ab6008582b4e1914c08d31ae87d42e
+2023-12-10 08:16:57 - (85793:INFO) - Calculated signature: 2d85b1f5c43dce375b6c843288e348fec6ab6008582b4e1914c08d31ae87d42e
+2023-12-10 08:16:57 - (85793:INFO) - Received discriminator: 5b1de90dda5d5fda4bbb4122fc2c432b25324fab24966db79107a3022b54c42b
+2023-12-10 08:16:57 - (85793:INFO) - Matched response handler: AmazonPaymentServicesSdk\FrontEndAdapter\Response\CCRedirectResponse
+2023-12-10 08:16:57 - (85793:INFO) - Returned resultObject is ResponseModel
+2023-12-10 08:16:57 - (85793:INFO) - Result discriminator = 5b1de90dda5d5fda4bbb4122fc2c432b25324fab24966db79107a3022b54c42b
+2023-12-10 08:16:57 - (85793:INFO) - Response status = 14 which is success

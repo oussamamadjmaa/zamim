@@ -1,0 +1,39 @@
+.form-input {
+    position: relative;
+    .input_ {
+        border-radius: 2px;
+        border: 1px solid rgba(102, 112, 128, 0.20);
+        background: var(--main-white);
+        color: var(--main-dark);
+        padding: 19px 24px;
+        width: 100%;
+        font-size: 1rem;
+        .rtl & {
+            padding-right: 64px;
+        }
+        .ltr & {
+            padding-left: 64px;
+        }
+
+        &::placeholder {
+            font-size: 1rem;
+            color: var(--main-gray);
+        }
+    }
+
+    .label_ {
+        position: absolute;
+        top: 20px;
+
+        .rtl & { right: 24px; }
+        .ltr & { left: 24px; }
+
+
+        svg, ion-icon {
+            width: 20px;
+            height: 20px;
+            font-size: 20px;
+            color: var(--main-gray);
+        }
+    }
+}

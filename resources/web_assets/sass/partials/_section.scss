@@ -1,0 +1,21 @@
+.section-heading {
+    text-align: center;
+    p {
+        font-size: 0.875rem;
+        font-weight: 400;
+        margin: 0 auto;
+        max-width: 850px;
+        margin-bottom: 27px;
+
+        @media (min-width: 992px) {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 60px;
+        }
+
+        @media (min-width: 1200px) {
+            font-size: 1.5rem;
+            margin-bottom: 121px;
+        }
+    }
+}

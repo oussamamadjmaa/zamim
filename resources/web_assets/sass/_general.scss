@@ -1,0 +1,130 @@
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--surface);
+    font-family: "Tajawal", sans-serif;
+    font-style: normal;
+    font-size: 17px;
+    color: var(--main-dark);
+
+    .rtl & {
+        direction: rtl;
+        text-align: right;
+    }
+
+    &.toggle-nav {
+        overflow: hidden;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: var(--main-blue);
+
+    &.link-white {
+        color: var(--main-white);
+    }
+
+    &.link-gray {
+        color: var(--main-gray);
+    }
+
+    &.link-dark {
+        color: var(--main-dark)!important;
+    }
+
+    &:hover {
+        color: var(--main-blue);
+        opacity: 0.9;
+    }
+
+    &:active,
+    &.link-active {
+        color: var(--main-orange);
+    }
+}
+
+ion-icon {
+    vertical-align: middle;
+    margin-top: -2px;
+}
+
+img {
+    max-width: 100%;
+    object-fit: cover;
+}
+
+p {
+    font-size: 1rem;
+    @media (min-width: 992px) {
+        font-size: 1.25rem;
+    }
+}
+
+h6 {
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+    font-weight: 700;
+    @media (min-width: 992px) {
+        font-size: 1.25rem;
+        margin-bottom: 19px;
+    }
+
+    @media (min-width: 1200px) {
+        font-size: 1.625rem;
+        margin-bottom: 19px;
+    }
+}
+h5 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    @media (min-width: 992px) {
+        font-size: 1.8rem;
+    }
+
+    @media (min-width: 1200px) {
+        font-size: 2rem;
+    }
+}
+h4 {
+    font-size: 1.625rem;
+    font-weight: 700;
+    margin-bottom: 19px;
+    @media (min-width: 992px) {
+        font-size: 2rem;
+        margin-bottom: 26px;
+    }
+
+    @media (min-width: 1200px) {
+        font-size: 3rem;
+        margin-bottom: 29px;
+    }
+}
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 19px;
+    @media (min-width: 992px) {
+        font-size: 3rem;
+        margin-bottom: 26px;
+    }
+
+    @media (min-width: 1200px) {
+        font-size: 4rem;
+        margin-bottom: 29px;
+    }
+}
+
+.mw-756px {
+    max-width: 756px;
+}

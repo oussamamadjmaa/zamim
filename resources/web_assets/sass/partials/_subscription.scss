@@ -1,0 +1,150 @@
+.subscription-plan {
+    max-width: 656px;
+    margin: 0 auto;
+    background-color: var(--main-white);
+    padding: 32px 16px;
+    height: 100%;
+
+    @media (min-width: 768px) {
+        padding: 76px 48px;
+    }
+
+    .subscription-plan__heading {
+        .plan-period {
+            font-weight: 700;
+            svg {
+                width: 32px;
+                height: 32px;
+                @media (min-width: 922px) {
+                    width: 48px;
+                    height: 48px;
+                }
+            }
+        }
+        .plan-price {
+            .rtl & {
+                margin-right: auto;
+            }
+            .ltr & {
+                margin-left: auto;
+            }
+            font-weight: 900;
+            @media (min-width: 1200px) {
+                font-size: 3rem;
+            }
+        }
+    
+        .plan-brief {
+            color: var(--main-gray);
+        }
+    
+    }
+    
+    .subscription-plan__features {
+        h6 {
+            margin-bottom: 1rem;
+        }
+        // .plan-features {
+        //     display: flex;
+        //     flex-wrap: wrap;
+        //     gap: 0.7rem;
+        // }
+        // .plan-feature-item {
+        //     flex: 1 1 calc(50% - 0.7rem);
+        //     @media (max-width: 768px) {
+        //         font-size: 12px;
+        //     }
+        //     margin-bottom: 1rem;
+        //     padding: 0;
+        // }
+    }
+
+    .button-main {
+        position: sticky;
+        top: 100%;
+        left: 0;
+        right: 0;
+    }
+}
+
+#our-subscribers {
+    color: #fff;
+    padding: 48px 0;
+    text-align: center;
+    @media (min-width: 922px) {
+        padding: 80px 0;
+        text-align: unset;
+    }
+    background: linear-gradient(180deg, #0864AF 0%, #532B89 100%);
+
+    .subscriber-card {
+        position: relative;
+        height: 100%;
+        .subscriber-info {
+            gap: 1rem;
+            position: sticky;
+            top: 100%;
+            z-index: 1;
+        }
+        .subscriber-avatar {
+            .subscriber-avatar__holder {
+                width: 48px;
+                height: 48px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+            
+        }
+
+        .subscriber-image {
+            width: 100%;
+            z-index: -1;
+            .subscriber-image__holder {
+                background: red;
+                img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                    object-fit: cover;
+                }
+            }
+        }   
+    }
+
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .swiper-slide {
+        height: unset;
+        @media (min-width: 1200px) {
+            width: calc(25% - 10px);
+        }
+    }
+
+    .swiper-slide.swiper-slide-active {
+        width: 80%;
+        @media (min-width: 1200px) {
+            width: calc(50% - 10px);
+        }
+        .subscriber-image__holder {
+            position: relative;
+            padding-top: 69%;
+        }   
+        .subscriber-info {
+            background-color: var(--main-white);
+            color: var(--main-dark);
+        }
+    }
+
+
+
+}

@@ -1,0 +1,51 @@
+.button-main {
+    display: inline-block;
+    text-align: center;
+    background-color: var(--main-blue);
+    color: #fff;
+    padding: 16px 32px;
+    border: 2px solid var(--main-blue);    
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.27s!important;
+    
+    font-size: 1rem;
+    font-weight: 700;
+    height: max-content;
+    align-self: center;
+    white-space: nowrap;
+
+    @media (min-width: 400px) { 
+        padding: 12px 32px;
+    }
+
+    @media (min-width: 1200px) { 
+        font-size: 1.5rem;
+        padding: 12px 40px;
+        font-weight: 500;
+    }
+
+    &:hover {
+        background-color: var(--main-white);
+        color: var(--main-blue);
+    }
+
+    &.button-rounded {
+        border-radius: 46px;
+    }
+
+    &.button-small {
+        padding: 8px 35px;
+    }
+}
+
+.button-secondary {
+    @extend .button-main;
+    background-color: var(--main-white);
+    color: var(--main-blue);
+
+    &:hover {
+        background-color: var(--main-blue);
+        color: var(--main-white);
+    }
+}
