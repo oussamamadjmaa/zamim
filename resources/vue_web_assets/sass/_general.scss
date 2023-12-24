@@ -128,3 +128,13 @@ h1 {
 .mw-756px {
     max-width: 756px;
 }
+
+
+.Vue-Toastification__container {
+    width: max-content!important;
+    max-width: 100%!important;
+}
+
+.Vue-Toastification__toast-body {
+    font-family: "Tajawal", sans-serif;
+}

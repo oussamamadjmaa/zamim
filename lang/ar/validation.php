@@ -210,7 +210,11 @@ return [
         'accreditation_number'  => 'رقم الإعتماد',
         'mod_name'              => 'الإسم الكامل للمدير',
         'id_number'             => 'رقم الهوية الوطنية',
-        'acknowledgment'        => 'أقر بأن هذه المعلومات صحيحة'
+        'acknowledgment'        => 'أقر بأن هذه المعلومات صحيحة',
+        'profile.parent_name'      => 'الشعبة',
+        'profile.level'      => 'المرحلة',
+        'profile.class'      => 'القسم',
+        'profile.division'      => 'الشعبة',
     ],
 
 ];

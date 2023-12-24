@@ -21,9 +21,9 @@ class TestDataSeeder extends Seeder
 
             'city' => 'الرياض',
             'name' => 'مدرسة الهدى',
-            'accreditation_number' => '123456789',
+            'accreditation_number' => fake('ar_SA')->companyIdNumber(),
             'mod_name' => 'أسامة مجمع',
-            'id_number' => '123-45678-1234556678'
+            'id_number' => fake('ar_SA')->idNumber(),
         ]);
     }
 }

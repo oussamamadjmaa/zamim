@@ -6,8 +6,10 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/web_assets/sass/style.scss',
-                'resources/web_assets/js/app.js',
+                'resources/vue_web_assets/sass/style.scss',
+                'resources/vue_web_assets/js/app.js',
+                'resources/vue_backend_assets/sass/style.scss',
+                'resources/vue_backend_assets/js/app.js',
             ],
             refresh: true,
         }),

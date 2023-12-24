@@ -25,7 +25,12 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
+        });
+
+        Schema::table('users', function(Blueprint $table) {
+            $table->foreignIdFor(App\Models\School::class)->nullable()->after('id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -37,5 +42,10 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('schools');
+
+        Schema::table('users', function(Blueprint $table) {
+            $table->dropForeign('school_id');
+            $table->dropColumn('school_id');
+        });
     }
 };

@@ -26,6 +26,7 @@ export default function useCommon() {
             return res;
         } catch (err) {
             if(showErrorNotification && err.response && (err.response.data.message || err.message)) {
+                console.log(err);
                 window.toast.error(err.response.data.message || err.message)
             }
             return err.response;
@@ -90,7 +91,7 @@ export default function useCommon() {
     const fetchAll = async (url = null, fetchAllRef) => {
         url = new URL(url);
 
-        url.searchParams.append('timestamp', new Date().getTime())
+        url.searchParams.append('_t', new Date().getTime())
 
         if(fetchAllRef.value.search) {
             url.searchParams.append('search', fetchAllRef.value.search)

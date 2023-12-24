@@ -13,7 +13,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('web-assets/css/toast.css') }}">
-    @vite(['resources/web_assets/sass/style.scss', 'resources/web_assets/js/app.js', 'resources/web_assets/js/scripts.js'])
+    @vite(['resources/vue_web_assets/sass/style.scss', 'resources/vue_web_assets/js/app.js', 'resources/vue_web_assets/js/scripts.js'])
     @stack('styles')
   </head>
   <body class="{{ config('app.direction') }}">

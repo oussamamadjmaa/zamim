@@ -1,0 +1,58 @@
+:root {
+    --surface: #FDFDFD;
+    --main-white: #FFF;
+    --main-gray: #667080;
+    --main-dark: #181923;
+    --main-orange: #D95D13;
+    --main-blue: #0864AF;
+    --green: #4DA43F;
+    --bg-light-orange:#FFE9CE;
+    --bg-light-blue: #DCF3FD;
+    --Iconsax-Color: #181923;
+    --Iconsax-Size: 20px;
+    --sidebar-link-color: #181923;
+    --sidebar-width: 298px;
+    --navbar-height:90px;
+
+    @media (min-width: 768px) {
+        --navbar-height:140px;
+    }
+}
+// @media (prefers-color-scheme: dark) {
+//     :root {
+//         --surface: #0D0D0D;
+//         --main-white: #181923;
+//         --main-dark: #FFF;
+//         --main-gray: #c0c0c0;
+//     }
+// }
+
+// .light-mode {
+//     --surface: #FDFDFD;
+//     --main-white: #FFF;
+//     --main-gray: #667080;
+//     --main-dark: #181923;
+// }
+
+// .dark-mode {
+//     --surface: #0D0D0D;
+//     --main-white: #181923;
+//     --main-dark: #FFF;
+//     --main-gray: #c0c0c0;
+// }
+  
+
+// // X-Small devices (portrait phones, less than 576px)
+// @media (max-width: 575.98px) { ... }
+
+// // Small devices (landscape phones, less than 768px)
+// @media (max-width: 767.98px) { ... }
+
+// // Medium devices (tablets, less than 992px)
+// @media (max-width: 991.98px) { ... }
+
+// // Large devices (desktops, less than 1200px)
+// @media (max-width: 1199.98px) { ... }
+
+// // X-Large devices (large desktops, less than 1400px)
+// @media (max-width: 1399.98px) { ... }
