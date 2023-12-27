@@ -32,7 +32,7 @@ class TeacherController extends SchoolBaseController
 
     private function jsonResponse($request)
     {
-        $teachers = Teacher::whereSchoolId(auth()->user()->school_id)->latest('id')->paginate(15)->withQueryString();
+        $teachers = Teacher::whereSchoolId(auth()->user()->school_id)->search($request->search)->latest('id')->paginate(15)->withQueryString();
 
         return new TeacherCollection($teachers);
     }

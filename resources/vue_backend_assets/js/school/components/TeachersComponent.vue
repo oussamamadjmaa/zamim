@@ -1,5 +1,5 @@
 <script setup>
-import { watchEffect, inject } from 'vue';
+import { watchEffect, inject, ref } from 'vue';
 import useTeachers from '../services/teachers-service.js'
 import MainTableComponent from '../../../../vue-components/backend/MainTableComponent.vue'
 import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue'
@@ -64,6 +64,19 @@ const deleteTeacher = (teacher) => {
 
 
 getTeachers()
+
+const searchTiemout = ref(null);
+
+const onSearch = (event) => {
+    if(searchTiemout.value) {
+        clearTimeout(searchTiemout.value)
+    }
+
+    teachers.value.search = event.target.value;
+    searchTiemout.value = setTimeout(() => {
+        getTeachers();
+    }, 600)
+}
 </script>
 <template>
     <!-- Teachers list -->
@@ -71,6 +84,8 @@ getTeachers()
         <template #header>
             <div class="d-flex flex-wrap justify-content-between">
                 <h6 class="h7" v-text="trans('Teachers')"></h6>
+                <input type="text"
+                        class="form-control" style="max-width: 300px;" placeholder="بحث" @keyup="onSearch($event)">
                 <div class="text-end">
                     <button class="primary-button" @click="teacherForm.show = !teacherForm.show">
                         {{ trans('Add new teacher') }}

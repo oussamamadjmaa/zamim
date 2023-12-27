@@ -24,4 +24,8 @@ class Student extends User {
             $query->role = 'student';
         });
     }
+
+    public function searchColumns() {
+        return ['id', 'name', 'email', 'phone', 'mobile', 'profile' => ['parent_name', 'level', 'class']];
+    }
 }

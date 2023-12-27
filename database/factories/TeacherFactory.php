@@ -2,15 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\StudentProfile;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Teacher>
  */
-class UserFactory extends Factory
+class TeacherFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,12 +19,12 @@ class UserFactory extends Factory
     {
         return [
             'school_id' => 1,
-            'name' => fake('ar_SA')->firstName() . ' ' . fake('ar_SA')->lastName(),
+            'name' => fake('ar_SA')->name(),
             'email' => fake()->unique()->safeEmail(),
             'mobile' => fake()->unique()->phoneNumber(),
             'phone' => fake()->unique()->phoneNumber(),
             'email_verified_at' => now(),
-            'role'  => '',
+            'role'  => 'teacher',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];

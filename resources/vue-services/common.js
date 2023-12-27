@@ -26,7 +26,6 @@ export default function useCommon() {
             return res;
         } catch (err) {
             if(showErrorNotification && err.response && (err.response.data.message || err.message)) {
-                console.log(err);
                 window.toast.error(err.response.data.message || err.message)
             }
             return err.response;

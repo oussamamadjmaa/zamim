@@ -43,6 +43,34 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Radio
+ *
+ * @property-read \App\Models\School|null $school
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
+ * @property-read int|null $students_count
+ * @property-read \App\Models\Teacher|null $teacher
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio query()
+ */
+	class Radio extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\RadioStudent
+ *
+ * @property-read \App\Models\Radio|null $radio
+ * @property-read \App\Models\Student|null $student
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent query()
+ */
+	class RadioStudent extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\School
  *
  * @property int $id
@@ -116,10 +144,12 @@ namespace App\Models{
  * @property-read \App\Models\School|null $school
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @method static \Database\Factories\StudentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User search($search)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmail($value)
@@ -327,10 +357,12 @@ namespace App\Models{
  * @property-read \App\Models\School|null $school
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @method static \Database\Factories\TeacherFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User search($search)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmail($value)
@@ -377,6 +409,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User search($search)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)

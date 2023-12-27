@@ -32,7 +32,7 @@ class StudentController extends SchoolBaseController
 
     private function jsonResponse($request)
     {
-        $students = Student::whereSchoolId(auth()->user()->school_id)->latest('id')->paginate(15)->withQueryString();
+        $students = Student::whereSchoolId(auth()->user()->school_id)->search($request->search)->latest('id')->paginate(15)->withQueryString();
 
         return new StudentCollection($students);
     }

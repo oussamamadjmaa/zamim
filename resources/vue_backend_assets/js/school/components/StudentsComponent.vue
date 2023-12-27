@@ -1,5 +1,5 @@
 <script setup>
-import { watchEffect, inject } from 'vue';
+import { watchEffect, inject, ref } from 'vue';
 import useStudents from '../services/students-service.js'
 import MainTableComponent from '../../../../vue-components/backend/MainTableComponent.vue'
 import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue'
@@ -69,6 +69,20 @@ const deleteStudent = (student) => {
 
 
 getStudents()
+
+
+const searchTiemout = ref(null);
+
+const onSearch = (event) => {
+    if(searchTiemout.value) {
+        clearTimeout(searchTiemout.value)
+    }
+
+    students.value.search = event.target.value;
+    searchTiemout.value = setTimeout(() => {
+        getStudents();
+    }, 600)
+}
 </script>
 <template>
     <!-- Students list -->
@@ -76,6 +90,8 @@ getStudents()
         <template #header>
             <div class="d-flex flex-wrap justify-content-between">
                 <h6 class="h7" v-text="trans('Students')"></h6>
+                <input type="text"
+                        class="form-control" style="max-width: 300px;" placeholder="بحث" @keyup="onSearch($event)">
                 <div class="text-end">
                     <button class="primary-button" @click="studentForm.show = !studentForm.show">
                         {{ trans('Add new student') }}

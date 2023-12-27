@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,8 @@ class FactorySeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->count(109)->create();
+        Student::factory()->count(3910)->create();
+
+        Teacher::factory()->count(41)->create();
     }
 }
