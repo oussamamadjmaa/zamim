@@ -75,7 +75,7 @@ class SchoolSubscription
             'school.logout',
             'school.subscription.*',
             'school.notifications.*',
-            'school.profile'
+            'school.profile.*'
         ];
     }
 

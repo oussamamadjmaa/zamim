@@ -29,10 +29,17 @@
         }
     }
 
-    .toggle-sidebar & {
+    .toggle-sidebar.rtl & {
         right: calc(var(--sidebar-width) * 1);
         @media (min-width: 1200px) {
             right: 0;
+        }
+    }
+
+    .toggle-sidebar.ltr & {
+        left: calc(var(--sidebar-width) * 1);
+        @media (min-width: 1200px) {
+            left: 0;
         }
     }
 

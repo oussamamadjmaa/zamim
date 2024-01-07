@@ -49,10 +49,10 @@ class StatsController extends Controller
 
         $options = [];
 
-        $type = request()->get('type', 'bar');
+        $chartType = request()->get('type', 'bar');
         $version = request()->get('version', 1);
 
-        if ($type == 'line') {
+        if ($chartType == 'line') {
             $options = [
                 'borderColor' => $version == 1 ? '#DCF3FD' : '#667080',
                 'pointBackgroundColor' => '#D95D13',

@@ -73,15 +73,24 @@ main {
         }
     }
 
-    .toggle-sidebar & {
+    .toggle-sidebar.rtl & {
         transform: translateX(calc(var(--sidebar-width) * -1));
 
         @media (min-width: 1200px) {
             transform: unset;
-            .rtl & { margin-right: 0; }
-            .ltr & { margin-left: 0; }
+            margin-right: 0;
         }
     }
+
+    .toggle-sidebar.ltr & {
+        transform: translateX(calc(var(--sidebar-width)));
+
+        @media (min-width: 1200px) {
+            transform: unset;
+            margin-right: 0;
+        }
+    }
+
 }
 
 //Headings
