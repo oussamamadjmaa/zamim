@@ -6,23 +6,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Shetabit\Visitor\Traits\Visitable;
 
 class Radio extends Model
 {
-    use HasFactory;
+    use HasFactory, Visitable;
 
     protected $fillable = [
         'school_id',
         'teacher_id',
-        'title',
+        'name',
         'class',
-        'date'
+        'radio_date',
+        'bg_image'
     ];
 
     protected $casts = [
-        'date' => 'date'
+        'radio_date' => 'date'
     ];
-
 
     public function school() : BelongsTo {
         return $this->belongsTo(School::class);

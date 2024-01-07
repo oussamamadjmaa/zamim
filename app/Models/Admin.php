@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\AvatarAttribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Shetabit\Visitor\Traits\Visitor;
 
 class Admin extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, AvatarAttribute, Visitor;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,7 @@ class Admin extends Authenticatable
         'username',
         'email',
         'password',
+        'avatar'
     ];
 
     /**

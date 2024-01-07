@@ -9,13 +9,6 @@ import MainPaginationComponent from '../../../../vue-components/backend/MainPagi
 
 const trans = inject('trans');
 
-const props = defineProps({
-    teachers: {
-        type: Object,
-        default: {}
-    },
-})
-
 const { teachers, getTeachers, getTeacher, storeTeacher, teacherForm, destroyTeacher } = useTeachers()
 
 const createTeacher = async () => {
@@ -85,7 +78,7 @@ const onSearch = (event) => {
             <div class="d-flex flex-wrap justify-content-between">
                 <h6 class="h7" v-text="trans('Teachers')"></h6>
                 <input type="text"
-                        class="form-control" style="max-width: 300px;" placeholder="بحث" @keyup="onSearch($event)">
+                        class="form-control" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
                 <div class="text-end">
                     <button class="primary-button" @click="teacherForm.show = !teacherForm.show">
                         {{ trans('Add new teacher') }}

@@ -13,3 +13,22 @@
 .bg-light-blue {
     background-color: var(--bg-light-blue);
 }
+
+.bg-pending {
+    background-color: #FFD700!important;
+}
+.bg-failed, .bg-expired {
+    background-color: #FF0000!important;
+}
+.bg-canceled {
+    background-color: #808080!important;
+}
+.bg-completed, .bg-active {
+    background-color: #008000!important;
+}
+.bg-on_hold {
+    background-color: #FFA500!important;
+}
+.bg-refunded {
+    background-color: #0000FF!important;
+}

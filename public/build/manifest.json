@@ -1,0 +1,104 @@
+{
+  "_NotificationsComponent-ff8ff7fd.js": {
+    "file": "assets/NotificationsComponent-ff8ff7fd.js",
+    "imports": [
+      "_common-e8678646.js"
+    ]
+  },
+  "_common-e8678646.js": {
+    "file": "assets/common-e8678646.js"
+  },
+  "resources/vue_backend_assets/js/app.css": {
+    "file": "assets/app-73f7966d.css",
+    "src": "resources/vue_backend_assets/js/app.css"
+  },
+  "resources/vue_backend_assets/js/app.js": {
+    "css": [
+      "assets/app-73f7966d.css"
+    ],
+    "file": "assets/app-a04c4528.js",
+    "imports": [
+      "_NotificationsComponent-ff8ff7fd.js",
+      "_common-e8678646.js"
+    ],
+    "isEntry": true,
+    "src": "resources/vue_backend_assets/js/app.js"
+  },
+  "resources/vue_backend_assets/js/app_admin.js": {
+    "file": "assets/app_admin-42d742a0.js",
+    "imports": [
+      "_NotificationsComponent-ff8ff7fd.js",
+      "_common-e8678646.js"
+    ],
+    "isEntry": true,
+    "src": "resources/vue_backend_assets/js/app_admin.js"
+  },
+  "resources/vue_backend_assets/sass/style.scss": {
+    "file": "assets/style-f6325c08.css",
+    "isEntry": true,
+    "src": "resources/vue_backend_assets/sass/style.scss"
+  },
+  "resources/vue_web_assets/images/ellipse-87.svg": {
+    "file": "assets/ellipse-87-98724df9.svg",
+    "src": "resources/vue_web_assets/images/ellipse-87.svg"
+  },
+  "resources/vue_web_assets/images/ellipse-89.svg": {
+    "file": "assets/ellipse-89-94421c62.svg",
+    "src": "resources/vue_web_assets/images/ellipse-89.svg"
+  },
+  "resources/vue_web_assets/images/ellipse-90.svg": {
+    "file": "assets/ellipse-90-a6335cbd.svg",
+    "src": "resources/vue_web_assets/images/ellipse-90.svg"
+  },
+  "resources/vue_web_assets/images/pic4.jpg": {
+    "file": "assets/pic4-529fe507.jpg",
+    "src": "resources/vue_web_assets/images/pic4.jpg"
+  },
+  "resources/vue_web_assets/images/school-avatar.jpeg": {
+    "file": "assets/school-avatar-e0e61def.jpeg",
+    "src": "resources/vue_web_assets/images/school-avatar.jpeg"
+  },
+  "resources/vue_web_assets/images/slider1.jpeg": {
+    "file": "assets/slider1-334616a7.jpeg",
+    "src": "resources/vue_web_assets/images/slider1.jpeg"
+  },
+  "resources/vue_web_assets/images/slider2.jpeg": {
+    "file": "assets/slider2-ff8c0e5a.jpeg",
+    "src": "resources/vue_web_assets/images/slider2.jpeg"
+  },
+  "resources/vue_web_assets/images/slider3.jpeg": {
+    "file": "assets/slider3-a11e0347.jpeg",
+    "src": "resources/vue_web_assets/images/slider3.jpeg"
+  },
+  "resources/vue_web_assets/js/app.css": {
+    "file": "assets/app-f78bf56b.css",
+    "src": "resources/vue_web_assets/js/app.css"
+  },
+  "resources/vue_web_assets/js/app.js": {
+    "assets": [
+      "assets/slider3-a11e0347.jpeg",
+      "assets/school-avatar-e0e61def.jpeg",
+      "assets/slider2-ff8c0e5a.jpeg",
+      "assets/slider1-334616a7.jpeg"
+    ],
+    "css": [
+      "assets/app-f78bf56b.css"
+    ],
+    "file": "assets/app-4b9f88ff.js",
+    "imports": [
+      "_common-e8678646.js"
+    ],
+    "isEntry": true,
+    "src": "resources/vue_web_assets/js/app.js"
+  },
+  "resources/vue_web_assets/js/scripts.js": {
+    "file": "assets/scripts-69fefea7.js",
+    "isEntry": true,
+    "src": "resources/vue_web_assets/js/scripts.js"
+  },
+  "resources/vue_web_assets/sass/style.scss": {
+    "file": "assets/style-e5815f43.css",
+    "isEntry": true,
+    "src": "resources/vue_web_assets/sass/style.scss"
+  }
+}

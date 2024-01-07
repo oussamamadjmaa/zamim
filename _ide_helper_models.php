@@ -12,6 +12,53 @@
 
 namespace App\Models{
 /**
+ * App\Models\Activity
+ *
+ * @property int $id
+ * @property int $school_id
+ * @property int|null $teacher_id
+ * @property string $name
+ * @property string|null $bg_image
+ * @property string $class
+ * @property \Illuminate\Support\Carbon $activity_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\School $school
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
+ * @property-read int|null $students_count
+ * @property-read \App\Models\Teacher|null $teacher
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity search($search)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereActivityDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereBgImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereSchoolId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity whereUpdatedAt($value)
+ */
+	class Activity extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ActivityStudent
+ *
+ * @property-read \App\Models\Activity|null $activity
+ * @property-read \App\Models\Student|null $student
+ * @method static \Illuminate\Database\Eloquent\Builder|ActivityStudent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ActivityStudent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ActivityStudent query()
+ */
+	class ActivityStudent extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Admin
  *
  * @property int $id
@@ -19,6 +66,7 @@ namespace App\Models{
  * @property string $username
  * @property string $email
  * @property string $password
+ * @property string|null $avatar
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -26,9 +74,13 @@ namespace App\Models{
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Shetabit\Visitor\Models\Visit> $visits
+ * @property-read int|null $visits_count
  * @method static \Illuminate\Database\Eloquent\Builder|Admin newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Admin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Admin online(int $seconds = 180)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Admin whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereId($value)
@@ -45,13 +97,33 @@ namespace App\Models{
 /**
  * App\Models\Radio
  *
- * @property-read \App\Models\School|null $school
+ * @property int $id
+ * @property int $school_id
+ * @property int|null $teacher_id
+ * @property string $name
+ * @property string|null $bg_image
+ * @property string $class
+ * @property \Illuminate\Support\Carbon $radio_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\School $school
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
  * @property-read \App\Models\Teacher|null $teacher
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Shetabit\Visitor\Models\Visit> $visitLogs
+ * @property-read int|null $visit_logs_count
  * @method static \Illuminate\Database\Eloquent\Builder|Radio newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Radio newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Radio query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereBgImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereRadioDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereSchoolId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereUpdatedAt($value)
  */
 	class Radio extends \Eloquent {}
 }
@@ -83,25 +155,37 @@ namespace App\Models{
  * @property string|null $id_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property string|null $avatar
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @property-read \self $school
  * @property-read int $school_id
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Radio> $radios
+ * @property-read int|null $radios_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
+ * @property-read \App\Models\Subscription\PlanSubscription|null $subscription
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Subscription\SubscriptionPayment> $subscription_payments
+ * @property-read int|null $subscription_payments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Teacher> $teachers
  * @property-read int|null $teachers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Shetabit\Visitor\Models\Visit> $visits
+ * @property-read int|null $visits_count
  * @method static \Illuminate\Database\Eloquent\Builder|School newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|School newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|School online(int $seconds = 180)
  * @method static \Illuminate\Database\Eloquent\Builder|School onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|School query()
  * @method static \Illuminate\Database\Eloquent\Builder|School whereAccreditationNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|School whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School whereCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School whereCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School whereCreatedAt($value)
@@ -133,7 +217,11 @@ namespace App\Models{
  * @property string|null $phone
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property string|null $email_verification_code
+ * @property string|null $last_email_code_at
+ * @property string|null $phone_verification_code
  * @property string|null $role
+ * @property string|null $avatar
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -144,21 +232,28 @@ namespace App\Models{
  * @property-read \App\Models\School|null $school
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Shetabit\Visitor\Models\Visit> $visits
+ * @property-read int|null $visits_count
  * @method static \Database\Factories\StudentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User online(int $seconds = 180)
  * @method static \Illuminate\Database\Eloquent\Builder|Student onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
  * @method static \Illuminate\Database\Eloquent\Builder|User search($search)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmailVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereLastEmailCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student wherePhoneVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereSchoolId($value)
@@ -266,6 +361,7 @@ namespace App\Models\Subscription{
  * @method static \Illuminate\Database\Eloquent\Builder|PlanSubscription newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PlanSubscription onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|PlanSubscription query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PlanSubscription search($search)
  * @method static \Illuminate\Database\Eloquent\Builder|PlanSubscription whereCanceledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PlanSubscription whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PlanSubscription whereDeletedAt($value)
@@ -288,19 +384,24 @@ namespace App\Models\Subscription{
  * App\Models\Subscription\SubscriptionPayment
  *
  * @property int $id
- * @property string $transaction_id
+ * @property string|null $transaction_id
+ * @property string|null $merchant_reference
  * @property string $payer_type
  * @property int $payer_id
  * @property int $plan_id
  * @property string $payment_method
  * @property string $amount
  * @property string $currency
+ * @property string|null $customer_email
  * @property string $subscription_interval
  * @property int $subscription_period
- * @property \Illuminate\Support\Carbon|null $billed_at
- * @property \Illuminate\Support\Carbon|null $paid_at
- * @property \Illuminate\Support\Carbon|null $confirmed_at
+ * @property \Illuminate\Support\Carbon|null $initiated_at
+ * @property \Illuminate\Support\Carbon|null $failed_at
+ * @property \Illuminate\Support\Carbon|null $refunded_at
  * @property \Illuminate\Support\Carbon|null $canceled_at
+ * @property \Illuminate\Support\Carbon|null $completed_at
+ * @property \Illuminate\Support\Carbon|null $on_hold_at
+ * @property string $status
  * @property string|null $comment
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -312,19 +413,24 @@ namespace App\Models\Subscription{
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment query()
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereBilledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereCanceledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereConfirmedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereCompletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereCurrency($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereCustomerEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereFailedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereInitiatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereMerchantReference($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereOnHoldAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment wherePayerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment wherePayerType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment wherePaymentMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment wherePlanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereRefundedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereSubscriptionInterval($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereSubscriptionPeriod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment whereTransactionId($value)
@@ -347,7 +453,11 @@ namespace App\Models{
  * @property string|null $phone
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property string|null $email_verification_code
+ * @property string|null $last_email_code_at
+ * @property string|null $phone_verification_code
  * @property string|null $role
+ * @property string|null $avatar
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -357,21 +467,28 @@ namespace App\Models{
  * @property-read \App\Models\School|null $school
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Shetabit\Visitor\Models\Visit> $visits
+ * @property-read int|null $visits_count
  * @method static \Database\Factories\TeacherFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User online(int $seconds = 180)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher query()
  * @method static \Illuminate\Database\Eloquent\Builder|User search($search)
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmailVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereLastEmailCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePhoneVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereSchoolId($value)
@@ -394,7 +511,11 @@ namespace App\Models{
  * @property string|null $phone
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property string|null $email_verification_code
+ * @property string|null $last_email_code_at
+ * @property string|null $phone_verification_code
  * @property string|null $role
+ * @property string|null $avatar
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -404,21 +525,28 @@ namespace App\Models{
  * @property-read \App\Models\School|null $school
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Shetabit\Visitor\Models\Visit> $visits
+ * @property-read int|null $visits_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User online(int $seconds = 180)
  * @method static \Illuminate\Database\Eloquent\Builder|User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
  * @method static \Illuminate\Database\Eloquent\Builder|User search($search)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLastEmailCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereSchoolId($value)

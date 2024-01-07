@@ -1,0 +1,74 @@
+.subscription-plan {
+    max-width: 656px;
+    margin: 0 auto;
+    background-color: var(--main-white);
+    padding: 16px;
+    height: 100%;
+    border-radius: 27px;;
+
+    @media (min-width: 768px) {
+        padding: 40px;
+    }
+    @media (min-width: 1200px) {
+        h5 {
+            font-size: 2rem;
+        }
+    }
+    .subscription-plan__heading {
+        .plan-period {
+            svg {
+                width: 32px;
+                height: 32px;
+                fill: #000;
+                @media (min-width: 922px) {
+                    width: 48px;
+                    height: 48px;
+                }
+            }
+        }
+        .plan-price {
+            .rtl & {
+                margin-right: auto;
+            }
+            .ltr & {
+                margin-left: auto;
+            }
+            @media (min-width: 1200px) {
+                font-size: 2.7rem;
+            }
+        }
+
+        .plan-brief {
+            color: var(--main-gray);
+        }
+
+    }
+
+    .subscription-plan__features {
+        h6 {
+            margin-bottom: 1rem;
+        }
+        // .plan-features {
+        //     display: flex;
+        //     flex-wrap: wrap;
+        //     gap: 0.7rem;
+        // }
+        // .plan-feature-item {
+        //     flex: 1 1 calc(50% - 0.7rem);
+        //     @media (max-width: 768px) {
+        //         font-size: 12px;
+        //     }
+        //     margin-bottom: 1rem;
+        //     padding: 0;
+        // }
+    }
+
+
+    .primary-button {
+        position: sticky;
+        top: 100%;
+        left: 0;
+        right: 0;
+    }
+
+}

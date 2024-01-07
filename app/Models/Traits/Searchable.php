@@ -23,7 +23,7 @@ trait Searchable {
         return $query;
     }
 
-    public function searchColumns(){
+    protected function searchColumns(){
         return [];
     }
 

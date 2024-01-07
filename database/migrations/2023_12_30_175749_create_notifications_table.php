@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('radio_students', function (Blueprint $table) {
-            $table->foreignId('radio_id')->references('id')->on('radios')->cascadeOnDelete();
-            $table->foreignId('student_id')->references('id')->on('users')->cascadeOnDelete();
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('radio_students');
+        Schema::dropIfExists('notifications');
     }
 };

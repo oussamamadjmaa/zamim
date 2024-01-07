@@ -9,31 +9,35 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap{{ config('app.direction') == 'rtl' ? '.rtl' : '' }}.min.css">
     <link href="//glenthemes.github.io/iconsax/style.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('web-assets/css/toast.css') }}">
 
-    @vite(['resources/vue_backend_assets/sass/style.scss', 'resources/vue_backend_assets/js/app.js'])
+    @vite(array_merge(['resources/vue_backend_assets/sass/style.scss'], $viteIncludes ?? []))
     @stack('styles')
   </head>
-  <body class="{{ config('app.direction') }}">
+  <body @class([config('app.direction'), 'has-radios-sidebar' => $routePrefix == 'admin__'])>
 
-    @include('backend.layouts.partials.sidebar')
+    <div id="app">
+        @include('backend.layouts.partials.sidebar')
 
-    @include('backend.layouts.partials.navbar')
+        @include('backend.layouts.partials.navbar')
 
-    <main id="app">
-        <div class="wrapper py-3 p-md-2 p-lg-3">
-            @yield('content')
-        </div>
-    </main>
+        <main>
+            <div class="wrapper py-3 p-md-2 p-lg-3">
+                @yield('content')
+            </div>
+        </main>
 
-    @includeIf($routePrefix == 'admin' ,'backend.layouts.partials.radios-sidebar')
+        @includeWhen($routePrefix == 'admin__','backend.layouts.partials.radios-sidebar')
+    </div>
 
     <script>
         window._app = {
             url: '{{ url("/") }}',
+            notificationsRoute: "{{ route($routePrefix.'.notifications.stats') }}",
+            notificationUrl: "{{ route($routePrefix.'.notifications.redirect', 'notificationId') }}"
         }
         window._locale = "{{ app()->getLocale() }}";
     </script>

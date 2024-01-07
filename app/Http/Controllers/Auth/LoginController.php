@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Cache;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 
 class LoginController extends Controller
 {
@@ -35,6 +38,29 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        parent::__construct();
+        $this->middleware('guest')->except(['logout', 'loginAs']);
+    }
+
+
+    public function loginAs(Request $request, $loginCode) {
+        abort_if(!$timestamp = $request->get('timestamp'), 404);
+
+        if ($schoolId = Cache::pull('login_school_id_'.$request->ip().'_'.$loginCode.'_'. $timestamp)) {
+            return $this->loginAsSchool($request, $schoolId);
+        }
+
+        return abort(404);
+    }
+
+    protected function loginAsSchool($request, $schoolId) {
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        auth()->guard('school')->loginUsingId($schoolId);
+        $request->session()->regenerate();
+
+        return redirect()->route('school.dashboard');
     }
 }

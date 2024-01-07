@@ -1,5 +1,8 @@
+@isset($plans)
+
 <!-- Start : subscription plans -->
 <div class="subscription-plans row mx-0">
+    @foreach ($plans as $plan)
     <div class="col-md-6 mb-4">
         <!-- Start : subscription plan card -->
         <div class="subscription-plan" data-aos="fade-up" data-aos-delay="300">
@@ -7,100 +10,39 @@
                 <div class="d-flex">
                     <h5 class="plan-period">
                         <x-icons.relume /><br>
-                        <span>الباقة الشهرية</span>
+                        <span>@lang($plan['name'])</span>
                     </h5>
-                    <h2 class="plan-price">150<span class="currency">ريال</span></h2>
+                    <h2 class="plan-price">{{ number_format($plan['price'], 0) }}<span class="currency"> @lang($plan['currency'])</span></h2>
                 </div>
-                <p class="plan-brief">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم</p>
+                <p class="plan-brief">@lang($plan['short_description'])</p>
             </div>
             <hr class="my-4">
             <div class="subscription-plan__features">
-                <p>يتضمن ما يلي :</p>
+                <p>{{ $plan['features']->{0} }}</p>
                 <ul class="plan-features m-0 list-unstyled mb-4 p-0">
+                    @foreach ($plan['features'] as $featureTitle => $feature)
+                    @if (is_numeric($featureTitle))
+                        @continue
+                    @endif
                     <li class="plan-feature-item">
-                        <span class="fs-5">إدارة الإذاعات والفعاليات</span>
+                        <span class="fs-5">{{ $featureTitle }}</span>
+                        @if (is_array($feature))
                         <ul class="list-unstyled mb-3 ps-3">
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> إنشاء وجدولة الإذاعات
-                                بسهولة.</li>
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> توزيع الأدوار بين
-                                المعلمين والطلاب بناءً على الجدول الزمني.</li>
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> القدرة على تعديل وتحديث
-                                الإذاعات المجدولة.</li>
+                            @foreach ($feature as $featureSecTitle)
+                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> {{ $featureSecTitle }}</li>
+                            @endforeach
                         </ul>
+                        @endif
                     </li>
-                    <li class="plan-feature-item">
-                        <span class="fs-5"> نظام تقييم متقدم</span>
-                        <ul class="list-unstyled mb-3 ps-3">
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> تقديم تقييمات دورية
-                                وشاملة لأداء المعلمين والطلاب.</li>
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> تقديم ملاحظات بناءة من
-                                المشرفين والمدراء لتحفيز التحسين المستمر.</li>
-                        </ul>
-                    </li>
-                    <li class="plan-feature-item">
-                        <span class="fs-5"> تبادل المواضيع والمحتوى</span>
-                        <ul class="list-unstyled mb-3 ps-3">
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> مشاركة المواضيع والمحتوى
-                                بين المدارس بشكل آمن ومراعاة للخصوصية.</li>
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> تعيين إذونات وتصاريح
-                                محددة لمشاركة المحتوى.</li>
-                        </ul>
-                    </li>
-                    <li class="plan-feature-item">
-                        <span class="fs-5"> نظام إشعارات فعّال</span>
-                        <ul class="list-unstyled mb-3 ps-3">
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> نظام إشعارات يساعد على
-                                التواصل الفعّال بين المدارس وأولياء الأمور.</li>
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> إشعار فوري عبر البريد
-                                الإلكتروني أو رسائل نصية حول الأحداث والتحديثات.</li>
-                        </ul>
-                    </li>
+                    @endforeach
                 </ul>
-
-                <a href="#" class="button-main button-rounded w-100">اشترك الآن</a>
             </div>
+            <a href="{{ route('school.register', ['plan' => $plan->key]) }}" class="button-main button-rounded w-100">اشترك الآن</a>
         </div>
         <!-- End : subscription plan card -->
     </div>
-    <div class="col-md-6 mb-4">
-        <!-- Start : subscription plan card -->
-        <div class="subscription-plan" data-aos="fade-up" data-aos-delay="500">
-            <div class="subscription-plan__heading">
-                <div class="d-flex">
-                    <h5 class="plan-period">
-                        <x-icons.relume /><br>
-                        <span>الباقة السنوية</span>
-                    </h5>
-                    <h2 class="plan-price">950<span class="currency">ريال</span></h2>
-                </div>
-                <p class="plan-brief">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم</p>
-            </div>
-            <hr class="my-4">
-            <div class="subscription-plan__features">
-                <p>بالإضافة إلى جميع الخدمات المذكورة في الباقة الشهرية، يمكن للمشتركين في الباقة السنوية الاستفادة من :
-                </p>
-                <ul class="plan-features m-0 list-unstyled mb-4 p-0">
-                    <li class="plan-feature-item">
-                        <span class="fs-5"> دعم فني مستمر</span>
-                        <ul class="list-unstyled mb-3 ps-3">
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> دعم فني مميز على مدار
-                                السنة لحل المشكلات وتقديم الإرشاد.</li>
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> تحديثات منتظمة للمنصة
-                                لتحسين تجربة المستخدم وزيادة أمان البيانات.</li>
-                        </ul>
-                    </li>
-                    <li class="plan-feature-item">
-                        <span class="fs-5"> توفير ميزات إضافية</span>
-                        <ul class="list-unstyled mb-3 ps-3">
-                            <li> <ion-icon name="checkmark-outline" class="me-2"></ion-icon> الوصول إلى ميزات إضافية
-                                تجعل تجربة الإذاعة المدرسية أكثر تفردًا وتحسينًا.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <a href="#" class="button-main button-rounded w-100">اشترك الآن</a>
-        </div>
-        <!-- End : subscription plan card -->
-    </div>
+    @endforeach
 </div>
 <!-- End : subscription plans -->
+@endisset
+

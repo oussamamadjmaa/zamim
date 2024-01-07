@@ -1,8 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { ref, useSlots } from 'vue';
 import useCommon from '../../../vue-services/common';
 
-const emit = defineEmits(['onFileUpload', 'update:modelValue'])
+const emit = defineEmits(['onFileUpload', 'onChange', 'update:modelValue'])
+
+const slots = useSlots();
 
 const { callApi } = useCommon();
 
@@ -69,6 +71,10 @@ let isProccessing = false;
 
 const uploadEvents = ref({});
 
+const getRandomIntInRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+const inputId = 'input_'+ Math.random().toString(36).substr(2, 9);;
+
 const uploadFile = async (input, path, multiple, isFile = false) => {
     let file;
     if (!isFile) {
@@ -130,11 +136,16 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
 </script>
 <template>
     <div class="form-input mb-3">
-        <label class="label_" v-if="label"><span v-html="trans(label)"></span> <span v-if="required" class="text-danger">*</span></label>
+        <div v-if="slots.customLabel">
+            <label :for="inputId" class="d-block">
+                <slot name="customLabel"></slot>
+            </label>
+        </div>
+        <label :for="inputId" class="label_" @click="showSelectDropdown = !showSelectDropdown" v-if="label && !slots.customLabel"><span v-html="trans(label)"></span> <span v-if="required" class="text-danger">*</span></label>
 
         <input v-if="(['text', 'email', 'password', 'date']).includes(type)" :type="type" class="input_"
             :class="{ 'is-invalid': errors }" :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label)" :readonly="readonly" :required="required">
+            @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label)" :id="inputId" :readonly="readonly" :required="required">
 
 
         <template v-else-if="type == 'select'">
@@ -155,7 +166,7 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
                         <input type="text" :placeholder="trans('Search')" v-model="search">
                     </div>
                     <div class="custom-select-options">
-                        <div :class="{'custom-select-option': true, 'selected': modelValue==optionKey, 'hide': search && !option.toLowerCase().includes(search.toLowerCase())}" v-for="option, optionKey in options" @click="$emit('update:modelValue', optionKey); showSelectDropdown=false" v-text="option">
+                        <div :class="{'custom-select-option': true, 'selected': modelValue==optionKey, 'hide': search && !option.toLowerCase().includes(search.toLowerCase())}" v-for="option, optionKey in options" @click="isModel ? $emit('update:modelValue', optionKey) : $emit('onChange', optionKey); showSelectDropdown=false" v-text="option">
                         </div>
                     </div>
                 </div>
@@ -167,8 +178,8 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
             @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label)" :required="required" v-text="modelValue"></textarea>
 
         <template v-else-if="type == 'file'">
-            <input type="file" class="form-control" :class="{ 'is-invalid': errors }" :multiple="multiple"
-                @change="uploadFile($event.target, path)" :placeholder="trans(placeholder || label)" :required="required">
+            <input type="file" :class="{'form-control': true, 'is-invalid': errors, 'd-none' : slots.customLabel}" :multiple="multiple"
+                @change="uploadFile($event.target, path)" :placeholder="trans(placeholder || label)" :required="required" :id="inputId">
             <div class="file-upload-progress" v-for="uploadEvent in uploadEvents">
                 <a @click="uploadEvent.source.cancel('Canceled by user')" href="javascript:;" class="text-danger">X</a>
                 <ion-icon name="attach-outline"></ion-icon>

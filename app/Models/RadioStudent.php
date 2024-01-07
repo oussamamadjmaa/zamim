@@ -9,6 +9,8 @@ class RadioStudent extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function radio() {
         return $this->belongsTo(Radio::class);
     }

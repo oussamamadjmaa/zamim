@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
-use App\Http\Controllers\AdminBaseController;
+use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class AuthController extends AdminBaseController
+class AuthController extends Controller
 {
     /*
     |--------------------------------------------------------------------------

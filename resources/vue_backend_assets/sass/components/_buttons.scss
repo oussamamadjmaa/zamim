@@ -22,6 +22,9 @@
 .button-red {
     --button-bg:#bb2d3b;
 }
+.button-orange {
+    --button-bg:var(--main-orange);
+}
 .primary-button {
     --button-bg:var(--green);
 }

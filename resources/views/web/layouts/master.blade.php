@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+
     <title>{{ isset($title) ? $title .' | ' : '' }} {{ config('app.name', 'منصة زميم') }}</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap{{ config('app.direction') == 'rtl' ? '.rtl' : '' }}.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('web-assets/css/toast.css') }}">

@@ -118,7 +118,7 @@ return [
     'prohibited_unless' => 'الحقل :attribute محظور في حال ما لم يكون :other يساوي :value.',
     'prohibits' => 'الحقل :attribute يحظر :other من اي يكون موجود',
     'regex' => 'صيغة الحقل :attribute .غير صحيحة',
-    'required' => 'الحقل :attribute مطلوب.',
+    'required' => 'حقل :attribute مطلوب.',
     'required_array_keys' => 'الحقل :attribute يجب ان يحتوي علي مدخلات للقيم التالية :values.',
     'required_if' => 'الحقل :attribute مطلوب في حال ما إذا كان :other يساوي :value.',
     'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
@@ -215,6 +215,14 @@ return [
         'profile.level'      => 'المرحلة',
         'profile.class'      => 'القسم',
         'profile.division'      => 'الشعبة',
+        'bg_image'      => 'الغلاف',
+        'teacher_id'      => 'المعلم',
+        'students'      => 'الطلاب',
+        'radio_date' => 'تاريخ الإذاعة',
+        'students.*.post_title' => 'عنوان المشاركة',
+        'students.*.student_id' => 'الطالب',
+        'plan_id' => 'الخطة',
+        'payment_method' => 'طريقة الدفع'
     ],
 
 ];

@@ -6,9 +6,12 @@
             <div class="login-page-bg"></div>
             <div class="auth-content">
                 <div class="container">
+
                     <div class="text-end pt-3 pt-md-5 pb-2">
+                        @if ($routePrefix == 'school')
                         <a href="{{ route('web.home') }}" class="link-blue fs-5">@lang('Go Home') <ion-icon
                                 name="chevron-forward-outline"></ion-icon></a>
+                        @endif
                     </div>
 
                     <div class="mw-756px">
@@ -18,7 +21,7 @@
                                 على العميل.</p>
                         </div>
 
-                        <form class="auth-form-box" method="POST" action="{{ route('school.login') }}">
+                        <form class="auth-form-box" method="POST" action="{{ route($routePrefix.'.login') }}">
                             @csrf
                             <div class="form-input mb-3">
                                 <label for="email" class="label_"><ion-icon name="person"></ion-icon></label>
@@ -49,15 +52,16 @@
                                     </label>
                                 </div>
 
-                                <a href="{{ route('school.password.request') }}">@lang('Forgot Your Password?')</a>
+                                <a href="{{ route($routePrefix.'.password.request') }}">@lang('Forgot Your Password?')</a>
                             </div>
 
                             <button type="submit" class="button-main w-100">@lang('Login')</button>
                         </form>
-
+                        @if ($routePrefix == 'school')
                         <div class="text-center py-3">
-                            @lang('Not registered yet on our platform?') <a href="{{ route('school.register') }}">@lang('Create an account')</a>
+                            @lang('Not registered yet on our platform?') <a href="{{ route($routePrefix.'.register') }}">@lang('Create an account')</a>
                         </div>
+                        @endif
                     </div>
 
                     <div>

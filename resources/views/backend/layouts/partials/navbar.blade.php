@@ -8,8 +8,10 @@
         </a>
         <div class="d-none d-lg-block">
             <nav class="breadcrumb mb-0">
-                <a class="breadcrumb-item" href="#">لوحة التحكم</a>
-                <span class="breadcrumb-item active" aria-current="page">الرئيسية</span>
+                <a class="breadcrumb-item" href="/">@lang('Dashboard')</a>
+                @if(isset($title) && !in_array($title, [__('Dashboard'), __('Home')]))
+                    <span class="breadcrumb-item active" aria-current="page">{{ $title }}</span>
+                @endif
             </nav>
         </div>
     </div>
@@ -19,7 +21,7 @@
             <div class="search-bar"></div>
 
             <!-- Notifications -->
-            <div class="dropdown">
+            {{-- <div class="dropdown">
                 <a class="nav-link" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <i class="iconsax" icon-name="bell-2"></i>
@@ -61,10 +63,12 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
+            <!-- Notifications -->
+            <navbar-notifications-component></navbar-notifications-component>
 
             <!-- Messages -->
-            <div class="dropdown">
+            {{-- <div class="dropdown">
                 <a class="nav-link" href="#" id="messagesDropdown" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <i class="iconsax" icon-name="messages-1"></i>
@@ -100,7 +104,7 @@
                     </li>
                 </ul>
 
-            </div>
+            </div> --}}
 
             <!-- Language -->
             <div class="dropdown">
@@ -110,10 +114,10 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="messagesDropdown">
                     <li>
-                        <a class="dropdown-item" href="#">العربية</a>
+                        <a class="dropdown-item" href="{{route($routePrefix.'.lang', 'ar')}}">العربية</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">English</a>
+                        <a class="dropdown-item" href="{{route($routePrefix.'.lang', 'en')}}">English</a>
                     </li>
                 </ul>
 
@@ -125,18 +129,15 @@
             <div class="dropdown">
                 <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="../assets/images/avatars/1.jpg" alt="User Profile Picture" width="30"
-                        class="rounded-circle me-2"> <span class="d-none d-md-inline">محمد عبد الرحمان</span>
+                    <img src="{{ auth()->user()->avatar }}" alt="User Profile Picture" width="30"
+                        class="rounded-circle me-2"> <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li>
-                        <a class="dropdown-item" href="#">الحساب</a>
+                        <a class="dropdown-item" href="{{ route($routePrefix.'.profile.index') }}">@lang('Profile')</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">الإعدادات</a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">تسجيل الخروج</a>
+                        <a class="dropdown-item text-danger" href="javascript:;" onclick="document.getElementById('logoutForm').submit()">@lang('Logout')</a>
                     </li>
                 </ul>
             </div>

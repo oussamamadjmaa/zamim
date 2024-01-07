@@ -1,15 +1,7 @@
 import { ref } from "vue";
 
-
 export default function useCommon() {
-    const callApi = async ({url, method, data, config, headers, showErrorNotification, showSuccessNotification }) => {
-        method = method || 'get';
-        headers = headers || {};
-        config = config || {};
-        data = data || {};
-        showErrorNotification = showErrorNotification || true;
-        showSuccessNotification = showSuccessNotification || true;
-
+    const callApi = async ({url, method = 'get', data = {}, config = {}, headers = {}, showErrorNotification= true, showSuccessNotification = true }) => {
         try {
             let res = await window.axios({
                 method,
@@ -19,8 +11,8 @@ export default function useCommon() {
                 ...config
             });
 
-            if(showSuccessNotification && method.toLowerCase() == "post" && res.data.message) {
-                window.toast.success(res.data.message)
+            if (showSuccessNotification && method.toLowerCase() === 'post' && res.data && res.data.message) {
+                window.toast.success(res.data.message);
             }
 
             return res;
@@ -37,11 +29,13 @@ export default function useCommon() {
             isProccessing: true,
             response: null,
             list: [],
-            search: ''
+            search: '',
+            data_type: 'default',
+            without_pagination: false
         })
     }
 
-    const makeFormRef = (defaultData, createUrl, updateUrl= null) => {
+    const makeFormRef = (defaultData = {}, createUrl = '', updateUrl = null) => {
         return ref({
             processing:false,
             show:false,
@@ -87,20 +81,35 @@ export default function useCommon() {
         return res;
     }
 
-    const fetchAll = async (url = null, fetchAllRef) => {
+    const fetchAll = async (url, fetchAllRef) => {
         url = new URL(url);
 
-        url.searchParams.append('_t', new Date().getTime())
-
-        if(fetchAllRef.value.search) {
-            url.searchParams.append('search', fetchAllRef.value.search)
-        }
+        appendSearchParams(url, '_t', new Date().getTime());
+        appendSearchParams(url, 'search', fetchAllRef.value.search);
+        appendSearchParams(url, 'data_type', fetchAllRef.value.data_type);
+        appendSearchParams(url, 'without_pagination', fetchAllRef.value.without_pagination);
 
         fetchAllRef.value.isProccessing = true
-        const res = fetchAllRef.value.response = await callApi({url:url.href})
-        fetchAllRef.value.isProccessing = false
 
-        if(res.status == 200)  fetchAllRef.value.list = res.data.data
+
+        try {
+            const res = await new Promise((resolve) => {
+                setTimeout(async () => {
+                    const apiResponse = await callApi({ url: url.href });
+                    resolve(apiResponse);
+                }, 100);
+            });
+
+            fetchAllRef.value.response = res;
+            if (res.status === 200) {
+                fetchAllRef.value.list = res.data.data;
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            fetchAllRef.value.isProccessing = false;
+        }
+
     }
 
     const fetchOne = async (url) => {
@@ -113,6 +122,12 @@ export default function useCommon() {
         if(res.status == 200)  return res.data.data;
         return false;
     }
+
+    const appendSearchParams = (url, paramName, paramValue) => {
+        if (paramValue) {
+            url.searchParams.append(paramName, paramValue);
+        }
+    };
 
     return {
         callApi, makeFetchAllRef, fetchAll, fetchOne, makeFormRef, storeForm

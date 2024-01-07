@@ -327,7 +327,7 @@
                                 التعليم والتواصل بأسلوب مبتكر وفعال. لا تفوت هذه الفرصة الرائعة، انضم الآن
                             </p>
                             <div>
-                                <a href="#" class="button-main mb-2 me-md-3 me-2">انضم
+                                <a href="{{ route('school.register') }}" class="button-main mb-2 me-md-3 me-2">انضم
                                     الآن</a>
                             </div>
                         </div>
@@ -356,7 +356,7 @@
                         <h4 data-aos="fade-up" data-aos-delay="300">بعض من مشتركينا</h4>
                         <p data-aos="fade-up" data-aos-delay="400">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على
                             العميل ليتصور طريقه وضع النصوص بالتصاميم,</p>
-                        <a href="#" class="button-secondary" data-aos="fade-up" data-aos-delay="500">سجل الآن</a>
+                        <a href="{{ route('school.register') }}" class="button-secondary" data-aos="fade-up" data-aos-delay="500">سجل الآن</a>
                     </div>
                     <div class="col mt-5 mt-md-0">
                         <our-subscribers-slider-component />

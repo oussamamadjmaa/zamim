@@ -8,8 +8,10 @@ export default defineConfig({
             input: [
                 'resources/vue_web_assets/sass/style.scss',
                 'resources/vue_web_assets/js/app.js',
+                'resources/vue_web_assets/js/scripts.js',
                 'resources/vue_backend_assets/sass/style.scss',
                 'resources/vue_backend_assets/js/app.js',
+                'resources/vue_backend_assets/js/app_admin.js',
             ],
             refresh: true,
         }),

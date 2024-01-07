@@ -10,7 +10,7 @@
                 <h5>أقسام الموقع</h5>
                 <ul class="list-unstyled">
                     <li><a href="#" class="link-white">من نحن</a></li>
-                    <li><a href="#" class="link-white">الإشتراك</a></li>
+                    <li><a href="{{ route('web.choose-plan') }}" class="link-white">الإشتراك</a></li>
                     <li><a href="#" class="link-white">المشتركين</a></li>
                     <li><a href="#" class="link-white">الخصوصية</a></li>
                 </ul>
@@ -20,7 +20,7 @@
                 <ul class="list-unstyled">
                     <li><a href="#" class="link-white">تواصل معنا</a></li>
                     <li><a href="#" class="link-white">مركز المساعدة</a></li>
-                    <li><a href="#" class="link-white">الأسئلة الشائعة</a></li>
+                    <li><a href="#faq" class="link-white">الأسئلة الشائعة</a></li>
                 </ul>
             </div>
         </div>

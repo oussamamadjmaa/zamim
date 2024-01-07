@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Traits\AvatarAttribute;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Shetabit\Visitor\Traits\Visitor;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Searchable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Searchable, AvatarAttribute, Visitor;
 
     /**
      * The attributes that are mass assignable.
@@ -30,6 +32,10 @@ class User extends Authenticatable
         'mobile',
         'role',
         'password',
+        'avatar',
+        'email_verification_code',
+        'phone_verification_code',
+        'last_email_code_at'
     ];
 
     /**
@@ -49,13 +55,14 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_email_code_at' => 'datetime'
     ];
 
     public function school() : BelongsTo {
         return $this->belongsTo(School::class);
     }
 
-    public function searchColumns() {
+    protected function searchColumns() {
         return ['id', 'name', 'email', 'phone', 'mobile'];
     }
 }

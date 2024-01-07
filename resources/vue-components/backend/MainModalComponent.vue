@@ -10,13 +10,14 @@
     </div>
 </template>
 <script setup>
-import { onUpdated, ref } from 'vue';
+import { onUpdated, ref, inject } from 'vue';
 
+const trans = inject('trans');
 const emit = defineEmits(['closeModal'])
 const modalUpdated = ref(false)
 
 const closeModal = () => {
-    if(!modalUpdated.value || confirm(window.trans('Are you sure that you want to close this modal?'))) emit('closeModal');
+    if(!modalUpdated.value || confirm(trans('Are you sure that you want to close this modal?'))) emit('closeModal');
 }
 
 onUpdated(() => {

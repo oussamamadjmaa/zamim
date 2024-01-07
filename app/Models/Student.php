@@ -25,7 +25,7 @@ class Student extends User {
         });
     }
 
-    public function searchColumns() {
+    protected function searchColumns() {
         return ['id', 'name', 'email', 'phone', 'mobile', 'profile' => ['parent_name', 'level', 'class']];
     }
 }

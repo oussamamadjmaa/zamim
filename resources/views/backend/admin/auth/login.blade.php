@@ -1,4 +1,4 @@
-@extends('web.layouts.master', ['title' => 'تسجيل الدخول'])
+@extends('web.layouts.master', ['title' => __('Login')])
 
 @section('content')
     <section class="login">

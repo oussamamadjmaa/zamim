@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Backend\School;
 
-use App\Http\Controllers\SchoolBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\StudentRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Str;
 
-class StudentController extends SchoolBaseController
+class StudentController extends Controller
 {
     public function __construct()
     {
@@ -32,6 +33,13 @@ class StudentController extends SchoolBaseController
 
     private function jsonResponse($request)
     {
+        if ($request->data_type == 'select') {
+
+            $students = Student::whereSchoolId(auth()->user()->school_id)->orderBy('name', 'ASC')->get(['id', 'name'])->pluck('name', 'id')->toArray();
+
+            return response()->json(['data' => $students]);
+        }
+
         $students = Student::whereSchoolId(auth()->user()->school_id)->search($request->search)->latest('id')->paginate(15)->withQueryString();
 
         return new StudentCollection($students);

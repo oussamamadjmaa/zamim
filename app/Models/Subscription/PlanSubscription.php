@@ -2,6 +2,7 @@
 
 namespace App\Models\Subscription;
 
+use App\Models\Traits\Searchable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PlanSubscription extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = [
         'plan_id',
@@ -60,6 +61,20 @@ class PlanSubscription extends Model
 
     public function isCanceled() {
         return $this->canceled_at ? Carbon::now()->gte($this->canceled_at) : false;
+    }
+
+    public function getSubscriptionStatus() {
+        return $this->isCanceled() ? 'canceled' : ($this->isExpired() ? 'expired' : ($this->isActive() ? 'active' : 'unknown'));
+    }
+
+    protected function searchColumns() {
+        return [
+            'subscriber' => [
+                'id',
+                'name',
+                'email'
+            ]
+        ];
     }
 
 }

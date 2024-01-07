@@ -16,7 +16,12 @@
         padding: 0 48px;
     }
     @media (min-width: 1200px) {
-        right: var(--sidebar-width);
+        .rtl & {
+            right: var(--sidebar-width);
+        }
+        .ltr & {
+            left: var(--sidebar-width);
+        }
     }
     @media (min-width: 1400px) {
         .has-radios-sidebar & {

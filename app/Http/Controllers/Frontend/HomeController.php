@@ -1,21 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Controller;
+use App\Models\Subscription\Plan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -23,6 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $plans = Plan::all();
+
+        return view('web.home', compact('plans'));
     }
 }

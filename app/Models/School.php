@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Traits\AvatarAttribute;
+use App\Models\Traits\HasSubscription;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,10 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Shetabit\Visitor\Traits\Visitor;
 
 class School extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasSubscription, AvatarAttribute, Visitor;
 
     /**
      * The attributes that are mass assignable.
@@ -30,6 +33,7 @@ class School extends Authenticatable implements CanResetPassword
         'accreditation_number',
         'id_number',
         'password',
+        'avatar'
     ];
 
     /**
@@ -57,6 +61,14 @@ class School extends Authenticatable implements CanResetPassword
 
     public function teachers() : HasMany {
         return $this->hasMany(Teacher::class);
+    }
+
+    public function radios() : HasMany {
+        return $this->hasMany(Radio::class);
+    }
+
+    public function activities() : HasMany {
+        return $this->hasMany(Activity::class);
     }
 
     /////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-@extends('backend.layouts.master', ['title' => __('Students')])
+@extends('backend.layouts.master', ['title' => __('Teachers')])
 
 @section('content')
     <div class="container">

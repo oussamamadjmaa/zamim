@@ -14,6 +14,7 @@ const registrationForm = ref({
     data: { step: 1,email: '', password:'', password_confirmation: '', accept_terms: false, country: 'المملكة العربية السعودية' , city: '', name: '', accreditation_number: '', mod_name: '', id_number: '', acknowledgment: false},
 })
 
+const paymentHtmlForm = ref('');
 
 const nextStep = async () => {
     registrationForm.value.response = null
@@ -26,6 +27,10 @@ const nextStep = async () => {
 
     if (res.status == 200) {
         registrationForm.value.data.step = res.data.next_step
+
+        if (res.data.next_step == 3) {
+            window.location.href = res.data.redirect_to
+        }
     } else if (res.status == 422) {
         registrationForm.value.errors = res.data.errors || []
     }
@@ -39,7 +44,10 @@ const nextStep = async () => {
     </div>
 
     <form class="auth-form-box">
-        <div v-if="registrationForm.data.step == 1">
+        <div v-if="registrationForm.processing" class="d-flex aling-items-center justify-content-center py-5">
+            <div class="lds-ripple"><div></div><div></div></div>
+        </div>
+        <div v-else-if="registrationForm.data.step == 1">
             <InputComponent type="email" :errors="registrationForm.errors.email" label='<ion-icon name="person"></ion-icon>' placeholder="Email Address" v-model='registrationForm.data.email' :required="true" />
             <InputComponent type="password" :errors="registrationForm.errors.password" label='<ion-icon name="lock-open"></ion-icon>' placeholder="Password"  v-model='registrationForm.data.password' :required="true" />
             <InputComponent type="password" :errors="registrationForm.errors.password_confirmation" label='<ion-icon name="lock-open"></ion-icon>' placeholder="Confirm Password" v-model='registrationForm.data.password_confirmation' :required="true" />
@@ -57,7 +65,7 @@ const nextStep = async () => {
             <button type="button" class="button-main w-100" @click="nextStep()">انشاء حساب</button>
         </div>
 
-        <div v-if="registrationForm.data.step == 2">
+        <div v-else-if="registrationForm.data.step == 2">
             <InputComponent :errors="registrationForm.errors.country" label='<ion-icon name="globe"></ion-icon>' placeholder="Country" v-model='registrationForm.data.country' :required="true" :readonly="true" />
 
             <InputComponent :errors="registrationForm.errors.city" label='<ion-icon name="location"></ion-icon>' placeholder="City" v-model='registrationForm.data.city' :required="true" />
@@ -83,14 +91,14 @@ const nextStep = async () => {
             </div>
         </div>
 
-        <div v-if="registrationForm.data.step == 3">
-            <div>
-                <h5>معلومات الدفع</h5>
+        <div v-else-if="registrationForm.data.step == 3">
+            <div id="paymentForm">
+                <h5>الدفع</h5>
                 <p>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل.</p>
 
-                <div id="AmazonPayButton"></div>
+                <div v-html="paymentHtmlForm"></div>
 
-                <button type="button" class="button-main w-100 mt-5">انشاء حساب</button>
+                <!-- <button type="button" class="button-main w-100 mt-5">انشاء حساب</button> -->
             </div>
         </div>
     </form>

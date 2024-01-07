@@ -47,6 +47,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->as('school.')
                 ->domain('app.' . env('APP_DOMAIN'))
                 ->group(base_path('routes/school.php'));
+
+            Route::middleware(['web'])
+                ->as('portal.')
+                ->domain('portal.' . env('APP_DOMAIN'))
+                ->group(base_path('routes/portal.php'));
         });
     }
 

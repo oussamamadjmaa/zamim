@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('school_id')->references('id')->on('schools')->cascadeOnDelete();
             $table->foreignId('teacher_id')->nullable()->references('id')->on('users')->nullOnDelete();
-            $table->string('title');
+            $table->string('name');
+            $table->string('bg_image')->nullable();
             $table->string('class');
-            $table->date('date');
+            $table->date('radio_date');
             $table->timestamps();
         });
     }

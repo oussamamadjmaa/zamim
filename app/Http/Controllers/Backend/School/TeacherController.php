@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\School;
 
-use App\Http\Controllers\SchoolBaseController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\TeacherRequest;
 use App\Http\Resources\TeacherCollection;
 use App\Http\Resources\TeacherResource;
@@ -10,7 +10,7 @@ use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Str;
 
-class TeacherController extends SchoolBaseController
+class TeacherController extends Controller
 {
     public function __construct()
     {
@@ -32,6 +32,11 @@ class TeacherController extends SchoolBaseController
 
     private function jsonResponse($request)
     {
+        if ($request->data_type == 'select') {
+            $teachers = Teacher::whereSchoolId(auth()->user()->school_id)->latest('name')->get(['id', 'name'])->pluck('name', 'id')->toArray();
+
+            return response()->json(['data' => $teachers]);
+        }
         $teachers = Teacher::whereSchoolId(auth()->user()->school_id)->search($request->search)->latest('id')->paginate(15)->withQueryString();
 
         return new TeacherCollection($teachers);
