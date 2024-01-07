@@ -77,7 +77,7 @@ class RegisterController extends Controller
         event(new Registered($school = $this->create($request->all())));
         $this->guard('school')->login($school);
 
-        $redirectTo = route('school.subscription.new', ['payment', 'plan_id' => $plan->id]);
+        $redirectTo = route('school.subscription.checkout', ['payment', 'plan_id' => $plan->id]);
 
         return response()->json(['next_step' => 3, 'redirect_to' => $redirectTo]);
     }
@@ -85,7 +85,7 @@ class RegisterController extends Controller
     protected function validator(array $data, $step)
     {
         $rules = [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:schools'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'accept_terms' => ['accepted'],
         ];

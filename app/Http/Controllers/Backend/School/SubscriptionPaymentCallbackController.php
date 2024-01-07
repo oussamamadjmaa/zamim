@@ -66,6 +66,7 @@ class SubscriptionPaymentCallbackController extends Controller
                     $responseCode = $response['status'];
                     $responseMessage = $response['response_message'];
 
+
                     if ($responseCode != '00') {
                         $subscriptionPayment->failed($responseMessage);
                     }
@@ -73,6 +74,11 @@ class SubscriptionPaymentCallbackController extends Controller
                     if (isset($response['fort_id']) && !$subscriptionPayment->transaction_id) {
                         $subscriptionPayment->transaction_id = $response['fort_id'];
                         $subscriptionPayment->save();
+                    }
+
+                    if ($responseCode == '00') {
+                        header('Location: ' . route('school.subscription.checkout', ['plan_id' => $subscriptionPayment->plan_id, 'error' => __($responseMessage)]));
+                        exit;
                     }
 
                     if (!$request->expectsJson()) {

@@ -74,8 +74,8 @@ class SchoolSubscription
         return [
             'school.logout',
             'school.subscription.*',
-            // 'school.notifications.*',
-            // 'school.profile'
+            'school.notifications.*',
+            'school.profile'
         ];
     }
 

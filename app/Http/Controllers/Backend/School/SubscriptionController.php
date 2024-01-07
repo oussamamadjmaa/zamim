@@ -61,8 +61,12 @@ class SubscriptionController extends Controller
 
     public function checkout(Request $request) {
         $planId = $request->get('plan_id');
-        $school = auth()->user()->school;
 
+        if ($error = $request->get('error')) {
+            return redirect()->route('school.subscription.checkout', ['plan_id' => $planId])->withErrors(['status' => $error]);
+        }
+
+        $school = auth()->user()->school;
         $subAction = !$planId || $school->subscription?->plan_id == $planId ? 'renew' : 'new';
 
         //Redirect if has active subscription and trying to checkout another plan
@@ -110,7 +114,10 @@ class SubscriptionController extends Controller
     }
 
     public function paymentStatus(SubscriptionPayment $subscriptionPayment) {
-        abort_if($subscriptionPayment->payer_id != auth()->user()->school_id || !in_array($subscriptionPayment->status, ['completed', 'failed', 'on_hold']), 404);
+        abort_if($subscriptionPayment->payer_id != auth()->user()->school_id, 404);
+        if (!in_array($subscriptionPayment->status, ['completed', 'failed', 'on_hold'])) {
+            return redirect()->route('school.subscription.index');
+        }
 
         return view('backend.school.subscription.payment_status', compact('subscriptionPayment'));
     }
