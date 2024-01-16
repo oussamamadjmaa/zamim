@@ -13,7 +13,7 @@ class LanguageController extends Controller
             Cookie::queue('locale', $lang, 3600*24*7);
         }
 
-        if(back()->getTargetUrl() == route($this->routePrefix.'.lang', $lang)){
+        if(back()->getTargetUrl() == route(getRoutePrefix().'.lang', $lang)){
             return redirect()->intended();
         }else{
             return back();

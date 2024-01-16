@@ -14,8 +14,6 @@ class ActivityController extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
-
         //Middleware
         // $this->authorizeResource(Activity::class);
     }

@@ -87,7 +87,7 @@ main {
 
         @media (min-width: 1200px) {
             transform: unset;
-            margin-right: 0;
+            margin-left: 0;
         }
     }
 
@@ -392,6 +392,7 @@ svg.down {
 
 .activity-box {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     .bg-image-holder {
         position: relative;
@@ -437,5 +438,11 @@ svg.down {
             object-fit: cover;
             border: 4px solid var(--Main-Gray, #667080);
         }
+    }
+}
+
+.datepicker_input {
+    &:read-only, &[readonly] {
+        background-color: #fff!important;
     }
 }

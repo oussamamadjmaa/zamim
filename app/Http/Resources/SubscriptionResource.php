@@ -27,10 +27,10 @@ class SubscriptionResource extends JsonResource
             ]), //Relationship
             'status' => $this->getSubscriptionStatus(),
             'statusText' => __(ucfirst($this->getSubscriptionStatus())),
-            'startedAt' => $this->started_at?->translatedFormat('d M Y'),
-            'endsAt' => $this->ends_at?->translatedFormat('d M Y'),
-            'canceledAt' => $this->canceled_at?->translatedFormat('d M Y h:i A'),
-            'renewedAt' => $this->renewed_at?->translatedFormat('d M Y'),
+            'startedAt' => hijriDate($this->started_at, 'd F Y'),
+            'endsAt' => hijriDate($this->ends_at, 'd F Y'),
+            'canceledAt' => hijriDate($this->canceled_at, 'd F Y h:i A'),
+            'renewedAt' => hijriDate($this->renewed_at, 'd F Y'),
             "plan" =>  $this->when($this->relationLoaded('plan'), fn() => [
                 'id' => $this->plan->id,
                 'name' => __($this->plan->name),

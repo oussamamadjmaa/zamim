@@ -22,17 +22,17 @@
     </div>
     <nav id="navbar">
         <div class="container">
-            <a href="#"><x-logos.frontend-logo /></a>
+            <a href="{{ route('web.home') }}"><x-logos.frontend-logo /></a>
 
             <ul>
                 <li>
-                    <a href="#" class="active">ماهي الإذاعة المدرسية؟</a>
+                    <a href="{{ route('web.home') }}" class="active">ماهي الإذاعة المدرسية؟</a>
                 </li>
                 <li>
-                    <a href="#faq">الأسئلة الشائعة</a>
+                    <a href="{{ route('web.home') }}#faq">الأسئلة الشائعة</a>
                 </li>
                 <li>
-                    <a href="#">تواصل معنا</a>
+                    <a href="{{ route('web.home') }}#">تواصل معنا</a>
                 </li>
             </ul>
 

@@ -27,7 +27,7 @@ const editTeacher = async (teacher) => {
     teachers.value.list = teachers.value.list.map((techRec) => techRec.id == teacher.id ? teacher : techRec)
 
     teacherForm.value.show = true
-    teacherForm.value.data = {name: teacher.name, email: teacher.email, phone: teacher.phone}
+    teacherForm.value.data = {name: teacher.name, email: teacher.email, mobile: teacher.mobile}
 
     teacherForm.value.update = teacher
 }
@@ -121,7 +121,7 @@ const onSearch = (event) => {
                             <th>#</th>
                             <th>{{ trans('Teacher name') }}</th>
                             <th>{{ trans('Official email') }}</th>
-                            <th>{{ trans('Phone') }}</th>
+                            <th>{{ trans('Mobile') }}</th>
                             <th>{{ trans('Operations') }}</th>
                         </tr>
                     </template>
@@ -130,7 +130,7 @@ const onSearch = (event) => {
                         <td v-text="teacher.name"></td>
                         <td><a :href="'mailto:'+teacher.email" v-text="teacher.email"></a></td>
                         <td>
-                            <a v-if="teacher.phone" :href="'tel:'+teacher.phone" v-text="teacher.phone" dir="ltr"></a>
+                            <a v-if="teacher.mobile" :href="'tel:'+teacher.mobile" v-text="teacher.mobile" dir="ltr"></a>
                             <template v-else>{{ trans('Not included') }}</template>
                         </td>
                         <td class="d-flex">
@@ -168,7 +168,7 @@ const onSearch = (event) => {
 
                     <InputComponent class="col-md-6" type="email" :errors="teacherForm.errors.email" label='<ion-icon name="mail"></ion-icon>' placeholder="Official email" v-model='teacherForm.data.email' :required="true" />
 
-                    <InputComponent class="col-md-6" :errors="teacherForm.errors.phone" label='<ion-icon name="call"></ion-icon>' placeholder="Phone number" v-model='teacherForm.data.phone' :required="true" />
+                    <InputComponent class="col-md-6" :errors="teacherForm.errors.mobile" label='<ion-icon name="call"></ion-icon>' placeholder="mobile number" v-model='teacherForm.data.mobile' :required="true" />
 
                 </div>
 

@@ -3,13 +3,22 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4748d6601dd82180fde514e6bdb192e85b2ca0ec',
+        'reference' => 'e44f96f42f11a9912e19b820eadbfa0603f17c20',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'alkoumi/laravel-hijri-date' => array(
+            'pretty_version' => 'v1.0.4',
+            'version' => '1.0.4.0',
+            'reference' => 'ee726cf66349e8ab15f6f0b4041b9c96b7919742',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../alkoumi/laravel-hijri-date',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'amazonpaymentservices/aps-php-sdk' => array(
             'pretty_version' => '2.0.0',
             'version' => '2.0.0.0',
@@ -493,7 +502,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4748d6601dd82180fde514e6bdb192e85b2ca0ec',
+            'reference' => 'e44f96f42f11a9912e19b820eadbfa0603f17c20',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

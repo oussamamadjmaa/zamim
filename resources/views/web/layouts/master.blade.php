@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>{{ isset($title) ? $title .' | ' : '' }} {{ config('app.name', 'منصة زميم') }}</title>
+    <title>{{ isset($title) ? $title .' | ' : '' }} {{ config('app.name', 'منصة موجاتي') }}</title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

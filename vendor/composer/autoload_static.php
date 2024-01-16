@@ -206,6 +206,7 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
         array (
             'App\\' => 4,
             'AmazonPaymentServicesSdk\\' => 25,
+            'Alkoumi\\LaravelHijriDate\\' => 25,
         ),
     );
 
@@ -637,6 +638,10 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
         array (
             0 => __DIR__ . '/..' . '/amazonpaymentservices/aps-php-sdk/src',
         ),
+        'Alkoumi\\LaravelHijriDate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/alkoumi/laravel-hijri-date/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -657,6 +662,8 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
     );
 
     public static $classMap = array (
+        'Alkoumi\\LaravelHijriDate\\Hijri' => __DIR__ . '/..' . '/alkoumi/laravel-hijri-date/src/Hijri.php',
+        'Alkoumi\\LaravelHijriDate\\LaravelHijriDateServiceProvider' => __DIR__ . '/..' . '/alkoumi/laravel-hijri-date/src/LaravelHijriDateServiceProvider.php',
         'AmazonPaymentServicesSdk\\AmazonPaymentServices\\Core\\APSConnector' => __DIR__ . '/..' . '/amazonpaymentservices/aps-php-sdk/src/AmazonPaymentServices/Core/APSConnector.php',
         'AmazonPaymentServicesSdk\\AmazonPaymentServices\\Core\\APSConstants' => __DIR__ . '/..' . '/amazonpaymentservices/aps-php-sdk/src/AmazonPaymentServices/Core/APSConstants.php',
         'AmazonPaymentServicesSdk\\AmazonPaymentServices\\Core\\APSCore' => __DIR__ . '/..' . '/amazonpaymentservices/aps-php-sdk/src/AmazonPaymentServices/Core/APSCore.php',
@@ -743,6 +750,7 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Backend\\Admin\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Admin/AuthController.php',
         'App\\Http\\Controllers\\Backend\\Admin\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Admin/DashboardController.php',
+        'App\\Http\\Controllers\\Backend\\Admin\\SchoolController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Admin/SchoolController.php',
         'App\\Http\\Controllers\\Backend\\Admin\\StatisticsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Admin/StatisticsController.php',
         'App\\Http\\Controllers\\Backend\\Admin\\SubscriptionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Admin/SubscriptionController.php',
         'App\\Http\\Controllers\\Backend\\Admin\\UploadFilesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Admin/UploadFilesController.php',
@@ -750,6 +758,7 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
         'App\\Http\\Controllers\\Backend\\NotificationsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/NotificationsController.php',
         'App\\Http\\Controllers\\Backend\\Portal\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Portal/Auth/LoginController.php',
         'App\\Http\\Controllers\\Backend\\Portal\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/Portal/HomeController.php',
+        'App\\Http\\Controllers\\Backend\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/ProfileController.php',
         'App\\Http\\Controllers\\Backend\\School\\ActivityController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/School/ActivityController.php',
         'App\\Http\\Controllers\\Backend\\School\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/School/DashboardController.php',
         'App\\Http\\Controllers\\Backend\\School\\RadioController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/School/RadioController.php',
@@ -772,6 +781,7 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\PortalAuthMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/PortalAuthMiddleware.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
+        'App\\Http\\Middleware\\RecordVisit' => __DIR__ . '/../..' . '/app/Http/Middleware/RecordVisit.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\SchoolMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/SchoolMiddleware.php',
         'App\\Http\\Middleware\\SchoolSubscription' => __DIR__ . '/../..' . '/app/Http/Middleware/SchoolSubscription.php',
@@ -799,6 +809,7 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
         'App\\Http\\Resources\\TeacherCollection' => __DIR__ . '/../..' . '/app/Http/Resources/TeacherCollection.php',
         'App\\Http\\Resources\\TeacherResource' => __DIR__ . '/../..' . '/app/Http/Resources/TeacherResource.php',
         'App\\Listeners\\SendSubscriptionPaymentNotification' => __DIR__ . '/../..' . '/app/Listeners/SendSubscriptionPaymentNotification.php',
+        'App\\Mail\\SendVerificationCodeMail' => __DIR__ . '/../..' . '/app/Mail/SendVerificationCodeMail.php',
         'App\\Models\\Activity' => __DIR__ . '/../..' . '/app/Models/Activity.php',
         'App\\Models\\ActivityStudent' => __DIR__ . '/../..' . '/app/Models/ActivityStudent.php',
         'App\\Models\\Admin' => __DIR__ . '/../..' . '/app/Models/Admin.php',
@@ -817,12 +828,14 @@ class ComposerStaticInit7c0d9abc19047a5b63365c64f93f49e0
         'App\\Models\\Traits\\HasSubscription' => __DIR__ . '/../..' . '/app/Models/Traits/HasSubscription.php',
         'App\\Models\\Traits\\Searchable' => __DIR__ . '/../..' . '/app/Models/Traits/Searchable.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Notifications\\SendVerificationCodeNotification' => __DIR__ . '/../..' . '/app/Notifications/SendVerificationCodeNotification.php',
         'App\\Observers\\SubscriptionPaymentObserver' => __DIR__ . '/../..' . '/app/Observers/SubscriptionPaymentObserver.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Providers\\ViewServiceProvider' => __DIR__ . '/../..' . '/app/Providers/ViewServiceProvider.php',
         'App\\Rules\\ValidateFileRule' => __DIR__ . '/../..' . '/app/Rules/ValidateFileRule.php',
         'App\\Rules\\isSchoolStudent' => __DIR__ . '/../..' . '/app/Rules/isSchoolStudent.php',
         'App\\Rules\\isSchoolTeacher' => __DIR__ . '/../..' . '/app/Rules/isSchoolTeacher.php',

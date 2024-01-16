@@ -2,7 +2,9 @@
     <div class="logo-container">
         <a href="/"><x-logos.frontend-logo class="logo-dark" /></a>
     </div>
-
+    @php
+        $route = request()->route();
+    @endphp
     <div class="sidebar-content">
         <ul class="sidebar-links">
             @foreach ($sidebarLinks as $sidebarLink)
@@ -10,7 +12,7 @@
                     @continue
                 @endif
             <li class="sidebar-link">
-                <a href="{{ $sidebarLink['link'] }}" class="@if ($sidebarLink['is-active']) router-link-active @endif">
+                <a href="{{ $sidebarLink['link'] }}" class="@if ($route?->named($sidebarLink['route-named'])) router-link-active @endif">
                     <i class="iconsax" icon-name="{{ $sidebarLink['icon'] }}"></i> <span class="sidebar-link__text">{{ $sidebarLink['title'] }}</span>
                 </a>
             </li>

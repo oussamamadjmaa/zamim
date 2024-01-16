@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\Admin\SubscriptionController;
 use App\Http\Controllers\Backend\Admin\UploadFilesController;
 use App\Http\Controllers\Backend\LanguageController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 //Admin auth routes
 Route::controller(AuthController::class)->group(function () {
@@ -41,3 +42,5 @@ Route::middleware(['auth:admin'])->group(function() {
     //include Shared auth routes
     require __DIR__.'/panel_shared_auth_routes.php';
 });
+
+Route::fallback(function () { return throw new NotFoundHttpException(); })->name('fallback');

@@ -3,6 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -36,6 +40,13 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    protected $auth;
+
+    public function __construct(AuthFactory $auth)
+    {
+        $this->auth = $auth;
+    }
+
     /**
      * Register the exception handling callbacks for the application.
      *
@@ -46,5 +57,21 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        $routePrefix = getRoutePrefix();
+
+        if (!$request->expectsJson() && ($exception instanceof NotFoundHttpException || $exception instanceof ModelNotFoundException)) {
+            // Customize error page based on the panel
+            if ($routePrefix === 'web' || !$this->auth->check()) {
+                return response()->view('errors.frontend.404', [], 404);
+            } elseif (in_array($routePrefix, ['school', 'portal', 'admin'])) {
+                return response()->view('errors.backend.404', [], 404);
+            }
+        }
+
+        return parent::render($request, $exception);
     }
 }

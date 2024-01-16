@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Alkoumi\LaravelHijriDate\Hijri;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ActivityResource extends JsonResource
@@ -22,7 +23,7 @@ class ActivityResource extends JsonResource
             'bgImage' => ['path' => $this->bg_image, 'pathUrl' => asset('storage/'.$this->bg_image)],
             'class' => $this->class,
             'activityDate' => $this->activity_date->format('Y-m-d'),
-            'activityDateFormated' => $this->activity_date?->translatedFormat('d M Y'),
+            'activityDateFormated' => hijriDate($this->activity_date),
             'activityDay' => $this->activity_date->translatedFormat('l'),
             'students' => $this->students
         ];

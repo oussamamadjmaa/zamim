@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Alkoumi\LaravelHijriDate\Hijri;
 use AmazonPaymentServicesSdk\AmazonPaymentServices\Merchant\APSMerchant;
 use App\Extensions\CustomDatabaseSessionHandler;
 use App\Models\SiteConfig;
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->CustomDatabaseSessionHandler();
         $this->setAppLocale();
         $this->setConfig();
+        Hijri::setLang(app()->getLocale());
     }
 
     /**

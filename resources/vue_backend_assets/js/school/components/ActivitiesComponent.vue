@@ -161,7 +161,7 @@ const onSearch = (event) => {
                             <h6 class="h9 activity-title mb-1 me-2 d-inline">
                                 <span v-text="activity.name"></span>
                             </h6>
-                            <small class="text-secondary" v-text="activity.activityDay + ' ' +activity.activityDateFormated"></small>
+                            <small class="text-secondary" v-text="activity.activityDateFormated"></small>
                         </div>
                         <div>
                             <ion-icon name="people-outline" class="me-2"></ion-icon>

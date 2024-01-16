@@ -15,8 +15,6 @@ class StudentController extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
-
         //Middleware
         // $this->authorizeResource(Student::class);
     }

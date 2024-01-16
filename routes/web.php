@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\ChoosePlanController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/choose-plan', [ChoosePlanController::class, 'index'])->name('choose-plan');
+
+Route::fallback(function () { return throw new NotFoundHttpException(); })->name('fallback');

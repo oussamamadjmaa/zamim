@@ -111,4 +111,5 @@ return array(
     'Barryvdh\\Debugbar\\' => array($vendorDir . '/barryvdh/laravel-debugbar/src'),
     'App\\' => array($baseDir . '/app', $vendorDir . '/laravel/pint/app'),
     'AmazonPaymentServicesSdk\\' => array($vendorDir . '/amazonpaymentservices/aps-php-sdk/src'),
+    'Alkoumi\\LaravelHijriDate\\' => array($vendorDir . '/alkoumi/laravel-hijri-date/src'),
 );

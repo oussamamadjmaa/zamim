@@ -188,6 +188,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Alkoumi\LaravelHijriDate\LaravelHijriDateServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -197,6 +198,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
 
     ],
 

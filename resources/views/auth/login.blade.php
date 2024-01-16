@@ -17,8 +17,7 @@
                     <div class="mw-756px">
                         <div class="pb-3 mb-md-5 pb-md-4">
                             <h1 class="main-blue" data-aos="fade-up" data-aos-delay="300">@lang('Login')</h1>
-                            <p data-aos="fade-up" data-aos-delay="400">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض
-                                على العميل.</p>
+                            <p data-aos="fade-up" data-aos-delay="400">انضم إلى رحلتنا نحو التميز التعليمي! سجل الآن في منصة موجاتي وابدأ في تحويل تجربة الإذاعة المدرسية إلى مستوى جديد من الكفاءة والإبداع. حيث يلتقي التعليم بالتكنولوجيا لمستقبل أفضل.</p>
                         </div>
 
                         <form class="auth-form-box" method="POST" action="{{ route($routePrefix.'.login') }}">

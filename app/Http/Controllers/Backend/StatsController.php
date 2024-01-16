@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\Traits\SchoolStatsTrait;
 use App\Http\Controllers\Controller;
 use Cache;
 use Carbon\Carbon;
+use hijri;
 use Str;
 
 class StatsController extends Controller
@@ -22,7 +23,7 @@ class StatsController extends Controller
     public function stats($type, $period)
     {
         // Dynamically call the appropriate stats method based on the type
-        $method = $type . 'StatsFor'. ucfirst($this->routePrefix);
+        $method = $type . 'StatsFor'. ucfirst(getRoutePrefix());
 
         return method_exists($this, $method) ? $this->{$method}($period) : abort(404);
     }
@@ -42,7 +43,8 @@ class StatsController extends Controller
         // Retrieve date ranges and calculate counts
         $authId = auth()->id();
         $dateRanges = $this->getDateRanges($period);
-        $dataCounts = Cache::remember("stats_{$type}_{$authId}_{$period}_{$this->routePrefix}", Carbon::now()->addMinute(), function () use ($dateRanges, $model) {
+        $routePrefix = getRoutePrefix();
+        $dataCounts = Cache::remember("stats_{$type}_{$authId}_{$period}_{$routePrefix}", Carbon::now()->addMinute(), function () use ($dateRanges, $model) {
             return $this->calculateCounts($dateRanges, $model);
         });
 
@@ -71,7 +73,7 @@ class StatsController extends Controller
         }
         // Prepare chart data
         $chartData = [
-            'labels' => $dateRanges,
+            'labels' => $this->convertToHijriDateRanges($dateRanges, $period),
             'datasets' => [
                 array_merge(['label' => __($label), 'data' => $dataCounts, 'rtl' => (bool) config('app.direction')], $options),
             ],
@@ -123,6 +125,17 @@ class StatsController extends Controller
 
         // Call the appropriate method to get date ranges based on the period
         return $this->{$methodName}();
+    }
+
+    private function convertToHijriDateRanges($dateRanges, $period) {
+        if (in_array($period, ['last_week', 'this_week'])) {
+            $format = 'd F Y';
+        }else {
+            $format = 'F Y';
+        }
+        return $dateRanges->map(function($date) use($format) {
+            return hijriDate($date, $format);
+        });
     }
 
     /**

@@ -18,7 +18,7 @@ class PlansSeeder extends Seeder
         Plan::create([
             'key'   => 'monthly_plan',
             'name'  => 'Monthly subscription',
-            'short_description' => 'لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم',
+            'short_description' => 'مرونة وتجديد مستمر - اشتراك شهري يتيح لك الوصول الكامل لجميع ميزات موجاتي بحرية وسهولة.',
             'features'  => [
                 'يتضمن ما يلي :',
                 'إدارة الإذاعات والفعاليات' => [
@@ -51,7 +51,7 @@ class PlansSeeder extends Seeder
         Plan::create([
             'key'   => 'yearly_plan',
             'name'  => 'Yearly subscription',
-            'short_description' => 'لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم',
+            'short_description' => 'توفير واستدامة - اشتراك سنوي يقدم قيمة مضافة مع تجربة متكاملة وفعّالة على مدار العام.',
             'features'  => [
                 'بالإضافة إلى جميع الخدمات المذكورة في الباقة الشهرية، يمكن للمشتركين في الباقة السنوية الاستفادة من :',
                 'دعم فني مستمر' => [

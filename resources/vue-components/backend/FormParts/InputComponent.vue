@@ -1,8 +1,10 @@
 <script setup>
-import { ref, useSlots } from 'vue';
+import { ref, useSlots, onMounted, nextTick, inject } from 'vue';
 import useCommon from '../../../vue-services/common';
 
 const emit = defineEmits(['onFileUpload', 'onChange', 'update:modelValue'])
+
+const trans = inject('trans');
 
 const slots = useSlots();
 
@@ -133,6 +135,40 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
     }
 }
 
+const datepickerRef = ref(null);
+
+onMounted(async () => {
+    if (props.type == 'date') {
+        await nextTick();
+        const hijriDatepicker = $(datepickerRef.value);
+        hijriDatepicker.hijriDatePicker({
+            hijri: true,
+            locale:$('html').attr('lang') || 'ar',
+            defaultDate: props.modelValue,
+            format:'YYYY-MM-DD',
+            hijriFormat:'iYYYY-iMM-iDD',
+            timeZone:'Asia/Riyadh',
+            isRTL: $('body').hasClass('rtl'),
+            ignoreReadonly: true,
+            showClear: true,
+            showTodayButton: true,
+            // showSwitcher:false
+        });
+
+        // Attach the dp.change event listener
+        hijriDatepicker.on("dp.change", (e) => {
+            let miladiDate = '';
+
+            if(e.date) {
+                miladiDate = e.date.format("YYYY-MM-DD");
+            }
+
+            emit('update:modelValue', miladiDate)
+        });
+
+        hijriDatepicker.trigger('change')
+    }
+})
 </script>
 <template>
     <div class="form-input mb-3">
@@ -143,10 +179,13 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
         </div>
         <label :for="inputId" class="label_" @click="showSelectDropdown = !showSelectDropdown" v-if="label && !slots.customLabel"><span v-html="trans(label)"></span> <span v-if="required" class="text-danger">*</span></label>
 
-        <input v-if="(['text', 'email', 'password', 'date']).includes(type)" :type="type" class="input_"
+        <input v-if="(['text', 'email', 'password']).includes(type)" :type="type" class="input_"
             :class="{ 'is-invalid': errors }" :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label)" :id="inputId" :readonly="readonly" :required="required">
 
+        <input v-else-if="type == 'date'" type="text" class="input_ datepicker_input" readonly
+            :class="{ 'is-invalid': errors }"
+            :placeholder="trans(placeholder || label)" :id="inputId" :readonly="readonly" :required="required" ref="datepickerRef">
 
         <template v-else-if="type == 'select'">
             <select v-if="!searchable" class="form-select form-control" :class="{ 'is-invalid': errors }"

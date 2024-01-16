@@ -188,5 +188,9 @@
     "Show all" : "عرض الكل",
     "No Notifications" : "لا توجد إشعارات",
     "Notifications" : "الإشعارات",
-    "Mark all as read" : "تحديد الكل كمقروءة"
+    "Mark all as read" : "تحديد الكل كمقروءة",
+    "Oops! The page you are looking for doesn't exist" : "أُووبس! الصفحة التي تبحث عنها غير موجودة",
+    "Select date" : "إختر تاريخ",
+    "Radio date" : "تاريخ الإذاعة",
+    "Activity date" : "تاريخ النشاط"
 }

@@ -17,7 +17,6 @@ class SubscriptionController extends Controller
     protected $paymentService;
     public function __construct(PaymentService $paymentService)
     {
-        parent::__construct();
         $this->paymentService = $paymentService;
     }
 

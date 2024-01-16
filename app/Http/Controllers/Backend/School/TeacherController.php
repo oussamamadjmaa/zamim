@@ -14,8 +14,6 @@ class TeacherController extends Controller
 {
     public function __construct()
     {
-        parent::__construct();
-
         //Middleware
         // $this->authorizeResource(Teacher::class);
     }
@@ -51,7 +49,7 @@ class TeacherController extends Controller
     public function store(TeacherRequest $request)
     {
         //
-        $teacherData = $request->only(['name', 'email','phone']);
+        $teacherData = $request->only(['name', 'email','mobile']);
         $password = Str::random(9);
         $teacherData['password'] = bcrypt($password);
 
@@ -91,7 +89,7 @@ class TeacherController extends Controller
         //
         $teacher->name = $request->name;
         $teacher->email = $request->email;
-        $teacher->phone = $request->phone;
+        $teacher->mobile = $request->mobile;
         $teacher->save();
 
         return response()->json([

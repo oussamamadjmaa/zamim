@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Alkoumi\LaravelHijriDate\Hijri;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RadioResource extends JsonResource
@@ -22,7 +23,7 @@ class RadioResource extends JsonResource
             'bgImage' => ['path' => $this->bg_image, 'pathUrl' => asset('storage/'.$this->bg_image)],
             'class' => $this->class,
             'radioDate' => $this->radio_date->format('Y-m-d'),
-            'radioDateFormated' => $this->radio_date?->translatedFormat('d M Y'),
+            'radioDateFormated' => hijriDate($this->radio_date),
             'radioDay' => $this->radio_date->translatedFormat('l'),
             'students' => $this->students
         ];

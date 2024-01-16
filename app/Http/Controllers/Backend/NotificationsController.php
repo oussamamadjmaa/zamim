@@ -39,7 +39,7 @@ class NotificationsController extends Controller
         // ];
         $urls = [];
 
-        return $urls[$type] ?? route($this->routePrefix.'.notifications.index');
+        return $urls[$type] ?? route(getRoutePrefix().'.notifications.index');
     }
 
     protected function guardName() {

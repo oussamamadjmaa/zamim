@@ -154,7 +154,7 @@ getTeachers();
                             <ion-icon name="radio-outline"></ion-icon> <span v-text="radio.name"></span>
                         </h6>
                         <div class="mb-3 text-secondary">
-                            <span v-text="radio.radioDay + ' ' +radio.radioDateFormated"></span>
+                            <span v-text="radio.radioDateFormated"></span>
                         </div>
                         <div>
                             <b v-text="trans('Participating students') + ': '"></b>

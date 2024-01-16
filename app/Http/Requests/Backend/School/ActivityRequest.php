@@ -34,10 +34,7 @@ class ActivityRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'bg_image' => ['required', new ValidateFileRule('activity-bgs')],
             'class'  => ['required', 'string', 'max:20'],
-            'activity_date' => ['required', 'date', 'date_format:Y-m-d', Rule::unique('activities')->where(function ($query) use ($request, $activityId) {
-                return $query->where('activity_date', $request->input('activity_date'))
-                             ->where('school_id', auth()->user()->school_id)
-                             ->where('id', '!=', $activityId);})  ],
+            'activity_date' => ['required', 'date', 'date_format:Y-m-d'],
             'teacher_id' => ['required', 'integer', new isSchoolTeacher(auth()->user()->school_id)],
             'students' => ['required', 'array'],
             'students.*.student_id' => ['required', 'integer', new isSchoolStudent(auth()->user()->school_id)],

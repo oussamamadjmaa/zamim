@@ -12,7 +12,6 @@ class DashboardController extends Controller
 
     public function __construct(StatsHelper $statsHelper)
     {
-        parent::__construct();
         $this->statsHelper = $statsHelper;
     }
 

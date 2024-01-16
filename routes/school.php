@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\School\SubscriptionController;
 use App\Http\Controllers\Backend\School\SubscriptionPaymentCallbackController;
 use App\Http\Controllers\Backend\School\TeacherController;
 use App\Http\Controllers\Backend\School\UploadFilesController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 Auth::routes();
 Route::get('login/{loginCode}', [LoginController::class, 'loginAs'])->name('login_as');
@@ -46,3 +47,5 @@ Route::middleware(['auth:school', 'school-subscription'])->group(function() {
     //Upload
     Route::post('/upload', [UploadFilesController::class, 'upload'])->name('upload');
 });
+
+Route::fallback(function () { return throw new NotFoundHttpException(); })->name('fallback');

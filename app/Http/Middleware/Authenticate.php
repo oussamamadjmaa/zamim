@@ -33,11 +33,7 @@ class Authenticate extends Middleware
     protected function customRedirectTo($request, $guards)
     {
         if (! $request->expectsJson()) {
-            $urlParts = explode('.', $_SERVER['HTTP_HOST'] ?? '');
-            $routePrefix = $urlParts > 2 ? $urlParts[0] : 'web';
-            $routePrefix = $routePrefix == 'app' ? 'school' : $routePrefix;
-
-            return route($routePrefix.'.login');
+            return route(getRoutePrefix().'.login');
         }
     }
 }

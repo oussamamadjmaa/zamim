@@ -19425,6 +19425,17 @@
      
 }
 
+    namespace Alkoumi\LaravelHijriDate { 
+            /**
+     * 
+     *
+     */ 
+        class Hijri {
+         
+    }
+     
+}
+
     namespace Illuminate\Http { 
             /**
      * 
@@ -23396,6 +23407,7 @@ namespace  {
             class Agent extends \Jenssegers\Agent\Facades\Agent {}
             class Visitor extends \Shetabit\Visitor\Facade\Visitor {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
+            class hijri extends \Alkoumi\LaravelHijriDate\Hijri {}
      
 }
 
