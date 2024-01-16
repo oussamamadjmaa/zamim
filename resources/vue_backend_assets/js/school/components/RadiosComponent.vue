@@ -262,7 +262,7 @@ getTeachers();
 
                     <ul class="d-flex flex-wrap list-unstyled">
                         <li v-for="studentId in radioForm.data.students" @click="onSelectDeleteStudent(studentId)"
-                            class="bg-light p-2 me-2 mb-2 rounded-16"><span v-text="students.list[studentId]"></span></li>
+                            class="bg-light p-2 me-2 mb-2 rounded-16"><span v-text="students.list[studentId] || trans('Unknown')"></span></li>
                     </ul>
                 </div>
 

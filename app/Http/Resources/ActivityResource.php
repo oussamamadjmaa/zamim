@@ -18,14 +18,14 @@ class ActivityResource extends JsonResource
         return [
             'id' => $this->id,
             'schoolId' => $this->school_id,
-            'teacher' => $this->teacher,
+            "teacher" => $this->when($this->relationLoaded('teacher'), fn() => $this->teacher), //Relationship
             'name' => $this->name,
             'bgImage' => ['path' => $this->bg_image, 'pathUrl' => asset('storage/'.$this->bg_image)],
             'class' => $this->class,
             'activityDate' => $this->activity_date->format('Y-m-d'),
             'activityDateFormated' => hijriDate($this->activity_date),
             'activityDay' => $this->activity_date->translatedFormat('l'),
-            'students' => $this->students
+            "students" => $this->when($this->relationLoaded('students'), fn() => $this->students), //Relationship
         ];
     }
 }

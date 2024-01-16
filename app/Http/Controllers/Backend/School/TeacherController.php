@@ -15,7 +15,7 @@ class TeacherController extends Controller
     public function __construct()
     {
         //Middleware
-        // $this->authorizeResource(Teacher::class);
+        $this->authorizeResource(Teacher::class);
     }
     /**
      * Display a listing of the resource.
@@ -71,6 +71,8 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
+        abort_if(!request()->expectsJson(), 404);
+
         return response()->json([
             'status' => 200,
             'data' => new TeacherResource($teacher)

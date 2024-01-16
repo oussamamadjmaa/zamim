@@ -15,7 +15,7 @@ class ActivityController extends Controller
     public function __construct()
     {
         //Middleware
-        // $this->authorizeResource(Activity::class);
+        $this->authorizeResource(Activity::class);
     }
     /**
      * Display a listing of the resource.
@@ -66,6 +66,10 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
+        abort_if(!request()->expectsJson(), 404);
+
+        $activity->load(['teacher:id,name', 'students:id,name']);
+
         return response()->json([
             'status' => 200,
             'data' => new ActivityResource($activity)
@@ -90,6 +94,8 @@ class ActivityController extends Controller
         $activity->save();
 
         $activity->students()->sync($request->students);
+
+        $activity->load(['teacher:id,name', 'students:id,name']);
 
         return response()->json([
             'status' => 200,

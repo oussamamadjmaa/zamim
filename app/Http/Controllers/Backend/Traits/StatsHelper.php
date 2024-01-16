@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Backend\Traits;
 
+use Alkoumi\LaravelHijriDate\Hijri;
+use Carbon\Carbon;
+
 class StatsHelper {
     const TODAY = 'today';
     const YESTERDAY = 'yesterday';
@@ -33,6 +36,13 @@ class StatsHelper {
             return null;
         }
 
+        list($hijriMonth, $hijriYear) = explode('/', Hijri::Date('m/Y', now()));
+
+        $thisMonthStart = Carbon::parse(Hijri::DateToGregorianFromDMY(01, $hijriMonth, $hijriYear));
+        $endThisMonth = Carbon::parse(Hijri::DateToGregorianFromDMY(01, $hijriMonth+1, $hijriYear))->subDay();
+        $thisYearStart = Carbon::parse(Hijri::DateToGregorianFromDMY(01, 01, $hijriYear));
+        $endThisYear = Carbon::parse(Hijri::DateToGregorianFromDMY(01, 01, $hijriYear+1))->subDay();
+
         switch ($period) {
             case self::TODAY:
                 return [self::formatDate(now()), self::formatDate(now())];
@@ -45,11 +55,11 @@ class StatsHelper {
             case self::LAST_MONTH:
                 return [self::formatDate(now()->subMonth()), self::formatDate(now())];
             case self::THIS_MONTH:
-                return [self::formatDate(now()->startOfMonth()), self::formatDate(now()->endOfMonth())];
+                return [self::formatDate($thisMonthStart), self::formatDate($endThisMonth)];
             case self::LAST_YEAR:
                 return [self::formatDate(now()->subYear()), self::formatDate(now())];
             case self::THIS_YEAR:
-                return [self::formatDate(now()->startOfYear()), self::formatDate(now()->endOfYear())];
+                return [self::formatDate($thisYearStart), self::formatDate($endThisYear)];
             default:
                 return null;
         }
@@ -63,7 +73,7 @@ class StatsHelper {
         $count = $model->whereBetween('created_at', $dateRanges)->count();
         return [
             'title' => __($title),
-            'count' => $count,
+            'count' => transNumber((string) $count),
             'link' => $route ? route($route) : '#',
             'bg-class' => $bgClass,
         ];

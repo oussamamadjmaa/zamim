@@ -18,14 +18,14 @@ class RadioResource extends JsonResource
         return [
             'id' => $this->id,
             'schoolId' => $this->school_id,
-            'teacher' => $this->teacher,
+            "teacher" => $this->when($this->relationLoaded('teacher'), fn() => $this->teacher), //Relationship
             'name' => $this->name,
             'bgImage' => ['path' => $this->bg_image, 'pathUrl' => asset('storage/'.$this->bg_image)],
             'class' => $this->class,
             'radioDate' => $this->radio_date->format('Y-m-d'),
             'radioDateFormated' => hijriDate($this->radio_date),
             'radioDay' => $this->radio_date->translatedFormat('l'),
-            'students' => $this->students
+            "students" => $this->when($this->relationLoaded('students'), fn() => $this->students), //Relationship
         ];
     }
 }

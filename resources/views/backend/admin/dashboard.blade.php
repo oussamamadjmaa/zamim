@@ -6,7 +6,7 @@
             aria-expanded="false">
             @lang($periods[$period])
         </h6>
-        <p class="p5 text-gray mb-4">{{ $dateRanges[0] }} {{ $dateRanges[0] != $dateRanges[1] ? ' - ' .$dateRanges[1] : '' }}</p>
+        <p class="p5 text-gray mb-4">{{ $hijriDateRanges[0] }} {{ $hijriDateRanges[0] != $hijriDateRanges[1] ? ' - ' .$hijriDateRanges[1] : '' }}</p>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             @foreach ($periods as $periodVal => $periodText)
                 <li><a class="dropdown-item" href="{{ route('admin.dashboard', ['period' => $periodVal]) }}">{{ $periodText }}</a></li>

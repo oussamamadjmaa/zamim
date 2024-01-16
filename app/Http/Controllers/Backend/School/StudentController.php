@@ -16,7 +16,7 @@ class StudentController extends Controller
     public function __construct()
     {
         //Middleware
-        // $this->authorizeResource(Student::class);
+        $this->authorizeResource(Student::class);
     }
     /**
      * Display a listing of the resource.
@@ -81,6 +81,8 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
+        abort_if(!request()->expectsJson(), 404);
+
         return response()->json([
             'status' => 200,
             'data' => new StudentResource($student)

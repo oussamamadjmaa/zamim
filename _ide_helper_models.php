@@ -218,7 +218,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $email_verification_code
- * @property string|null $last_email_code_at
+ * @property \Illuminate\Support\Carbon|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
@@ -454,7 +454,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $email_verification_code
- * @property string|null $last_email_code_at
+ * @property \Illuminate\Support\Carbon|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
@@ -512,7 +512,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $email_verification_code
- * @property string|null $last_email_code_at
+ * @property \Illuminate\Support\Carbon|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar

@@ -22,6 +22,7 @@ class StatsController extends Controller
      */
     public function stats($type, $period)
     {
+        abort_if(!request()->expectsJson(), 404);
         // Dynamically call the appropriate stats method based on the type
         $method = $type . 'StatsFor'. ucfirst(getRoutePrefix());
 
@@ -44,8 +45,8 @@ class StatsController extends Controller
         $authId = auth()->id();
         $dateRanges = $this->getDateRanges($period);
         $routePrefix = getRoutePrefix();
-        $dataCounts = Cache::remember("stats_{$type}_{$authId}_{$period}_{$routePrefix}", Carbon::now()->addMinute(), function () use ($dateRanges, $model) {
-            return $this->calculateCounts($dateRanges, $model);
+        $dataCounts = Cache::remember("stats_{$type}_{$authId}_{$period}_{$routePrefix}", Carbon::now()->addMinute(), function () use ($dateRanges, $model, $period) {
+            return $this->calculateCounts($dateRanges, $model, $period);
         });
 
 
@@ -93,15 +94,15 @@ class StatsController extends Controller
      * @param mixed $model
      * @return \Illuminate\Support\Collection
      */
-    private function calculateCounts($dateRanges, $model)
+    private function calculateCounts($dateRanges, $model, $period)
     {
-        return collect($dateRanges)->map(function ($date) use ($model) {
+        return collect($dateRanges)->map(function ($date) use ($model, $period) {
             $date = explode('-', $date);
 
-            return tap(clone $model, function ($query) use ($date) {
+            return tap(clone $model, function ($query) use ($date, $period) {
                 $query->when(isset($date[0]), fn ($q) => $q->whereYear('created_at', $date[0]))
                     ->when(isset($date[1]), fn ($q) => $q->whereMonth('created_at', $date[1]))
-                    ->when(isset($date[2]), fn ($q) => $q->whereDay('created_at', $date[2]));
+                    ->when(isset($date[2]) && !in_array($period, ['last_year', 'this_year']), fn ($q) => $q->whereDay('created_at', $date[2]));
             })->count();
         });
     }
@@ -133,6 +134,7 @@ class StatsController extends Controller
         }else {
             $format = 'F Y';
         }
+
         return $dateRanges->map(function($date) use($format) {
             return hijriDate($date, $format);
         });
@@ -196,8 +198,10 @@ class StatsController extends Controller
      */
     private function getThisYearDateRanges()
     {
-        return collect(range(11, 0, -1))->map(function ($yearsAgo) {
-            return now()->endOfYear()->subMonths($yearsAgo)->format('Y-m');
+        $hijriYear = Hijri::Date('Y', now());
+
+        return collect(range(1, 12, +1))->map(function ($monthsAgo) use($hijriYear) {
+            return Carbon::parse(Hijri::DateToGregorianFromDMY(01, $monthsAgo, $hijriYear))->format('Y-m-d');
         });
     }
 

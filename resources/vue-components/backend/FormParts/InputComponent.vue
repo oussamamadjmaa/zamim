@@ -143,7 +143,7 @@ onMounted(async () => {
         const hijriDatepicker = $(datepickerRef.value);
         hijriDatepicker.hijriDatePicker({
             hijri: true,
-            locale:$('html').attr('lang') || 'ar',
+            locale:$('html').attr('lang') == 'ar' ? 'ar-SA' : 'en-US',
             defaultDate: props.modelValue,
             format:'YYYY-MM-DD',
             hijriFormat:'iYYYY-iMM-iDD',
@@ -166,7 +166,9 @@ onMounted(async () => {
             emit('update:modelValue', miladiDate)
         });
 
-        hijriDatepicker.trigger('change')
+        hijriDatepicker.on("dp.update", (e) => {
+            console.log('gg')
+        });
     }
 })
 </script>

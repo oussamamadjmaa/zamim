@@ -15,7 +15,7 @@ class RadioController extends Controller
     public function __construct()
     {
         //Middleware
-        // $this->authorizeResource(Radio::class);
+        $this->authorizeResource(Radio::class);
     }
     /**
      * Display a listing of the resource.
@@ -66,6 +66,10 @@ class RadioController extends Controller
      */
     public function show(Radio $radio)
     {
+        abort_if(!request()->expectsJson(), 404);
+
+        $radio->load(['teacher:id,name', 'students:id,name']);
+
         return response()->json([
             'status' => 200,
             'data' => new RadioResource($radio)
@@ -90,6 +94,8 @@ class RadioController extends Controller
         $radio->save();
 
         $radio->students()->sync($request->students);
+
+        $radio->load(['teacher:id,name', 'students:id,name']);
 
         return response()->json([
             'status' => 200,

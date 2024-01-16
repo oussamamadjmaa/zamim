@@ -1,12 +1,12 @@
 {
-  "_NotificationsComponent-ff8ff7fd.js": {
-    "file": "assets/NotificationsComponent-ff8ff7fd.js",
+  "_NotificationsComponent-48dd9921.js": {
+    "file": "assets/NotificationsComponent-48dd9921.js",
     "imports": [
-      "_common-e8678646.js"
+      "_common-00698841.js"
     ]
   },
-  "_common-e8678646.js": {
-    "file": "assets/common-e8678646.js"
+  "_common-00698841.js": {
+    "file": "assets/common-00698841.js"
   },
   "resources/vue_backend_assets/js/app.css": {
     "file": "assets/app-73f7966d.css",
@@ -16,25 +16,25 @@
     "css": [
       "assets/app-73f7966d.css"
     ],
-    "file": "assets/app-a04c4528.js",
+    "file": "assets/app-7ee8ac76.js",
     "imports": [
-      "_NotificationsComponent-ff8ff7fd.js",
-      "_common-e8678646.js"
+      "_NotificationsComponent-48dd9921.js",
+      "_common-00698841.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app.js"
   },
   "resources/vue_backend_assets/js/app_admin.js": {
-    "file": "assets/app_admin-42d742a0.js",
+    "file": "assets/app_admin-46427d58.js",
     "imports": [
-      "_NotificationsComponent-ff8ff7fd.js",
-      "_common-e8678646.js"
+      "_NotificationsComponent-48dd9921.js",
+      "_common-00698841.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app_admin.js"
   },
   "resources/vue_backend_assets/sass/style.scss": {
-    "file": "assets/style-93c18575.css",
+    "file": "assets/style-354efdda.css",
     "isEntry": true,
     "src": "resources/vue_backend_assets/sass/style.scss"
   },
@@ -84,9 +84,9 @@
     "css": [
       "assets/app-f78bf56b.css"
     ],
-    "file": "assets/app-4b9f88ff.js",
+    "file": "assets/app-3ee0c02a.js",
     "imports": [
-      "_common-e8678646.js"
+      "_common-00698841.js"
     ],
     "isEntry": true,
     "src": "resources/vue_web_assets/js/app.js"

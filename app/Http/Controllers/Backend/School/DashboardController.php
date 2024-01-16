@@ -33,6 +33,8 @@ class DashboardController extends Controller
             $this->statsHelper->newStat('Activities number', $school->activities(), $betweenDateRanges, 'school.activities.index'),
         ];
 
-        return view('backend.school.dashboard', compact('dashboardStats', 'dateRanges', 'periods', 'period'));
+        $hijriDateRanges = [hijriDate($dateRanges[0], 'd F Y'), hijriDate($dateRanges[1], 'd F Y')];
+
+        return view('backend.school.dashboard', compact('dashboardStats', 'dateRanges', 'hijriDateRanges', 'periods', 'period'));
     }
 }
