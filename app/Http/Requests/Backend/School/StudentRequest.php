@@ -28,14 +28,14 @@ class StudentRequest extends FormRequest
 
         return [
             'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => ['required', 'string', $emailRule, 'max:255', 'unique:users,email,'.$studentId],
-            'phone'                 => ['required', 'regex:/[0-9]/', 'not_regex:/[A-z]/', 'between:8,16',],
-            'mobile'                => ['required', 'regex:/[0-9]/', 'not_regex:/[A-z]/', 'between:8,16',],
+            'email'                 => ['nullable', 'string', $emailRule, 'max:255', 'unique:users,email,'.$studentId],
+            'phone_number'          => ['required', 'regex:/[0-9]/', 'not_regex:/[A-z]/', 'between:8,16'],
             'profile'               => ['required', 'array'],
-            'profile.parent_name'  => ['required', 'string', 'max:255'],
-            'profile.level'        => ['required', 'string', 'in:primary,middle,secondary'],
-            'profile.class'  => ['required', 'string', 'max:20'],
-            'profile.division'  => ['required', 'string', 'max:1'],
+            'profile.parent_name'   => ['required', 'string', 'max:255'],
+            'profile.parent_email'  => ['nullable', 'string', 'max:255'],
+            'profile.level'         => ['required', 'string', 'in:primary,middle,secondary'],
+            'profile.class'         => ['required', 'string', 'max:20'],
+            'profile.division'      => ['required', 'string', 'max:1'],
             // 'password'              => [$this->isMethod('PUT') ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'],
         ];
     }

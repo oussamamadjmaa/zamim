@@ -20,8 +20,7 @@ class StudentResource extends JsonResource
             'school_id' => $this->school_id,
             'name' => $this->name,
             'email' => $this->email,
-            'phone' => $this->phone,
-            'mobile' => $this->mobile,
+            'phoneNumber' => $this->phone_number,
             'profile' => new StudentProfileResource($this->profile ?? new StudentProfile)
         ];
     }

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Contracts\Container\Container;
 
 use Throwable;
 
@@ -42,8 +43,9 @@ class Handler extends ExceptionHandler
 
     protected $auth;
 
-    public function __construct(AuthFactory $auth)
+    public function __construct(Container $container, AuthFactory $auth)
     {
+        parent::__construct($container);
         $this->auth = $auth;
     }
 
@@ -59,19 +61,19 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function render($request, Throwable $exception)
-    {
-        $routePrefix = getRoutePrefix();
+    // public function render($request, Throwable $exception)
+    // {
+    //     $routePrefix = getRoutePrefix();
 
-        if (!$request->expectsJson() && ($exception instanceof NotFoundHttpException || $exception instanceof ModelNotFoundException)) {
-            // Customize error page based on the panel
-            if ($routePrefix === 'web' || !$this->auth->check()) {
-                return response()->view('errors.frontend.404', [], 404);
-            } elseif (in_array($routePrefix, ['school', 'portal', 'admin'])) {
-                return response()->view('errors.backend.404', [], 404);
-            }
-        }
+    //     if (!$request->expectsJson() && ($exception instanceof NotFoundHttpException || $exception instanceof ModelNotFoundException)) {
+    //         // Customize error page based on the panel
+    //         if ($routePrefix === 'web' || !$this->auth->check()) {
+    //             return response()->view('errors.frontend.404', [], 404);
+    //         } elseif (in_array($routePrefix, ['school', 'portal', 'admin'])) {
+    //             return response()->view('errors.backend.404', [], 404);
+    //         }
+    //     }
 
-        return parent::render($request, $exception);
-    }
+    //     return parent::render($request, $exception);
+    // }
 }

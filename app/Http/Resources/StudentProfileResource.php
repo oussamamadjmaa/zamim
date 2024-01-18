@@ -16,7 +16,9 @@ class StudentProfileResource extends JsonResource
     {
         return [
             'parentName' => $this->parent_name,
+            'parentEmail' => $this->parent_email,
             'level' => $this->level,
+            'levelText' => __(ucfirst($this->level)),
             'class' => $this->class,
             'division' => $this->division,
         ];

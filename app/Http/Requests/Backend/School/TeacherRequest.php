@@ -28,8 +28,8 @@ class TeacherRequest extends FormRequest
 
         return [
             'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => ['required', 'string', $emailRule, 'max:255', 'unique:users,email,'.$teacherId],
-            'mobile'                 => ['required', 'regex:/[0-9]/', 'not_regex:/[A-z]/', 'between:8,16',],
+            'email'                 => ['nullable', 'string', $emailRule, 'max:255', 'unique:users,email,'.$teacherId],
+            'phone_number'          => ['required', 'regex:/[0-9]/', 'not_regex:/[A-z]/', 'between:8,16',],
             // 'password'              => [$this->isMethod('PUT') ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'],
         ];
     }

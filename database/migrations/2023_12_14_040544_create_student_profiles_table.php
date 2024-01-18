@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->references('id')->on('users')->constrained()->cascadeOnDelete();
             $table->string('parent_name')->nullable();
+            $table->string('parent_email')->nullable();
             $table->string('level', 20)->nullable();
             $table->string('class', 20)->nullable();
             $table->char('division', 1)->nullable();;

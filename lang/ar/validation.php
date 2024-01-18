@@ -222,7 +222,8 @@ return [
         'students.*.post_title' => 'عنوان المشاركة',
         'students.*.student_id' => 'الطالب',
         'plan_id' => 'الخطة',
-        'payment_method' => 'طريقة الدفع'
+        'payment_method' => 'طريقة الدفع',
+        'phone_number' => 'رقم الجوال'
     ],
 
 ];

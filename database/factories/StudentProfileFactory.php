@@ -18,6 +18,7 @@ class StudentProfileFactory extends Factory
     {
         return [
             'parent_name' => fake('ar_SA')->name(),
+            'parent_email' => fake()->unique()->safeEmail(),
             'level' => fake()->randomElement(['إبتدائي', 'متوسط', 'ثانوي']),
             'class' => fake()->randomElement(['الأول', 'الثاني', 'الثالث', 'الرابع']),
             'division' => fake()->randomElement(['أ', 'ب', 'ج', 'ح']),

@@ -27,8 +27,9 @@ const editStudent = async (student) => {
     students.value.list = students.value.list.map((studRec) => studRec.id == student.id ? student : studRec)
 
     studentForm.value.show = true
-    studentForm.value.data = {name: student.name, email: student.email, phone: student.phone, mobile: student.mobile, profile: {
+    studentForm.value.data = {name: student.name, email: student.email, phone_number: student.phoneNumber, profile: {
         parent_name: student.profile.parentName,
+        parent_email: student.profile.parentEmail,
         level: student.profile.level,
         class: student.profile.class,
         division: student.profile.division,
@@ -128,8 +129,8 @@ const onSearch = (event) => {
                             <th>{{ trans('Student name') }}</th>
                             <th>{{ trans('Official email') }}</th>
                             <th>{{ trans('Guardian name') }}</th>
-                            <th>{{ trans('Guardian phone') }}</th>
-                            <th>{{ trans('Guardian mobile') }}</th>
+                            <th>{{ trans('Guardian phone number') }}</th>
+                            <th>{{ trans('Guardian email') }}</th>
                             <th>{{ trans('Level') }}</th>
                             <th>{{ trans('Class') }}</th>
                             <th>{{ trans('Division') }}</th>
@@ -142,14 +143,14 @@ const onSearch = (event) => {
                         <td><a :href="'mailto:'+student.email" v-text="student.email"></a></td>
                         <td v-text="student.profile.parentName"></td>
                         <td>
-                            <a v-if="student.phone" :href="'tel:'+student.phone" v-text="student.phone" dir="ltr"></a>
+                            <a v-if="student.phone_number" :href="'tel:'+student.phone_number" v-text="student.phone_number" dir="ltr"></a>
                             <template v-else>{{ trans('Not included') }}</template>
                         </td>
                         <td>
-                            <a v-if="student.mobile" :href="'tel:'+student.mobile" v-text="student.mobile" dir="ltr"></a>
+                            <a v-if="student.profile.parentEmail" :href="'mailto:'+student.profile.parentEmail" v-text="student.profile.parentEmail" dir="ltr"></a>
                             <template v-else>{{ trans('Not included') }}</template>
                         </td>
-                        <td v-text="student.profile.level"></td>
+                        <td v-text="student.profile.levelText"></td>
                         <td v-text="student.profile.class"></td>
                         <td v-text="student.profile.division"></td>
                         <td class="d-flex">
@@ -185,7 +186,7 @@ const onSearch = (event) => {
                 <div class="row">
                     <InputComponent class="col-md-6" :errors="studentForm.errors.name" label='<ion-icon name="person"></ion-icon>' placeholder="Student name" v-model='studentForm.data.name' :required="true" />
 
-                    <InputComponent class="col-md-6" type="email" :errors="studentForm.errors.email" label='<ion-icon name="mail"></ion-icon>' placeholder="Official email" v-model='studentForm.data.email' :required="true" />
+                    <InputComponent class="col-md-6" type="email" :errors="studentForm.errors.email" label='<ion-icon name="mail"></ion-icon>' placeholder="Official email" v-model='studentForm.data.email' />
 
                     <InputComponent class="col-md-6" type="select" :searchable="true" label='<ion-icon name="school"></ion-icon>' placeholder="Level"  :errors="studentForm.errors['profile.level']" v-model="studentForm.data.profile.level" :options="{'primary' : trans('Primary'), 'middle' : trans('Middle') , 'secondary' : trans('Secondary')}"  :required="true">
                     </InputComponent>
@@ -200,8 +201,8 @@ const onSearch = (event) => {
                 <div class="row">
                     <InputComponent class="col-md-6" :errors="studentForm.errors['profile.parent_name']" label='<ion-icon name="person"></ion-icon>' placeholder="Name" v-model='studentForm.data.profile.parent_name' :required="true" />
 
-                    <InputComponent class="col-md-6" :errors="studentForm.errors.phone" label='<ion-icon name="call"></ion-icon>' placeholder="Phone number" v-model='studentForm.data.phone' :required="true" />
-                    <InputComponent class="col-md-6" :errors="studentForm.errors.mobile" label='<ion-icon name="call"></ion-icon>' placeholder="Mobile number" v-model='studentForm.data.mobile' :required="true" />
+                    <InputComponent class="col-md-6" :errors="studentForm.errors.phone_number" label='<ion-icon name="call"></ion-icon>' dir="ltr" placeholder="Guardian phone" v-model='studentForm.data.phone_number' :required="true" />
+                    <InputComponent type="email" class="col-md-6" :errors="studentForm.errors['profile.parent_email']" label='<ion-icon name="mail"></ion-icon>' placeholder="Guardian email" v-model='studentForm.data.profile.parent_email'/>
                 </div>
 
                 <div class="mt-3">

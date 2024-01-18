@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Traits\AvatarAttribute;
 use App\Models\Traits\Searchable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -28,14 +29,12 @@ class User extends Authenticatable
         'school_id',
         'name',
         'email',
-        'phone',
-        'mobile',
+        'phone_number',
         'role',
         'password',
         'avatar',
-        'email_verification_code',
         'phone_verification_code',
-        'last_email_code_at'
+        'last_phone_code_at'
     ];
 
     /**
@@ -55,14 +54,21 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'last_email_code_at' => 'datetime'
+        'last_phone_code_at' => 'datetime'
     ];
 
     public function school() : BelongsTo {
         return $this->belongsTo(School::class);
     }
 
+    public function phoneNumber() : Attribute {
+        return Attribute::make(
+            set: fn($phoneNumber) => $phoneNumber ? "+966".substr(preg_replace('/[^0-9]/', '', $phoneNumber), -9) : null,
+            get: fn($phoneNumber) => $phoneNumber ? "+966".substr(preg_replace('/[^0-9]/', '', $phoneNumber), -9) : null
+        );
+    }
+
     protected function searchColumns() {
-        return ['id', 'name', 'email', 'phone', 'mobile'];
+        return ['id', 'name', 'email', 'phone_number'];
     }
 }

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\StudentRequest;
 use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
+use App\Imports\StudentsImport;
 use App\Models\Student;
+use Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Str;
@@ -52,7 +54,7 @@ class StudentController extends Controller
     public function store(StudentRequest $request)
     {
         //
-        $studentData = $request->only(['name', 'email','phone', 'mobile']);
+        $studentData = $request->only(['name', 'email','phone_number']);
         $password = Str::random(9);
         $studentData['password'] = bcrypt($password);
 
@@ -61,6 +63,7 @@ class StudentController extends Controller
 
         $student->profile()->create([
             'parent_name' => $request->profile['parent_name'],
+            'parent_email' => $request->profile['parent_email'],
             'level' => $request->profile['level'],
             'class' => $request->profile['class'],
             'division' => $request->profile['division'],
@@ -71,6 +74,18 @@ class StudentController extends Controller
             'message' => __('Data created successfully'),
             'data' => new StudentResource($student)
         ]);
+    }
+
+    public function import()
+    {
+        $array=[];
+        try {
+            $array = Excel::toArray(new StudentsImport('test'), 'students.xlsx', 'public');
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+
+        return $array;
     }
 
     /**
@@ -101,11 +116,11 @@ class StudentController extends Controller
         //
         $student->name = $request->name;
         $student->email = $request->email;
-        $student->phone = $request->phone;
-        $student->mobile = $request->mobile;
+        $student->phone_number = $request->phone_number;
         $student->save();
 
         $student->profile->parent_name = $request->profile['parent_name'];
+        $student->profile->parent_email = $request->profile['parent_email'];
         $student->profile->level = $request->profile['level'];
         $student->profile->class = $request->profile['class'];
         $student->profile->division = $request->profile['division'];

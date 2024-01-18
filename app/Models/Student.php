@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\StudentRoleScope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends User {
@@ -26,6 +27,6 @@ class Student extends User {
     }
 
     protected function searchColumns() {
-        return ['id', 'name', 'email', 'phone', 'mobile', 'profile' => ['parent_name', 'level', 'class']];
+        return ['id', 'name', 'email', 'phone_number', 'profile' => ['parent_name', 'parent_email', 'level', 'class']];
     }
 }

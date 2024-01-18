@@ -15,7 +15,7 @@ export default function useTeachers() {
     }
 
     ///
-    const teacherForm = makeFormRef({profile:{}}, pageUrl)
+    const teacherForm = makeFormRef({}, pageUrl)
     const storeTeacher = async () => {
         await storeForm(teacherForm, teachers)
     }

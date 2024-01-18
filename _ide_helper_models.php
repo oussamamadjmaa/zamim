@@ -212,16 +212,16 @@ namespace App\Models{
  * @property int $id
  * @property int|null $school_id
  * @property string $name
- * @property string $email
- * @property string|null $mobile
- * @property string|null $phone
+ * @property string|null $email
+ * @property string|null $phone_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $email_verification_code
- * @property \Illuminate\Support\Carbon|null $last_email_code_at
+ * @property string|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
+ * @property \Illuminate\Support\Carbon|null $last_phone_code_at
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -249,10 +249,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereLastEmailCodeAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereLastPhoneCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student wherePhoneVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereRole($value)
@@ -271,6 +271,7 @@ namespace App\Models{
  * @property int $id
  * @property int $student_id
  * @property string|null $parent_name
+ * @property string|null $parent_email
  * @property string|null $level
  * @property string|null $class
  * @property string|null $division
@@ -286,6 +287,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|StudentProfile whereDivision($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StudentProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StudentProfile whereLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StudentProfile whereParentEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StudentProfile whereParentName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StudentProfile whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StudentProfile whereUpdatedAt($value)
@@ -448,16 +450,16 @@ namespace App\Models{
  * @property int $id
  * @property int|null $school_id
  * @property string $name
- * @property string $email
- * @property string|null $mobile
- * @property string|null $phone
+ * @property string|null $email
+ * @property string|null $phone_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $email_verification_code
- * @property \Illuminate\Support\Carbon|null $last_email_code_at
+ * @property string|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
+ * @property \Illuminate\Support\Carbon|null $last_phone_code_at
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -484,10 +486,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereLastEmailCodeAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereLastPhoneCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePhoneVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereRole($value)
@@ -506,16 +508,16 @@ namespace App\Models{
  * @property int $id
  * @property int|null $school_id
  * @property string $name
- * @property string $email
- * @property string|null $mobile
- * @property string|null $phone
+ * @property string|null $email
+ * @property string|null $phone_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $email_verification_code
- * @property \Illuminate\Support\Carbon|null $last_email_code_at
+ * @property string|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
+ * @property \Illuminate\Support\Carbon|null $last_phone_code_at
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -542,10 +544,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastEmailCodeAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLastPhoneCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)

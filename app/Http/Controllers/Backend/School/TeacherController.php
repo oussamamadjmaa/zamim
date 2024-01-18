@@ -49,7 +49,7 @@ class TeacherController extends Controller
     public function store(TeacherRequest $request)
     {
         //
-        $teacherData = $request->only(['name', 'email','mobile']);
+        $teacherData = $request->only(['name', 'email','phone_number']);
         $password = Str::random(9);
         $teacherData['password'] = bcrypt($password);
 
@@ -91,7 +91,7 @@ class TeacherController extends Controller
         //
         $teacher->name = $request->name;
         $teacher->email = $request->email;
-        $teacher->mobile = $request->mobile;
+        $teacher->phone_number = $request->phone_number;
         $teacher->save();
 
         return response()->json([
