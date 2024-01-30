@@ -19,7 +19,6 @@ const createRadio = async () => {
 
     if (radioForm.value.response.status == 200 && !radioForm.value.update) {
         radioForm.value.show = false;
-        radioBgImage.value = null;
     }
 }
 const editRadio = async (radio) => {
@@ -32,8 +31,7 @@ const editRadio = async (radio) => {
 
     radioForm.value.show = true
     const studentsIds = radio.students.map(student => student.id)
-    radioForm.value.data = { name: radio.name, class: radio.class, radio_date: radio.radioDate, teacher_id: radio.teacher.id, students: studentsIds, bg_image: radio.bgImage.path }
-    radioBgImage.value = radio.bgImage;
+    radioForm.value.data = { name: radio.name, class: radio.class, radio_date: radio.radioDate, teacher_id: radio.teacher.id, students: studentsIds }
 
     radioForm.value.update = radio
 }
@@ -41,7 +39,6 @@ const editRadio = async (radio) => {
 const closeModal = () => {
     radioForm.value.show = false
     radioForm.value.errors = []
-    radioBgImage.value = null
 }
 
 watchEffect(() => {
@@ -71,11 +68,6 @@ const deleteRadio = (radio) => {
     if (!confirm(trans('Do you really want to delete this record?'))) return;
 
     destroyRadio(radio)
-}
-
-const radioBgImage = ref(null);
-const onBgUpload = (data) => {
-    radioBgImage.value = data;
 }
 
 getRadios()
@@ -144,19 +136,11 @@ getTeachers();
         <template v-else>
             <div class="col-md-4 mb-4" v-for="radio in radios.list">
                 <div class="radio-box bg-white border rounded-16 h-100 overlay-actions-parent">
-                    <div class="bg-image">
-                        <div class="bg-image-holder">
-                            <img :src="radio.bgImage.pathUrl" :alt="radio.name">
-                        </div>
-                    </div>
                     <div class="radio-info px-4 pt-3">
-                        <h6 class="h9 radio-title mb-1">
-                            <ion-icon name="radio-outline"></ion-icon> <span v-text="radio.name"></span>
-                        </h6>
                         <div class="mb-3 text-secondary">
                             <span v-text="radio.radioDateFormated"></span>
                         </div>
-                        <div>
+                        <div v-if="radio.students">
                             <b v-text="trans('Participating students') + ': '"></b>
                             {{ radio.students.map(student => student.name).join(', ') }}
                         </div>
@@ -202,46 +186,6 @@ getTeachers();
             <form @submit.prevent="createRadio()">
 
                 <div class="row">
-                    <div class="mb-3 col-12">
-                        <InputComponent :errors="radioForm.errors.bg_image" path="radio-bgs" type="file"
-                            v-model='radioForm.data.bg_image' @onFileUpload="onBgUpload"
-                            :help="trans('ضع صورة لغلاف الإذاعة')">
-                            <template #customLabel>
-                                <div class="image_">
-                                    <div class="image_-holder">
-                                        <div v-if="!radioBgImage" class="img_replacer">
-                                            <i class="iconsax" icon-name="picture-no-square">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    style="width: 54px;height: 54px;" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M21.6799 16.9599L18.5499 9.64988C17.4899 7.16988 15.5399 7.06988 14.2299 9.42988L12.3399 12.8399C11.3799 14.5699 9.58993 14.7199 8.34993 13.1699L8.12993 12.8899C6.83993 11.2699 5.01993 11.4699 4.08993 13.3199L2.36993 16.7699C1.15993 19.1699 2.90993 21.9999 5.58993 21.9999H18.3499C20.9499 21.9999 22.6999 19.3499 21.6799 16.9599Z"
-                                                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" fill="#667080"
-                                                        style="fill: #667080; stroke: #667080;"></path>
-                                                    <path
-                                                        d="M6.96997 8C8.62682 8 9.96997 6.65685 9.96997 5C9.96997 3.34315 8.62682 2 6.96997 2C5.31312 2 3.96997 3.34315 3.96997 5C3.96997 6.65685 5.31312 8 6.96997 8Z"
-                                                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" style="fill: #667080; stroke: #667080;">
-                                                    </path>
-                                                </svg>
-                                            </i>
-                                        </div>
-                                        <img v-else :src="radioBgImage.pathUrl">
-                                    </div>
-                                </div>
-                            </template>
-                        </InputComponent>
-
-
-                        <ul class="invalid-feedback" v-if="radioForm.errors.bg_image">
-                            <li v-text="error" v-for="error in radioForm.errors.bg_image">
-                            </li>
-                        </ul>
-                    </div>
-                    <InputComponent class="col-md-12" :errors="radioForm.errors.name"
-                        label='<ion-icon name="radio"></ion-icon>' placeholder="Radio name" v-model='radioForm.data.name'
-                        :required="true" />
-
                     <InputComponent class="col-md-6" type="date" :errors="radioForm.errors.radio_date"
                         label='<ion-icon name="calendar"></ion-icon>' placeholder="Radio date"
                         v-model='radioForm.data.radio_date' :required="true" />

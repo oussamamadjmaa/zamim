@@ -51,7 +51,7 @@ const onSearch = (event) => {
             <div class="d-flex flex-wrap justify-content-between">
                 <h6 class="h7" v-text="trans('Subscriptions')"></h6>
                 <input type="text"
-                        class="form-control" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
+                        class="form-control mb-2" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
                 <div class="text-end" v-if="props.without_pagination">
                     <a :href="pageUrl" class="primary-button">
                         {{ trans('Show more') }}
@@ -109,7 +109,7 @@ const onSearch = (event) => {
                             <td><span :class="['badge', `bg-${subscription.status}`]" v-text="subscription.statusText"></span></td>
                             <td class="text-primary" v-text="subscription.startedAt"></td>
                             <td class="text-warning" v-text="subscription.endsAt"></td>
-                            <td><a target="_blank" :href="subscriptionPaymentsHistoryUrl+'/'+subscription.subscriberId" v-text="trans('Show')"></a></td>
+                            <td><a target="_blank" :href="subscriptionPaymentsHistoryUrl+'/subscriber/'+subscription.subscriberId" v-text="trans('Show')"></a></td>
                         </tr>
                 </MainTableComponent>
 

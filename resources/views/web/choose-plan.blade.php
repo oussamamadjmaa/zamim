@@ -3,7 +3,7 @@
 <section>
     <div class="container">
         <div class="text-end pt-3 pt-md-5 pb-3">
-            <router-link to="/" class="link-blue fs-5">الرئيسية <ion-icon name="chevron-forward-outline"></ion-icon></router-link>
+            <a href="/" class="link-blue fs-5">الرئيسية <ion-icon name="chevron-forward-outline"></ion-icon></a>
         </div>
 
          <!-- Start : subscription heading -->

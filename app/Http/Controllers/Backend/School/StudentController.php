@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Backend\School;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\StudentRequest;
-use App\Http\Resources\StudentCollection;
 use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
 use App\Models\Student;
 use Excel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Str;
 
 class StudentController extends Controller
 {
@@ -42,7 +39,7 @@ class StudentController extends Controller
 
         $students = Student::whereSchoolId(auth()->user()->school_id)->search($request->search)->latest('id')->paginate(15)->withQueryString();
 
-        return new StudentCollection($students);
+        return StudentResource::collection($students);
     }
 
     /**
@@ -55,8 +52,6 @@ class StudentController extends Controller
     {
         //
         $studentData = $request->only(['name', 'email','phone_number']);
-        $password = Str::random(9);
-        $studentData['password'] = bcrypt($password);
 
         //
         $student = auth()->user()->school()->students()->create($studentData);
@@ -76,16 +71,20 @@ class StudentController extends Controller
         ]);
     }
 
-    public function import()
+    public function import(Request $request)
     {
-        $array=[];
-        try {
-            $array = Excel::toArray(new StudentsImport('test'), 'students.xlsx', 'public');
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
+        $request->validate([
+            'level' => ['required', 'string', 'in:primary,middle,secondary'],
+            'file' => ['required', 'file', 'mimes:xlsx,xls', 'max:20480'],
+        ]);
 
-        return $array;
+        try {
+            Excel::import(new StudentsImport(auth()->user()->school, $request->input('level', 'primary')), $request->file('file'));
+
+            return response(['message' => __(':count Students has been imported successfully', ['count' => session()->pull('imported_students')])]);
+        } catch (\Throwable $th) {
+            return response(['message' => 'Failed to import file'], 422);
+        }
     }
 
     /**

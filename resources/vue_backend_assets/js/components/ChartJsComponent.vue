@@ -5,7 +5,6 @@ import useCommon from '../../../vue-services/common';
 const props = defineProps({
     title: {
         type: String,
-        required: true
     },
     stats_url: {
         type: String,
@@ -20,7 +19,6 @@ const props = defineProps({
         default: 'bar'
     },
     version: {
-        type: Number,
         default: 1
     },
     box: {
@@ -189,7 +187,7 @@ onMounted(async () => {
 <template>
     <div :class="{'bg-white border rounded-16 py-4 px-4 h-100 position-relative' : props.box}">
         <div :class="{'d-flex flex-wrap justify-content-between':props.box}">
-            <h6 class="h7" v-text="title" v-if="props.box"></h6>
+            <h6 class="h7" v-text="title || ''" v-if="props.box"></h6>
             <div v-if="stats.response && stats.response.data && stats.response.data.periods">
                 <div class="dropdown" v-if="props.box">
                     <p class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"

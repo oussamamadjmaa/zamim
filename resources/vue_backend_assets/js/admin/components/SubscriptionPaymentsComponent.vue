@@ -1,10 +1,12 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import MainTableComponent from '../../../../vue-components/backend/MainTableComponent.vue'
 import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue'
 // import MainModalComponent from '../../../../vue-components/backend/MainModalComponent.vue'
 // import InputComponent from '../../../../vue-components/backend/FormParts/InputComponent.vue';
 import MainPaginationComponent from '../../../../vue-components/backend/MainPaginationComponent.vue';
+import MainModalComponent from '../../../../vue-components/backend/MainModalComponent.vue';
+import SubscriptionPaymentReviewComponent from './SubscriptionPaymentReviewComponent.vue';
 import useCommon from '../../../../vue-services/common';
 
 const props = defineProps({
@@ -18,7 +20,7 @@ const props = defineProps({
     }
 })
 
-const { makeFetchAllRef, fetchAll } = useCommon();
+const { makeFetchAllRef, fetchAll, fetchOne } = useCommon();
 //
 const pageUrl = `${window._app.url}/subscriptions/payments_history`;
 
@@ -27,11 +29,40 @@ const subscriptionPayments = makeFetchAllRef();
 subscriptionPayments.value.without_pagination = props.without_pagination;
 
 const getSubscriptionPayments = async (url = null) => {
-    await fetchAll(url ?? (pageUrl + (props.school ? '/'+props.school.id : '')), subscriptionPayments);
+    await fetchAll(url ?? (pageUrl + (props.school ? '/subscriber/'+props.school.id : '')), subscriptionPayments);
 }
 
-onMounted(() => {
+const getSubscriptionPayment = async (subscriptionPaymentId) => {
+    return await fetchOne(`${pageUrl}/${subscriptionPaymentId}`);
+}
+
+const setReviewSubscriptionPayment = async (subscriptionPaymentId) => {
+    const res = await getSubscriptionPayment(subscriptionPaymentId)
+
+    if(res) {
+        reviewPayment.value = res
+    }
+}
+//
+const reviewPayment = ref(null);
+const updateSubscriptionPayment = (subscriptionPayment) => {
+    subscriptionPayments.value.list = subscriptionPayments.value.list.map((sp) => sp.id == subscriptionPayment.id ? subscriptionPayment : sp)
+    reviewPayment.value = subscriptionPayment;
+}
+
+//
+onMounted(async () => {
     getSubscriptionPayments();
+
+    if (props.without_pagination == true) {
+        setInterval(() => {
+            getSubscriptionPayments();
+        }, 10100);
+    }
+
+    if(window.urlParams.get('payment_id')) {
+        setReviewSubscriptionPayment(window.urlParams.get('payment_id'))
+    }
 })
 </script>
 <template>
@@ -88,14 +119,14 @@ onMounted(() => {
                                 <th scope="col">{{ trans('Amount') }}</th>
                                 <th scope="col">{{ trans('Payment status') }}</th>
                                 <th v-if="!props.without_pagination" scope="col">{{ trans('Last update') }}</th>
-                                <th v-if="!props.without_pagination" scope="col">{{ trans('Comment') }}</th>
+                                <th v-if="!props.without_pagination" scope="col">{{ trans('Operations') }}</th>
                             </tr>
                         </template>
                         <tr v-for="subscriptionPayment in subscriptionPayments.list">
                             <td scope="row" v-text="subscriptionPayment.id"></td>
                             <td v-text="trans(subscriptionPayment.plan.name)"></td>
                             <td v-if="!props.without_pagination" v-text="subscriptionPayment.payer.id"></td>
-                            <td><a :href="pageUrl+'/'+subscriptionPayment.payer.id" v-text="subscriptionPayment.payer.name"></a></td>
+                            <td><a :href="pageUrl+'/subscriber/'+subscriptionPayment.payer.id" v-text="subscriptionPayment.payer.name"></a></td>
                             <td v-if="!props.without_pagination" v-text="trans(subscriptionPayment.paymentMethodText)"></td>
                             <td v-if="!props.without_pagination" v-text="subscriptionPayment.subscriptionPeriodText"></td>
                             <td>{{ subscriptionPayment.amount + ' ' + trans(subscriptionPayment.currencyText) }}</td>
@@ -103,7 +134,10 @@ onMounted(() => {
                                 <span class="badge" :class="'bg-'+subscriptionPayment.status" v-text="trans(subscriptionPayment.statusText)"></span>
                             </td>
                             <td v-if="!props.without_pagination" v-text="subscriptionPayment.updatedAt"></td>
-                            <td v-if="!props.without_pagination" style="white-space: pre-wrap;" v-text="subscriptionPayment.comment ?? '/'"></td>
+                            <td>
+                                <button type="button" @click="reviewPayment = subscriptionPayment"
+                                    class="btn btn-info p-0 px-2 text-white text-nowrap" :title="trans('Review')"><ion-icon name="eye-outline"></ion-icon> {{  !props.without_pagination ? trans("Review") : '' }}</button>
+                            </td>
                         </tr>
                 </MainTableComponent>
 
@@ -122,4 +156,10 @@ onMounted(() => {
             </template>
         </div>
     </MainCardComponent>
+
+        <!-- Show school modal -->
+    <MainModalComponent v-if="reviewPayment" @closeModal="reviewPayment = null" :class="{'w-800px' : true}">
+        <SubscriptionPaymentReviewComponent :subscriptionPayment="reviewPayment" @updateSubscriptionPayment="updateSubscriptionPayment" />
+    </MainModalComponent>
+
 </template>

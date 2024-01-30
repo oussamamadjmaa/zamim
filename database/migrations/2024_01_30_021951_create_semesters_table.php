@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('radios', function (Blueprint $table) {
+        Schema::create('semesters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_id')->references('id')->on('schools')->cascadeOnDelete();
-            $table->foreignId('teacher_id')->nullable()->references('id')->on('users')->nullOnDelete();
-            $table->string('class');
-            $table->date('radio_date');
+            $table->string('name');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('radios');
+        Schema::dropIfExists('semesters');
     }
 };

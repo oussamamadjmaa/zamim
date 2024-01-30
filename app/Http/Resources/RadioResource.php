@@ -19,8 +19,6 @@ class RadioResource extends JsonResource
             'id' => $this->id,
             'schoolId' => $this->school_id,
             "teacher" => $this->when($this->relationLoaded('teacher'), fn() => $this->teacher), //Relationship
-            'name' => $this->name,
-            'bgImage' => ['path' => $this->bg_image, 'pathUrl' => asset('storage/'.$this->bg_image)],
             'class' => $this->class,
             'radioDate' => $this->radio_date->format('Y-m-d'),
             'radioDateFormated' => hijriDate($this->radio_date),

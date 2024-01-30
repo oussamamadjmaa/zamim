@@ -95,13 +95,52 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Image
+ *
+ * @property int $id
+ * @property string $imageable_type
+ * @property int $imageable_id
+ * @property string $path
+ * @property int $order
+ * @property int|null $file_size
+ * @property string|null $file_type
+ * @property string|null $thumbnail_path
+ * @property string|null $external_url
+ * @property string|null $type
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $imageable
+ * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Image newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Image onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Image query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereExternalUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereFileSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereFileType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereImageableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereImageableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereThumbnailPath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Image withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Image withoutTrashed()
+ */
+	class Image extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Radio
  *
  * @property int $id
  * @property int $school_id
  * @property int|null $teacher_id
- * @property string $name
- * @property string|null $bg_image
  * @property string $class
  * @property \Illuminate\Support\Carbon $radio_date
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -115,11 +154,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Radio newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Radio newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Radio query()
- * @method static \Illuminate\Database\Eloquent\Builder|Radio whereBgImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Radio whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereRadioDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereSchoolId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereTeacherId($value)
@@ -207,17 +244,26 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Semester
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester query()
+ */
+	class Semester extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Student
  *
  * @property int $id
  * @property int|null $school_id
  * @property string $name
- * @property string|null $email
+ * @property string $email
  * @property string|null $phone_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
- * @property string|null $email_verification_code
- * @property string|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
@@ -245,10 +291,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmailVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Student whereLastEmailCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereLastPhoneCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student wherePassword($value)
@@ -410,6 +454,7 @@ namespace App\Models\Subscription{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $payer
  * @property-read \App\Models\Subscription\Plan $plan
+ * @property-read \App\Models\Image|null $receipt
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionPayment onlyTrashed()
@@ -450,12 +495,10 @@ namespace App\Models{
  * @property int $id
  * @property int|null $school_id
  * @property string $name
- * @property string|null $email
+ * @property string $email
  * @property string|null $phone_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
- * @property string|null $email_verification_code
- * @property string|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
@@ -482,10 +525,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmailVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereLastEmailCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereLastPhoneCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Teacher wherePassword($value)
@@ -508,12 +549,10 @@ namespace App\Models{
  * @property int $id
  * @property int|null $school_id
  * @property string $name
- * @property string|null $email
+ * @property string $email
  * @property string|null $phone_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
- * @property string|null $email_verification_code
- * @property string|null $last_email_code_at
  * @property string|null $phone_verification_code
  * @property string|null $role
  * @property string|null $avatar
@@ -540,10 +579,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastEmailCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastPhoneCodeAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)

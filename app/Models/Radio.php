@@ -15,10 +15,8 @@ class Radio extends Model
     protected $fillable = [
         'school_id',
         'teacher_id',
-        'name',
         'class',
         'radio_date',
-        'bg_image'
     ];
 
     protected $casts = [

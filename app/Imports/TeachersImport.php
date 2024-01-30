@@ -11,14 +11,13 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Row;
 use Str;
 
-class StudentsImport implements OnEachRow, WithHeadingRow
+class TeachersImport implements OnEachRow, WithHeadingRow
 {
-    protected $school, $level;
+    protected $school;
 
-    public function __construct(School $school, $level)
+    public function __construct(School $school)
     {
         $this->school = $school;
-        $this->level = $level;
     }
 
     public function onRow(Row $row)
@@ -36,11 +35,9 @@ class StudentsImport implements OnEachRow, WithHeadingRow
         $studentData = $validator->validated();
 
         try {
-            $student = $this->updateOrCreateStudent($studentData);
+            $student = $this->updateOrCreateTeacher($studentData);
 
-            $this->studentProfile($student, $studentData);
-
-            session()->increment('imported_students');
+            session()->increment('imported_teachers');
         } catch (\Throwable $th) {
             // dd($th);
         }
@@ -53,36 +50,17 @@ class StudentsImport implements OnEachRow, WithHeadingRow
             'name'          => ['required', 'string'],
             'email'         => ['required', 'string', $emailRule],
             'phone_number'  => ['required', 'regex:/[0-9]/', 'between:8,16'],
-            'parent_name'   => ['required', 'string'],
-            'parent_email'  => ['nullable', 'string'],
-            'class'         => ['required', 'string'],
-            'division'      => ['required', 'string'],
         ]);
     }
 
-    private function updateOrCreateStudent($studentData)
+    private function updateOrCreateTeacher($studentData)
     {
-        return $this->school->students()->withTrashed()->updateOrCreate(
+        return $this->school->teachers()->withTrashed()->updateOrCreate(
             ['email' => Str::limit($studentData['email'] ?? '', 255, '')],
             [
                 'name' => Str::limit($studentData['name'], 255, ''),
                 'phone_number' => $studentData['phone_number']
             ]
         );
-    }
-
-    private function studentProfile($student, $studentData)
-    {
-        $profileMethod = $student->profile()->exists() ? 'update' : 'create';
-
-        $studentProfile = [
-            'parent_name' => Str::limit($studentData['parent_name'], 255, ''),
-            'parent_email' => Str::limit($studentData['parent_email'] ?? '', 255, ''),
-            'level' => $this->level,
-            'class' => Str::limit($studentData['class'] ?? '', 20, ''),
-            'division' => Str::limit($studentData['division'] ?? '', 1, ''),
-        ];
-
-        return $student->profile()->{$profileMethod}($studentProfile);
     }
 }

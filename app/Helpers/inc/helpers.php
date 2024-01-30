@@ -1,6 +1,8 @@
 <?php
 
 use Alkoumi\LaravelHijriDate\Hijri;
+use App\Http\Resources\SemesterResource;
+use App\Models\Semester;
 
 if (!function_exists('getRoutePrefix')) {
     function getRoutePrefix() {
@@ -29,5 +31,14 @@ if (!function_exists('transNumber')) {
         }
 
         return $value;
+    }
+}
+
+if(!function_exists('getSemesters')) {
+    function getSemesters() {
+        SemesterResource::withoutWrapping();
+        return Cache::rememberForever('semesters', function() {
+            return SemesterResource::collection(Semester::latest('start_date')->get());
+        });
     }
 }

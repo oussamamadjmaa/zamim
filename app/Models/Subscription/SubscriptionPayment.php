@@ -2,6 +2,7 @@
 
 namespace App\Models\Subscription;
 
+use App\Models\Image;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ class SubscriptionPayment extends Model
     const CANCELED = 'canceled';      // #808080 (Gray)
     const COMPLETED = 'completed';    // #008000 (Green)
     const ON_HOLD = 'on_hold';        // #FFA500 (Orange)
+    const IN_REVIEW = 'in_review';     // #007bff (007bff)
     const REFUNDED = 'refunded';      // #0000FF (Blue)
 
     protected $fillable = [
@@ -56,6 +58,11 @@ class SubscriptionPayment extends Model
 
     public function plan() : BelongsTo {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function receipt()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', 'receipt')->latest();
     }
 
 
@@ -112,6 +119,10 @@ class SubscriptionPayment extends Model
 
     public function isOnHold() {
         return $this->status == self::ON_HOLD;
+    }
+
+    public function isOnReview() {
+        return $this->status == self::IN_REVIEW;
     }
 
     public function isRefunded() {

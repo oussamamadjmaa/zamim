@@ -77,16 +77,13 @@ const getRandomIntInRange = (min, max) => Math.floor(Math.random() * (max - min 
 
 const inputId = 'input_'+ Math.random().toString(36).substr(2, 9);;
 
-const uploadFile = async (input, path, multiple, isFile = false) => {
-    let file;
+const uploadFile = async (input, path, isFile = false) => {
+    let file = input;
     if (!isFile) {
-        let files = input.files;
-        for (let index = 0; index < files.length; index++) {
-            uploadFile(files[index], path, props.multiple, true)
+        for (let index = 0; index < input.files.length; index++) {
+            uploadFile(input.files[index], path, true)
         }
         return;
-    } else {
-        file = input;
     }
 
     if (!file) return;
@@ -103,8 +100,7 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
 
     const sourceProg = source;
 
-
-    const timestamp = new Date().getTime() + Math.random() * 999;
+    const randomInt = new Date().getTime() + Math.random() * 999;
 
     const res = await callApi({
         url: '/upload',
@@ -112,11 +108,12 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
         data: { file, path },
         headers: { 'Content-Type': 'multipart/form-data' },
         config: {
-            cancelToken: source.token, onUploadProgress: (progressEvent) => {
+            cancelToken: source.token,
+            onUploadProgress: (progressEvent) => {
                 const { loaded, total } = progressEvent;
                 let percent = Math.floor((loaded * 100) / total);
                 if (percent < 100) {
-                    uploadEvents.value[timestamp] = {
+                    uploadEvents.value[randomInt] = {
                         loaded, total, percent, source: sourceProg, fileInfo: file
                     }
                 }
@@ -124,7 +121,7 @@ const uploadFile = async (input, path, multiple, isFile = false) => {
         }
     });
 
-    delete uploadEvents.value[timestamp];
+    delete uploadEvents.value[randomInt];
 
     if (typeof res != "undefined") {
         isProccessing = false;

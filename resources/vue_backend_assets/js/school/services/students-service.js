@@ -20,6 +20,12 @@ export default function useStudents() {
         await storeForm(studentForm, students)
     }
 
+    //
+    const importStudentForm = makeFormRef({}, pageUrl + '/import')
+    const importStudents = async () => {
+        await storeForm(importStudentForm, students, {headers: { 'Content-Type': 'multipart/form-data' }, successCallback: () => setTimeout(() => { window.location.reload()}, 2000 ) })
+    }
+
     ///
     const destroyStudent = (student) => {
         students.value.list = students.value.list.filter((dep) => dep != student)
@@ -27,6 +33,6 @@ export default function useStudents() {
     }
 
     return {
-        students, getStudents, getStudent, studentForm, storeStudent, destroyStudent, pageUrl
+        students, getStudents, getStudent, studentForm, storeStudent, destroyStudent, importStudentForm, importStudents, pageUrl
     }
 }

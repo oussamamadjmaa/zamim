@@ -32,6 +32,7 @@ class SubscriptionPaymentResource extends JsonResource
             "amount" => number_format($this->amount),
             "currency" => $this->currency,
             "currencyText" => __($this->currency),
+            "receipt" => $this->when($this->payment_method == 'bank_transfer' && $this->relationLoaded('receipt'), fn() => asset('storage/'. $this->receipt->path) ),
             // "subscriptionInterval" => $this->subscription_interval,
             // "subscriptionPeriod" => $this->subscription_period,
             "subscriptionPeriodText" => $this->duration(),

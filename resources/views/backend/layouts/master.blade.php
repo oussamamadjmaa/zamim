@@ -51,6 +51,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://moment.github.io/luxon/global/luxon.min.js"></script>
     <script src="{{ asset('vendor/hijri-date-picker/js/bootstrap-hijri-datetimepicker.min.js') }}"></script>
-
+    @stack('scripts')
   </body>
 </html>

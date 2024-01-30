@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Backend\School;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\ActivityRequest;
-use App\Http\Resources\ActivityCollection;
 use App\Http\Resources\ActivityResource;
 use App\Models\Activity;
 use Illuminate\Http\Request;
-use Str;
 
 class ActivityController extends Controller
 {
@@ -32,7 +30,7 @@ class ActivityController extends Controller
     {
         $activities = Activity::whereSchoolId(auth()->user()->school_id)->with(['students:id,name','teacher:id,name'])->search($request->search)->latest('activity_date')->paginate(15)->withQueryString();
 
-        return new ActivityCollection($activities);
+        return ActivityResource::collection($activities);
     }
 
     /**
@@ -51,6 +49,7 @@ class ActivityController extends Controller
 
         $activity->students()->attach($request->students);
 
+        $activity->load(['teacher:id,name', 'students:id,name']);
         return response()->json([
             'status' => 200,
             'message' => __('Data created successfully'),

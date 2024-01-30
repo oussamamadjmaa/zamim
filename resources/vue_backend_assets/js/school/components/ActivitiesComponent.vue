@@ -116,7 +116,7 @@ const onSearch = (event) => {
             <div class="d-flex flex-wrap justify-content-between">
                 <h6 class="h7" v-text="trans('Activities')"></h6>
                 <input type="text"
-                        class="form-control" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
+                        class="form-control mb-2" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
                 <div class="text-end">
                     <button class="primary-button" @click="activityForm.show = !activityForm.show">
                         {{ trans('Add activity') }}
@@ -258,7 +258,7 @@ const onSearch = (event) => {
                         :required="true" />
 
                     <InputComponent class="col-md-12" type="select" :searchable="true"
-                        label='<ion-icon name="person"></ion-icon>' placeholder="Class leader"
+                        label='<ion-icon name="person"></ion-icon>' placeholder="Activity leader"
                         :errors="activityForm.errors.teacher_id" v-model="activityForm.data.teacher_id" :options="teachers.list"
                         :required="true" />
 

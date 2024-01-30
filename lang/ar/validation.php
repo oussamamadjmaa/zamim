@@ -223,7 +223,9 @@ return [
         'students.*.student_id' => 'الطالب',
         'plan_id' => 'الخطة',
         'payment_method' => 'طريقة الدفع',
-        'phone_number' => 'رقم الجوال'
+        'phone_number' => 'رقم الجوال',
+        'image' => 'الصورة',
+        'level' => 'المستوى'
     ],
 
 ];

@@ -16,6 +16,11 @@ class Teacher extends User {
 
         static::creating(function ($query) {
             $query->role = 'teacher';
+            $query->password = $query->password ?: bcrypt(\Str::random(9));
+        });
+
+        static::updating(function ($query) {
+            $query->deleted_at = null;
         });
     }
 }

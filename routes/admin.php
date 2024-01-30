@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\Admin\AuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\SchoolController;
+use App\Http\Controllers\Backend\Admin\SemesterController;
 use App\Http\Controllers\Backend\Admin\StatisticsController;
 use App\Http\Controllers\Backend\Admin\SubscriptionController;
 use App\Http\Controllers\Backend\Admin\UploadFilesController;
@@ -24,7 +25,10 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::controller(SubscriptionController::class)->group(function() {
         Route::get('/subscriptions', 'index')->name('subscriptions.index');
         Route::get('/subscriptions/all', 'subscriptions')->name('subscriptions.all');
-        Route::get('/subscriptions/payments_history/{school?}', 'paymentsHistory')->name('subscriptions.payment_history');
+        Route::get('/subscriptions/payments_history', 'paymentsHistory')->name('subscriptions.payment_history');
+        Route::get('/subscriptions/payments_history/subscriber/{school}', 'paymentsHistory')->name('subscriptions.payment_history');
+        Route::get('/subscriptions/payments_history/{subscriptionPayment}', 'show')->name('subscription-payments.show');
+        Route::put('/subscriptions/payments_history/{subscriptionPayment}/{action}', 'doAction');
         Route::get('/subscriptions/stats/{statsBy}', 'getSubscriptionStats')->name('subscriptions.stats');
     });
 
@@ -33,6 +37,10 @@ Route::middleware(['auth:admin'])->group(function() {
         Route::get('login-as/school/{school}', 'loginAs')->name('school.login_as');
         Route::post('login-as/school/{school}', 'processloginAs');
     });
+
+     //Semesters
+     Route::apiResource('/semesters', SemesterController::class);
+
 
     Route::get('statistics', [StatisticsController::class, 'index'])->name('statistics.index');
 

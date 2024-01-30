@@ -21,11 +21,12 @@ Route::middleware(['auth:school', 'school-subscription'])->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     //Students
-    Route::get('students/import', [StudentController::class, 'import']);
+    Route::post('students/import', [StudentController::class, 'import']);
     Route::apiResource('/students', StudentController::class);
 
 
     //Teachers
+    Route::post('teachers/import', [TeacherController::class, 'import']);
     Route::apiResource('/teachers', TeacherController::class);
 
     //Radios

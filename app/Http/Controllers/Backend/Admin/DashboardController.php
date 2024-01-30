@@ -8,8 +8,6 @@ use App\Models\Activity;
 use App\Models\Radio;
 use App\Models\School;
 use App\Models\Subscription\PlanSubscription;
-use Cache;
-use Str;
 
 class DashboardController extends Controller
 {

@@ -44,6 +44,12 @@ return [
         '3ds_modal'                 => true,
         'debug_mode'                => env('APS_DEBUG_MODE'),
         'locale'                    => 'en',
+    ],
+    'bank_transfer' => [
+        'bank_name' => env('BANK_NAME'),
+        'account_holder' => env('ACCOUNT_HOLDER'),
+        'account_number' => env('ACCOUNT_NUMBER'),
+        'IBAN'  => env('IBAN')
     ]
 
 ];

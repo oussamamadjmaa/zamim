@@ -11,6 +11,7 @@ import SubscriptionsStatsByPlanComponent from './admin/components/SubscriptionsS
 import ChartJsComponent from './components/ChartJsComponent.vue';
 import NavbarNotificationsComponent from '../../vue-components/backend/NavbarNotificationsComponent.vue';
 import NotificationsComponent from '../../vue-components/backend/NotificationsComponent.vue';
+import SemestersComponent from './admin/components/SemestersComponent.vue';
 
 app.component('subscriptions-component', SubscriptionsComponent);
 app.component('subscription-payments-component', SubscriptionPaymentsComponent);
@@ -18,6 +19,7 @@ app.component('subscriptions-stats-by-plan-component', SubscriptionsStatsByPlanC
 app.component('chartjs-component', ChartJsComponent);
 app.component('navbar-notifications-component', NavbarNotificationsComponent);
 app.component('notifications-component', NotificationsComponent);
+app.component('semesters-component', SemestersComponent);
 
 app.provide('trans', translation.translate);
 

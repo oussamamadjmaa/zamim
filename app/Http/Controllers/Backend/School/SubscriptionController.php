@@ -11,6 +11,7 @@ use App\Models\Subscription\SubscriptionPayment;
 use App\Services\PaymentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Str;
 
 class SubscriptionController extends Controller
 {
@@ -28,7 +29,7 @@ class SubscriptionController extends Controller
             $subscription = json_decode(SubscriptionResource::make($subscription->load('plan'))->toJson());
         }
 
-        $paymentOnHold = $school->subscription_payments()->whereStatus(SubscriptionPayment::ON_HOLD)->count() > 0;
+        $paymentOnHold = $school->subscription_payments()->whereIn('status', [SubscriptionPayment::ON_HOLD, SubscriptionPayment::IN_REVIEW])->count() > 0;
 
         $canRenew = !$paymentOnHold && $subscription;
         $canChangePlan = !$paymentOnHold && !$school->subscription?->isActive();
@@ -47,8 +48,8 @@ class SubscriptionController extends Controller
 
         $school = auth()->user()->school;
 
-        //Check if user already has payment on hold
-        $paymentOnHold = $school->subscription_payments()->whereStatus(SubscriptionPayment::ON_HOLD)->count();
+        //Check if user already has payment on hold or review
+        $paymentOnHold = $school->subscription_payments()->whereIn('status', [SubscriptionPayment::ON_HOLD, SubscriptionPayment::IN_REVIEW])->count();
         if ($paymentOnHold) {
             return redirect()->route('school.subscription.index');
         }
@@ -73,8 +74,8 @@ class SubscriptionController extends Controller
             return redirect()->route('school.subscription.index');
         }
 
-        //Check if user already has payment on hold
-        if ($school->subscription_payments()->whereStatus(SubscriptionPayment::ON_HOLD)->count()) {
+        //Check if user already has payment on hold or review
+        if ($school->subscription_payments()->whereIn('status', [SubscriptionPayment::ON_HOLD, SubscriptionPayment::IN_REVIEW])->count()) {
             return redirect()->route('school.subscription.index');
         }
 
@@ -87,7 +88,10 @@ class SubscriptionController extends Controller
     public function processCheckout(Request $request) {
         $request->validate([
             'plan_id' => ['required', 'exists:plans,id'],
-            'payment_method' => ['required', 'in:'. implode(array_keys(config('payment-methods')))],
+            'payment_method' => ['required', 'in:'. implode(',', array_keys(config('payment-methods')))],
+            'image' => 'required_if:payment_method,bank_transfer|image|mimes:jpeg,png,jpg|max:2048'
+        ], [
+            'image.required_if' => __('Bank transfer receipt image is required')
         ]);
 
         $school = auth()->user()->school;
@@ -96,25 +100,29 @@ class SubscriptionController extends Controller
 
         $plan = Plan::find($request->plan_id);
 
-        //Check if user already has payment on hold
-        $paymentOnHold = $school->subscription_payments()->whereStatus(SubscriptionPayment::ON_HOLD)->count();
+        //Check if user already has payment on hold or review
+        $paymentOnHold = $school->subscription_payments()->whereIn('status', [SubscriptionPayment::ON_HOLD, SubscriptionPayment::IN_REVIEW])->count();
         if ($paymentOnHold) {
             return redirect()->route('school.subscription.index');
         }
 
         //Create new payment or continue from pending payment
-        $lastPendingPayment = $school->subscription_payments()->where('status', SubscriptionPayment::PENDING)->wherePlanId($plan->id)->latest()->first();
-        $subscriptionPayment = $lastPendingPayment ?: $this->createSubscriptionPayment($school, $plan);
+        $lastPendingPayment = $school->subscription_payments()->wherePaymentMethod($request->payment_method)->where('status', SubscriptionPayment::PENDING)->wherePlanId($plan->id)->latest()->first();
+        $subscriptionPayment = $lastPendingPayment ?: $this->createSubscriptionPayment($school, $plan, $request->payment_method);
 
         //Cancel pending payments if exists
-        $school->subscription_payments()->whereStatus(SubscriptionPayment::PENDING)->where('id', '!=', $subscriptionPayment->id)->update(['status' => SubscriptionPayment::CANCELED, 'comment' => 'Canceled by user']);
+        $school->subscription_payments()->whereStatus(SubscriptionPayment::PENDING)->where('id', '!=', $subscriptionPayment->id)->update(['status' => SubscriptionPayment::CANCELED, 'comment' => 'User initiated another payment']);
 
-        return $this->{'handle'.ucfirst($request->payment_method).'Payment'}($plan, $subscriptionPayment);
+        if ($request->payment_method == 'bank_transfer' && $request->hasFile('image')) {
+            $subscriptionPayment = $this->uploadAndSaveReceipt($subscriptionPayment, $request->file('image'));
+        }
+
+        return $this->{'handle'.Str::studly($request->payment_method).'Payment'}($plan, $subscriptionPayment);
     }
 
     public function paymentStatus(SubscriptionPayment $subscriptionPayment) {
         abort_if($subscriptionPayment->payer_id != auth()->user()->school_id, 404);
-        if (!in_array($subscriptionPayment->status, ['completed', 'failed', 'on_hold'])) {
+        if (!in_array($subscriptionPayment->status, ['completed', 'failed', 'on_hold', 'in_review'])) {
             return redirect()->route('school.subscription.index');
         }
 
@@ -124,16 +132,24 @@ class SubscriptionController extends Controller
     protected function handlePayfortPayment(Plan $plan, SubscriptionPayment $subscriptionPayment) {
         $callbackUrl = route('school.subscription.payment_callback', 'payfort');
 
-        $payfortForm = $this->paymentService->createPaymentIntent($plan->price, $subscriptionPayment->merchant_reference, $plan->currency, $callbackUrl, $subscriptionPayment->customer_email, $plan->short_description);
+        $payfortForm = $this->paymentService->createPaymentIntent($plan->price, $subscriptionPayment->merchant_reference, $plan->currency, $callbackUrl, $subscriptionPayment->customer_email, 'Plan subscription payment #'.$subscriptionPayment->id);
 
         return view('backend.school.subscription.partials.payfort_payment', compact('payfortForm'));
     }
 
-    protected function createSubscriptionPayment(School $school, Plan $plan)
+    protected function handleBankTransferPayment(Plan $plan, SubscriptionPayment $subscriptionPayment) {
+
+        $subscriptionPayment->status = SubscriptionPayment::IN_REVIEW;
+        $subscriptionPayment->save();
+
+        return redirect()->route('school.subscription.payment.status', $subscriptionPayment->id);
+    }
+
+    protected function createSubscriptionPayment(School $school, Plan $plan, $paymentMethod)
     {
         return $school->subscription_payments()->create([
             'plan_id' => $plan->id,
-            'payment_method' => 'payfort',
+            'payment_method' => $paymentMethod,
             'amount' => $plan->price,
             'currency' => $plan->currency,
             'customer_email' => $school->email,
@@ -143,5 +159,17 @@ class SubscriptionController extends Controller
             'status' => SubscriptionPayment::PENDING,
             'initiated_at' => now()
         ]);
+    }
+
+    private function uploadAndSaveReceipt(SubscriptionPayment $subscriptionPayment, $receipt) {
+        $path = $receipt->store('bank_transfer_receipts/'.date('Y-m'), 'public');
+        $subscriptionPayment->receipt()->create([
+            'path' => $path,
+            'file_size' => $receipt->getSize(),
+            'file_type' => $receipt->getMimeType(),
+            'type' => 'receipt'
+        ]);
+
+        return $subscriptionPayment;
     }
 }

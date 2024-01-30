@@ -9,7 +9,7 @@ import MainPaginationComponent from '../../../../vue-components/backend/MainPagi
 
 const trans = inject('trans');
 
-const { students, getStudents, getStudent, storeStudent, studentForm, destroyStudent } = useStudents()
+const { students, getStudents, getStudent, storeStudent, studentForm, destroyStudent, importStudentForm, importStudents } = useStudents()
 
 const createStudent = async () => {
     await storeStudent();
@@ -18,6 +18,7 @@ const createStudent = async () => {
         studentForm.value.show = false;
     }
 }
+
 const editStudent = async (student) => {
     students.value.isProccessing = true
     student = await getStudent(student.id)
@@ -43,6 +44,15 @@ const closeModal = () => {
     studentForm.value.errors = []
 }
 
+const closeImportModal = () => {
+    importStudentForm.value.show = false
+    importStudentForm.value.errors = []
+}
+
+const handleExcelFileChange = (event) => {
+    importStudentForm.value.data.file = event.target.files.length > 0 ? event.target.files[0] : null;
+}
+//
 watchEffect(() => {
     if(!studentForm.value.show) {
         studentForm.value.response = null
@@ -52,6 +62,11 @@ watchEffect(() => {
             studentForm.value.update = null
         }
 
+    }
+
+    if(!importStudentForm.value.show) {
+        importStudentForm.value.response = null
+        importStudentForm.value.errors = []
     }
 })
 
@@ -85,10 +100,13 @@ const onSearch = (event) => {
             <div class="d-flex flex-wrap justify-content-between">
                 <h6 class="h7" v-text="trans('Students')"></h6>
                 <input type="text"
-                        class="form-control" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
+                        class="form-control mb-2" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
                 <div class="text-end">
-                    <button class="primary-button" @click="studentForm.show = !studentForm.show">
-                        {{ trans('Add new student') }}
+                    <button class="button bg-primary mb-2 me-2" @click="importStudentForm.show = !importStudentForm.show">
+                        <ion-icon name="cloud-upload-outline"></ion-icon> {{ trans('Import students') }}
+                    </button>
+                    <button class="primary-button mb-2" @click="studentForm.show = !studentForm.show">
+                        <ion-icon name="add"></ion-icon> {{ trans('Add new student') }}
                     </button>
                 </div>
             </div>
@@ -143,7 +161,7 @@ const onSearch = (event) => {
                         <td><a :href="'mailto:'+student.email" v-text="student.email"></a></td>
                         <td v-text="student.profile.parentName"></td>
                         <td>
-                            <a v-if="student.phone_number" :href="'tel:'+student.phone_number" v-text="student.phone_number" dir="ltr"></a>
+                            <a v-if="student.phoneNumber" :href="'tel:'+student.phoneNumber" v-text="student.phoneNumber" dir="ltr"></a>
                             <template v-else>{{ trans('Not included') }}</template>
                         </td>
                         <td>
@@ -186,7 +204,7 @@ const onSearch = (event) => {
                 <div class="row">
                     <InputComponent class="col-md-6" :errors="studentForm.errors.name" label='<ion-icon name="person"></ion-icon>' placeholder="Student name" v-model='studentForm.data.name' :required="true" />
 
-                    <InputComponent class="col-md-6" type="email" :errors="studentForm.errors.email" label='<ion-icon name="mail"></ion-icon>' placeholder="Official email" v-model='studentForm.data.email' />
+                    <InputComponent class="col-md-6" type="email" :errors="studentForm.errors.email" label='<ion-icon name="mail"></ion-icon>' placeholder="Official email" v-model='studentForm.data.email' :required="true" />
 
                     <InputComponent class="col-md-6" type="select" :searchable="true" label='<ion-icon name="school"></ion-icon>' placeholder="Level"  :errors="studentForm.errors['profile.level']" v-model="studentForm.data.profile.level" :options="{'primary' : trans('Primary'), 'middle' : trans('Middle') , 'secondary' : trans('Secondary')}"  :required="true">
                     </InputComponent>
@@ -212,6 +230,41 @@ const onSearch = (event) => {
                         ) }}
                     </button>
                     <button type="button" class="secondary-button ms-2" @click="closeModal()">{{
+                            trans('Close')
+                    }}</button>
+                </div>
+            </form>
+        </div>
+    </MainModalComponent>
+
+    <!-- Import students form -->
+    <MainModalComponent v-if="importStudentForm.show" @closeModal="closeImportModal()" :class="{'w-1000px': true}">
+        <div class="p-5 px-4">
+            <form @submit.prevent="importStudents()">
+
+                <InputComponent type="select" :searchable="true" label='<ion-icon name="school"></ion-icon>' placeholder="Level"  :errors="importStudentForm.errors.level" v-model="importStudentForm.data.level" :options="{'primary' : trans('Primary'), 'middle' : trans('Middle') , 'secondary' : trans('Secondary')}" :required="true">
+                </InputComponent>
+
+                <div class="mb-3 col-12">
+                    <div class="mb-3">
+                        <label for="file" class="form-label" v-text="trans('Excel file')"></label>
+                        <input
+                            type="file"
+                            class="form-control"
+                            @change="handleExcelFileChange($event)"
+                            id="file"
+                            :placeholder="trans('Excel file')"
+                            accept=".xlsx, .xls"
+                            required
+                        />
+                    </div>
+
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="primary-button" :disabled="importStudentForm.processing">
+                        {{ importStudentForm.processing ? trans('Please wait') + ' (' + importStudentForm.process.percent + '%)' : trans('Import') }}
+                    </button>
+                    <button type="button" class="secondary-button ms-2" @click="closeImportModal()">{{
                             trans('Close')
                     }}</button>
                 </div>

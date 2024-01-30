@@ -23,6 +23,11 @@ class Student extends User {
 
         static::creating(function ($query) {
             $query->role = 'student';
+            $query->password = $query->password ?: bcrypt(\Str::random(9));
+        });
+
+        static::updating(function ($query) {
+            $query->deleted_at = null;
         });
     }
 

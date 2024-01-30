@@ -1,10 +1,5 @@
 .auth-container {
     @media (min-width:992px) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
         display: flex;
 
         > *{
@@ -12,12 +7,15 @@
         }
 
         .login-page-bg {
+            position: sticky;
+            top: 0;
+            height: 100vh;
             background: url('../images/pic4.jpg') var(--main-white) no-repeat;
             background-size: cover;
             background-position: center;
         }
     }
-    
+
 
     .auth-content {
         @media (min-width:992px) {

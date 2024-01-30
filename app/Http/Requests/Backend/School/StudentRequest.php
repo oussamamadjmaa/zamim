@@ -28,7 +28,7 @@ class StudentRequest extends FormRequest
 
         return [
             'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => ['nullable', 'string', $emailRule, 'max:255', 'unique:users,email,'.$studentId],
+            'email'                 => ['required', 'string', $emailRule, 'max:255', 'unique:users,email,'.$studentId],
             'phone_number'          => ['required', 'regex:/[0-9]/', 'not_regex:/[A-z]/', 'between:8,16'],
             'profile'               => ['required', 'array'],
             'profile.parent_name'   => ['required', 'string', 'max:255'],

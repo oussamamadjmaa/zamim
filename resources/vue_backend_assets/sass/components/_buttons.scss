@@ -9,9 +9,14 @@
     transition: all .2s ease-in-out;
     white-space: nowrap;
 
-    &:not(.no-hover):hover {
+    &:not(.no-hover,:disabled):hover {
         background-color: var(--main-white);
         color: var(--button-bg);
+    }
+
+    &:disabled {
+        opacity: .6;
+        cursor: not-allowed;
     }
 
     @media (max-width:575px) {

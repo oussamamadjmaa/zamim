@@ -57,6 +57,7 @@ class ViewServiceProvider extends ServiceProvider
             $this->sidebarLink('Dashboard', route('admin.dashboard'), 'admin.dashboard', 'home-1'),
             $this->sidebarLink('Statistics', route('admin.statistics.index'), 'admin.statistics.*', 'bar-graph-3'),
             $this->sidebarLink('Subscriptions', route('admin.subscriptions.index'), 'admin.subscriptions.*', 'cash'),
+            $this->sidebarLink('Semesters', route('admin.semesters.index'), 'admin.semesters.*', 'calendar-1'),
             $this->sidebarLink('Profile', route('admin.profile.index'), 'admin.profile.*', 'user-2'),
         ];
     }

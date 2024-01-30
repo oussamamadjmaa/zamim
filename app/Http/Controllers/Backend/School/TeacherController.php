@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Backend\School;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\TeacherRequest;
-use App\Http\Resources\TeacherCollection;
 use App\Http\Resources\TeacherResource;
+use App\Imports\TeachersImport;
 use App\Models\Teacher;
+use Excel;
 use Illuminate\Http\Request;
-use Str;
 
 class TeacherController extends Controller
 {
@@ -37,7 +37,7 @@ class TeacherController extends Controller
         }
         $teachers = Teacher::whereSchoolId(auth()->user()->school_id)->search($request->search)->latest('id')->paginate(15)->withQueryString();
 
-        return new TeacherCollection($teachers);
+        return TeacherResource::collection($teachers);
     }
 
     /**
@@ -50,8 +50,6 @@ class TeacherController extends Controller
     {
         //
         $teacherData = $request->only(['name', 'email','phone_number']);
-        $password = Str::random(9);
-        $teacherData['password'] = bcrypt($password);
 
         //
         $teacher = auth()->user()->school()->teachers()->create($teacherData);
@@ -61,6 +59,22 @@ class TeacherController extends Controller
             'message' => __('Data created successfully'),
             'data' => new TeacherResource($teacher)
         ]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => ['required', 'file', 'mimes:xlsx,xls', 'max:20480'],
+        ]);
+
+        try {
+            Excel::import(new TeachersImport(auth()->user()->school), $request->file('file'));
+
+            return response(['message' => __(':count Teachers has been imported successfully', ['count' => session()->pull('imported_teachers')])]);
+
+        } catch (\Throwable $th) {
+            return response(['message' => 'Failed to import file'], 422);
+        }
     }
 
     /**

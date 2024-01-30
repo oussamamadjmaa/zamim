@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Backend\School;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\RadioRequest;
-use App\Http\Resources\RadioCollection;
 use App\Http\Resources\RadioResource;
 use App\Models\Radio;
 use Illuminate\Http\Request;
-use Str;
 
 class RadioController extends Controller
 {
@@ -32,7 +30,7 @@ class RadioController extends Controller
     {
         $radios = Radio::whereSchoolId(auth()->user()->school_id)->with(['students:id,name','teacher:id,name'])->latest('radio_date')->paginate(15)->withQueryString();
 
-        return new RadioCollection($radios);
+        return RadioResource::collection($radios);
     }
 
     /**
@@ -44,12 +42,14 @@ class RadioController extends Controller
     public function store(RadioRequest $request)
     {
         //
-        $radioData = $request->only(['name', 'bg_image','class', 'radio_date', 'teacher_id']);
+        $radioData = $request->only(['class', 'radio_date', 'teacher_id']);
 
         //
         $radio = auth()->user()->school()->radios()->create($radioData);
 
         $radio->students()->attach($request->students);
+
+        $radio->load(['students:id,name','teacher:id,name']);
 
         return response()->json([
             'status' => 200,
@@ -86,8 +86,6 @@ class RadioController extends Controller
     public function update(RadioRequest $request, Radio $radio)
     {
         //
-        $radio->name = $request->name;
-        $radio->bg_image = $request->bg_image;
         $radio->class = $request->class;
         $radio->radio_date = $request->radio_date;
         $radio->teacher_id = $request->teacher_id;

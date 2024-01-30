@@ -7,6 +7,7 @@ use AmazonPaymentServicesSdk\AmazonPaymentServices\Merchant\APSMerchant;
 use App\Extensions\CustomDatabaseSessionHandler;
 use App\Models\SiteConfig;
 use Cookie;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 use Session;

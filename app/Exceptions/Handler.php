@@ -61,19 +61,19 @@ class Handler extends ExceptionHandler
         });
     }
 
-    // public function render($request, Throwable $exception)
-    // {
-    //     $routePrefix = getRoutePrefix();
+    public function render($request, Throwable $exception)
+    {
+        $routePrefix = getRoutePrefix();
 
-    //     if (!$request->expectsJson() && ($exception instanceof NotFoundHttpException || $exception instanceof ModelNotFoundException)) {
-    //         // Customize error page based on the panel
-    //         if ($routePrefix === 'web' || !$this->auth->check()) {
-    //             return response()->view('errors.frontend.404', [], 404);
-    //         } elseif (in_array($routePrefix, ['school', 'portal', 'admin'])) {
-    //             return response()->view('errors.backend.404', [], 404);
-    //         }
-    //     }
+        if (!$request->expectsJson() && ($exception instanceof NotFoundHttpException || $exception instanceof ModelNotFoundException)) {
+            // Customize error page based on the panel
+            if ($routePrefix === 'web' || !$this->auth->check()) {
+                return response()->view('errors.frontend.404', [], 404);
+            } elseif (in_array($routePrefix, ['school', 'portal', 'admin'])) {
+                return response()->view('errors.backend.404', [], 404);
+            }
+        }
 
-    //     return parent::render($request, $exception);
-    // }
+        return parent::render($request, $exception);
+    }
 }

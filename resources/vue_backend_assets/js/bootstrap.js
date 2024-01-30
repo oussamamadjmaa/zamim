@@ -5,6 +5,7 @@
  */
 import { useToast } from "vue-toastification";
 import axios from 'axios';
+import 'clickout-event';
 
 //Axios
 window.axios = axios;
@@ -22,6 +23,10 @@ const toastOptions = {
 };
 
 window.toast = useToast(toastOptions);
+
+//
+const queryString = window.location.search;
+window.urlParams = new URLSearchParams(queryString);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

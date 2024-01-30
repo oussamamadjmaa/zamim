@@ -31,8 +31,6 @@ class RadioRequest extends FormRequest
         $radioId = $this->route('radio')?->id;
 
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'bg_image' => ['required', new ValidateFileRule('radio-bgs')],
             'class'  => ['required', 'string', 'max:20'],
             'radio_date' => ['required', 'date', 'date_format:Y-m-d', Rule::unique('radios')->where(function ($query) use ($request, $radioId) {
                 return $query->where('radio_date', $request->input('radio_date'))

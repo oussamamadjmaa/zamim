@@ -9,7 +9,7 @@ import MainPaginationComponent from '../../../../vue-components/backend/MainPagi
 
 const trans = inject('trans');
 
-const { teachers, getTeachers, getTeacher, storeTeacher, teacherForm, destroyTeacher } = useTeachers()
+const { teachers, getTeachers, getTeacher, storeTeacher, teacherForm, destroyTeacher, importTeacherForm, importTeachers } = useTeachers()
 
 const createTeacher = async () => {
     await storeTeacher();
@@ -37,6 +37,14 @@ const closeModal = () => {
     teacherForm.value.errors = []
 }
 
+const closeImportModal = () => {
+    importTeacherForm.value.show = false
+    importTeacherForm.value.errors = []
+}
+
+const handleExcelFileChange = (event) => {
+    importTeacherForm.value.data.file = event.target.files.length > 0 ? event.target.files[0] : null;
+}
 watchEffect(() => {
     if(!teacherForm.value.show) {
         teacherForm.value.response = null
@@ -78,8 +86,11 @@ const onSearch = (event) => {
             <div class="d-flex flex-wrap justify-content-between">
                 <h6 class="h7" v-text="trans('Teachers')"></h6>
                 <input type="text"
-                        class="form-control" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
+                        class="form-control mb-2" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
                 <div class="text-end">
+                    <button class="button bg-primary mb-2 me-2" @click="importTeacherForm.show = !importTeacherForm.show">
+                        <ion-icon name="cloud-upload-outline"></ion-icon> {{ trans('Import teachers') }}
+                    </button>
                     <button class="primary-button" @click="teacherForm.show = !teacherForm.show">
                         {{ trans('Add new teacher') }}
                     </button>
@@ -180,6 +191,37 @@ const onSearch = (event) => {
                         ) }}
                     </button>
                     <button type="button" class="secondary-button ms-2" @click="closeModal()">{{
+                            trans('Close')
+                    }}</button>
+                </div>
+            </form>
+        </div>
+    </MainModalComponent>
+
+    <!-- Import teachers form -->
+    <MainModalComponent v-if="importTeacherForm.show" @closeModal="closeImportModal()" :class="{'w-1000px': true}">
+        <div class="p-5 px-4">
+            <form @submit.prevent="importTeachers()">
+                <div class="mb-3 col-12">
+                    <div class="mb-3">
+                        <label for="file" class="form-label" v-text="trans('Excel file')"></label>
+                        <input
+                            type="file"
+                            class="form-control"
+                            @change="handleExcelFileChange($event)"
+                            id="file"
+                            :placeholder="trans('Excel file')"
+                            accept=".xlsx, .xls"
+                            required
+                        />
+                    </div>
+
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="primary-button" :disabled="importTeacherForm.processing">
+                        {{ importTeacherForm.processing ? trans('Please wait') + ' (' + importTeacherForm.process.percent + '%)' : trans('Import') }}
+                    </button>
+                    <button type="button" class="secondary-button ms-2" @click="closeImportModal()">{{
                             trans('Close')
                     }}</button>
                 </div>

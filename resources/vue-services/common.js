@@ -17,8 +17,12 @@ export default function useCommon() {
 
             return res;
         } catch (err) {
-            if(showErrorNotification && err.response && (err.response.data.message || err.message)) {
-                window.toast.error(err.response.data.message || err.message)
+            let errorMessage = err.response.data.message || err.message;
+            if (errorMessage == 'Unauthenticated.') {
+                window.location.href = `${window._app.url}/login?logged_out=true`;
+            }
+            if(showErrorNotification && err.response && errorMessage) {
+                window.toast.error(errorMessage)
             }
             return err.response;
         }
@@ -49,7 +53,7 @@ export default function useCommon() {
         })
     }
 
-    const storeForm = async (formRef, fetchAllRef) => {
+    const storeForm = async (formRef, fetchAllRef, {config = {}, headers = {}, successCallback = false} = {}) => {
         const url = (!formRef.value.update) ? formRef.value.createUrl : formRef.value.updateUrl+'/'+formRef.value.update.id
 
         if(formRef.value.update) {
@@ -59,20 +63,38 @@ export default function useCommon() {
         formRef.value.response = null
         formRef.value.errors = []
         formRef.value.processing = true
+        formRef.value.process = {}
 
-        const res = await callApi({url: url, method: 'POST', data: formRef.value.data})
+        const res = await callApi({
+            url: url,
+            method: 'POST',
+            data: formRef.value.data,
+            headers:headers,
+            config: {
+                onUploadProgress: (progressEvent) => {
+                    const { loaded, total } = progressEvent;
+                    let percent = Math.floor((loaded * 100) / total);
+                    formRef.value.process = {
+                        loaded, total, percent
+                    }
+                },
+                ...config
+            }
+        })
 
         formRef.value.processing = false
         formRef.value.response = res
 
         if(res.status == 200) {
-
+            if (successCallback && typeof successCallback == 'function') {
+                return successCallback(res);
+            }
             if(!res.data || !res.data.data) return res;
             if(!formRef.value.update) {
                 formRef.value.data = formRef.value.defaultData
                 if(fetchAllRef && fetchAllRef.value.list) fetchAllRef.value.list.unshift(res.data.data)
             }else {
-                if(fetchAllRef && fetchAllRef.value.list) fetchAllRef.value.list = fetchAllRef.value.list.map((teacher) => (teacher.id == formRef.value.update.id) ? res.data.data : teacher)
+                if(fetchAllRef && fetchAllRef.value.list) fetchAllRef.value.list = fetchAllRef.value.list.map((listItem) => (listItem.id == formRef.value.update.id) ? res.data.data : listItem)
             }
         }else if(res.status == 422) {
             formRef.value.errors = res.data.errors || []
@@ -117,10 +139,20 @@ export default function useCommon() {
         url.searchParams.append('timestamp', new Date().getTime())
         url = url.href
 
-        const res = await callApi({url:url})
+        try {
+            const res = await new Promise((resolve) => {
+                setTimeout(async () => {
+                    const apiResponse = await callApi({url:url})
+                    resolve(apiResponse);
+                }, 100);
+            });
 
-        if(res.status == 200)  return res.data.data;
-        return false;
+            if (res.status === 200) {
+                return res.data.data;
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 
     const appendSearchParams = (url, paramName, paramValue) => {

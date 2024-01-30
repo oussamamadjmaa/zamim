@@ -55,6 +55,29 @@ class SubscriptionController extends Controller
         return response()->json(['data' => $stats]);
     }
 
+    public function show(SubscriptionPayment $subscriptionPayment) {
+        abort_if(!request()->expectsJson(), 404);
+        $subscriptionPayment->load(['payer', 'plan', 'receipt']);
+
+        return new SubscriptionPaymentResource($subscriptionPayment);
+    }
+
+    public function doAction(Request $request,SubscriptionPayment $subscriptionPayment, $action) {
+        abort_if(!in_array($action, ['confirm', 'cancel']) || $subscriptionPayment->status != $subscriptionPayment::IN_REVIEW, 403);
+
+        $request->validate([
+            'comment' => 'nullable|string'
+        ]);
+
+        if($action == 'confirm') $subscriptionPayment = $subscriptionPayment->complete($request->comment);
+        else if($action == 'cancel') $subscriptionPayment = $subscriptionPayment->failed($request->comment);
+
+        $subscriptionPayment->load(['payer', 'plan', 'receipt']);
+        return new SubscriptionPaymentResource($subscriptionPayment);
+    }
+
+
+
     protected function getSubscriptions($request)
     {
         $subscriptions = PlanSubscription::with(['subscriber', 'plan'])->search($request->search)->latest()->when($request->get('without_pagination'), fn ($q) => $q->limit(5)->get(), fn ($q) => $q->latest()->paginate(15)->withQueryString());
@@ -64,7 +87,7 @@ class SubscriptionController extends Controller
 
     protected function getPaymentsHistory($request, $school)
     {
-        $subscriptionPayments = ($school ? $school->subscription_payments() : SubscriptionPayment::query())->with(['plan', 'payer'])->latest()->when($request->get('without_pagination'), fn ($q) => $q->limit(5)->get(), fn ($q) => $q->latest()->paginate(15)->withQueryString());
+        $subscriptionPayments = ($school ? $school->subscription_payments() : SubscriptionPayment::query())->with(['plan', 'payer', 'receipt'])->latest()->when($request->get('without_pagination'), fn ($q) => $q->limit(5)->get(), fn ($q) => $q->latest()->paginate(15)->withQueryString());
 
         return SubscriptionPaymentResource::collection($subscriptionPayments);
     }
