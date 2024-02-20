@@ -68,7 +68,7 @@ class ViewServiceProvider extends ServiceProvider
             $this->sidebarLink('Students', route('school.students.index'), 'school.students.*', 'group'),
             $this->sidebarLink('Teachers', route('school.teachers.index'), 'school.teachers.*', 'users'),
             $this->sidebarLink('School Radio', route('school.radios.index'), 'school.radios.*', 'radio'),
-            $this->sidebarLink('Activities', route('school.activities.index'), 'school.activities.*', 'grid-apps'),
+            // $this->sidebarLink('Activities', route('school.activities.index'), 'school.activities.*', 'grid-apps'),
             $this->sidebarLink('Subscription', route('school.subscription.index'), 'school.subscription.*', 'cash'),
             $this->sidebarLink('Profile', route('school.profile.index'), 'admin.profile.*', 'user-2'),
         ];

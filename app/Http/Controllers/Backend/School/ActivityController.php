@@ -13,7 +13,10 @@ class ActivityController extends Controller
     public function __construct()
     {
         //Middleware
-        $this->authorizeResource(Activity::class);
+        // $this->authorizeResource(Activity::class);
+        $this->middleware(function() {
+            return abort(404);
+        });
     }
     /**
      * Display a listing of the resource.
