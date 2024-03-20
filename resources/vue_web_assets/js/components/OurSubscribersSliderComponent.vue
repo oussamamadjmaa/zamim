@@ -13,62 +13,22 @@
                 }"
             :navigation="false"
             class="mySwiper">
-        <swiper-slide>
+        <swiper-slide v-for="subscriber in subscribers.list">
             <div class="subscriber-card">
                 <div class="subscriber-image">
                     <div class="subscriber-image__holder">
-                        <img src="../../images/slider3.jpeg" alt="">
+                        <img :src="subscriber.cover" :alt="subscriber.name">
                     </div>
                 </div>
                 <div class="subscriber-info d-flex align-items-center py-3 px-2">
                     <div class="subscriber-avatar">
                         <div class="subscriber-avatar__holder">
-                            <img src="../../images/school-avatar.jpeg" alt="">
+                            <img :src="subscriber.avatar" alt="">
                         </div>
                     </div>
                     <div class="d-flex flex-wrap flex-grow-1 justify-content-between">
-                        <div class="subscriber-name">الإذاعة المدرسية رقم 1</div>
-                        <div class="students-count">120 طالبا مشتركا</div>
-                    </div>
-                </div>
-            </div>
-        </swiper-slide>
-        <swiper-slide>
-            <div class="subscriber-card">
-                <div class="subscriber-image">
-                    <div class="subscriber-image__holder">
-                        <img src="../../images/slider2.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="subscriber-info d-flex align-items-center py-3 px-2">
-                    <div class="subscriber-avatar">
-                        <div class="subscriber-avatar__holder">
-                            <img src="../../images/school-avatar.jpeg" alt="">
-                        </div>
-                    </div>
-                    <div class="d-flex flex-wrap flex-grow-1 justify-content-between">
-                        <div class="subscriber-name">الإذاعة المدرسية رقم 1</div>
-                        <div class="students-count">120 طالبا مشتركا</div>
-                    </div>
-                </div>
-            </div>
-        </swiper-slide>
-        <swiper-slide>
-            <div class="subscriber-card">
-                <div class="subscriber-image">
-                    <div class="subscriber-image__holder">
-                        <img src="../../images/slider1.jpeg" alt="">
-                    </div>
-                </div>
-                <div class="subscriber-info d-flex align-items-center py-3 px-2">
-                    <div class="subscriber-avatar">
-                        <div class="subscriber-avatar__holder">
-                            <img src="../../images/school-avatar.jpeg" alt="">
-                        </div>
-                    </div>
-                    <div class="d-flex flex-wrap flex-grow-1 justify-content-between">
-                        <div class="subscriber-name">الإذاعة المدرسية رقم 1</div>
-                        <div class="students-count">120 طالبا مشتركا</div>
+                        <div class="subscriber-name" v-text="subscriber.name"></div>
+                        <div class="students-count"><span v-text="subscriber.students_count"></span> طالبا مشتركا</div>
                     </div>
                 </div>
             </div>
@@ -86,6 +46,9 @@ export default {
     components: {
         Swiper,
         SwiperSlide,
+    },
+    props: {
+        subscribers: Object
     },
 };
 </script>

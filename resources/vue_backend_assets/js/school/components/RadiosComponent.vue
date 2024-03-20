@@ -5,10 +5,9 @@ import useStudents from '../services/students-service.js'
 import useTeachers from '../services/teachers-service.js'
 import MainModalComponent from '../../../../vue-components/backend/MainModalComponent.vue'
 import InputComponent from '../../../../vue-components/backend/FormParts/InputComponent.vue';
-import MainPaginationComponent from '../../../../vue-components/backend/MainPaginationComponent.vue';
+import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue';
 
 const trans = inject('trans');
-
 
 const { radios, getRadios, getRadio, storeRadio, radioForm, destroyRadio } = useRadios()
 const { students, getStudents } = useStudents()
@@ -39,6 +38,14 @@ const editRadio = async (radio) => {
 const closeModal = () => {
     radioForm.value.show = false
     radioForm.value.errors = []
+}
+
+const filteredRadios = (weekNumber) => {
+    let filteredRadios = radios.value.list.filter(radio => radio.weekNumber === parseInt(weekNumber));
+
+    radios.value.response.data.weeks[`week-${weekNumber}`].show = filteredRadios.length;
+
+    return filteredRadios.sort((a, b) => new Date(a.radioDate) - new Date(b.radioDate));
 }
 
 watchEffect(() => {
@@ -91,24 +98,18 @@ getTeachers();
 </script>
 <template>
     <!-- Radios list -->
-    <div class="row px-0 mx-0">
-        <div class="col-md-4 mb-4">
-            <div class="bg-white border rounded-16 py-4 px-4 h-100">
-                <h6 class="h7 mb-2"><ion-icon name="radio-outline"></ion-icon> <span v-text="trans('School Radio')"></span>
-                </h6>
-                <p class="p5 mb-4">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
-                <a href="javascript:;" class="action-box" @click="radioForm.show = !radioForm.show">
-                    <div class="action-box-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56" fill="none">
-                            <path
-                                d="M49.875 28C49.875 28.6962 49.5984 29.3639 49.1062 29.8562C48.6139 30.3484 47.9462 30.625 47.25 30.625H30.625V47.25C30.625 47.9462 30.3484 48.6139 29.8562 49.1062C29.3639 49.5984 28.6962 49.875 28 49.875C27.3038 49.875 26.6361 49.5984 26.1438 49.1062C25.6516 48.6139 25.375 47.9462 25.375 47.25V30.625H8.75C8.05381 30.625 7.38613 30.3484 6.89384 29.8562C6.40156 29.3639 6.125 28.6962 6.125 28C6.125 27.3038 6.40156 26.6361 6.89384 26.1438C7.38613 25.6516 8.05381 25.375 8.75 25.375H25.375V8.75C25.375 8.05381 25.6516 7.38613 26.1438 6.89384C26.6361 6.40156 27.3038 6.125 28 6.125C28.6962 6.125 29.3639 6.40156 29.8562 6.89384C30.3484 7.38613 30.625 8.05381 30.625 8.75V25.375H47.25C47.9462 25.375 48.6139 25.6516 49.1062 26.1438C49.5984 26.6361 49.875 27.3038 49.875 28Z"
-                                fill="#667080" fill-opacity="0.1" />
-                        </svg>
-                    </div>
-                    <p class="p5 mb-0" v-text="trans('Create your school radio')"></p>
-                </a>
+    <MainCardComponent>
+        <div class="d-flex flex-wrap justify-content-between">
+            <h6 class="h7 mb-2"><ion-icon name="radio-outline"></ion-icon> <span v-text="trans('School Radio')"></span>
+            </h6>
+            <div class="text-end">
+                <button class="primary-button mb-2" @click="radioForm.show = !radioForm.show">
+                    <ion-icon name="add"></ion-icon> {{ trans('Create your school radio') }}
+                </button>
             </div>
         </div>
+        <p class="p5 mb-5">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
+
 
         <!-- Waiting for radios response (Loading) -->
         <template v-if="!radios.response">
@@ -124,7 +125,8 @@ getTeachers();
 
         <!-- If request failed -->
         <template v-else-if="radios.response.status != 200">
-            <div class="text-center text-danger" v-text="radios.response.data.message || radios.response.statusText"></div>
+            <div class="text-center text-danger" v-text="radios.response.data.message || radios.response.statusText">
+            </div>
         </template>
 
         <!-- If no radios data -->
@@ -134,34 +136,36 @@ getTeachers();
 
         <!-- else Show radios list -->
         <template v-else>
-            <div class="col-md-4 mb-4" v-for="radio in radios.list">
-                <div class="radio-box bg-white border rounded-16 h-100 overlay-actions-parent">
-                    <div class="radio-info px-4 pt-3">
-                        <div class="mb-3 text-secondary">
-                            <span v-text="radio.radioDateFormated"></span>
-                        </div>
-                        <div v-if="radio.students">
-                            <b v-text="trans('Participating students') + ': '"></b>
-                            {{ radio.students.map(student => student.name).join(', ') }}
-                        </div>
-                    </div>
-                    <div class="d-flex flex-wrap justify-content-center py-3 px-2" style="gap: 0.7rem; position: sticky;top: 100%;">
-                        <div>
-                            <ion-icon name="person-outline" class="me-2"></ion-icon>
-                            <span v-text="radio.teacher.name"></span>
-                        </div>
-                        <div>
-                            <ion-icon name="bookmark-outline" class="me-2"></ion-icon>
-                            <span v-text="trans('Class') + ' ' +radio.class"></span>
-                        </div>
-                    </div>
-                    <div class="overlay-actions">
-                        <button type="button" class="button secondary-button me-2"
-                            @click="editRadio(radio)"><ion-icon name="eye-outline"></ion-icon></button>
-                        <button type="button" class="primary-button me-2" @click="editRadio(radio)"><ion-icon
-                                name="create-outline"></ion-icon></button>
-                        <button type="button" @click="deleteRadio(radio)" class="button button-red"><ion-icon
-                                name="trash-outline"></ion-icon></button>
+            <div class="row px-0 mx-0">
+                <div class="col-md-6" v-for="(week, weekNumber) in radios.response.data.weeks" :key="weekNumber"
+                    v-show="week.show">
+                    <div class="mx-3">
+                        <table class="table weekly-radios-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="5" v-text="week.title + ' (' + week.weekRangeHijri + ')'">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="radio in filteredRadios(week.weekNumber)">
+                                    <td scope="row" v-text="radio.radioDay"></td>
+                                    <td v-text="radio.radioDateHijri"></td>
+                                    <td v-text="radio.class"></td>
+                                    <td v-text="radio.teacher.name"></td>
+                                    <td>
+                                        <button type="button" class="button secondary-button py-1 px-2 me-2"
+                                            @click="editRadio(radio)"><ion-icon name="eye-outline"></ion-icon></button>
+                                        <button type="button" class="primary-button me-2 py-1 px-2"
+                                            @click="editRadio(radio)"><ion-icon
+                                                name="create-outline"></ion-icon></button>
+                                        <button type="button" @click="deleteRadio(radio)"
+                                            class="button button-red py-1 px-2"><ion-icon
+                                                name="trash-outline"></ion-icon></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -176,10 +180,7 @@ getTeachers();
                 </div>
             </div>
         </template>
-    </div>
-
-    <MainPaginationComponent v-if="radios.list.length" :meta="radios.response.data.meta" @updateList="getRadios" />
-
+    </MainCardComponent>
     <!-- Create radio form -->
     <MainModalComponent v-if="radioForm.show" @closeModal="closeModal()" :class="{ 'w-800px': true }">
         <div class="p-5 px-4">
@@ -188,7 +189,8 @@ getTeachers();
                 <div class="row">
                     <InputComponent class="col-md-6" type="date" :errors="radioForm.errors.radio_date"
                         label='<ion-icon name="calendar"></ion-icon>' placeholder="Radio date"
-                        v-model='radioForm.data.radio_date' :required="true" />
+                        v-model='radioForm.data.radio_date' :minDate="_app.currentSemester.startDate || null"
+                        :maxDate="_app.currentSemester.endDate || null" :required="true" />
 
                     <InputComponent class="col-md-6" :errors="radioForm.errors.class"
                         label='<ion-icon name="bookmark"></ion-icon>' placeholder="Class" v-model='radioForm.data.class'
@@ -196,8 +198,8 @@ getTeachers();
 
                     <InputComponent class="col-md-12" type="select" :searchable="true"
                         label='<ion-icon name="person"></ion-icon>' placeholder="Class leader"
-                        :errors="radioForm.errors.teacher_id" v-model="radioForm.data.teacher_id" :options="teachers.list"
-                        :required="true" />
+                        :errors="radioForm.errors.teacher_id" v-model="radioForm.data.teacher_id"
+                        :options="teachers.list" :required="true" />
 
                     <InputComponent class="col-md-12" type="select" :isModel="false" :searchable="true"
                         label='<ion-icon name="school"></ion-icon>' placeholder="Participating students"
@@ -206,7 +208,8 @@ getTeachers();
 
                     <ul class="d-flex flex-wrap list-unstyled">
                         <li v-for="studentId in radioForm.data.students" @click="onSelectDeleteStudent(studentId)"
-                            class="bg-light p-2 me-2 mb-2 rounded-16"><span v-text="students.list[studentId] || trans('Unknown')"></span></li>
+                            class="bg-light p-2 me-2 mb-2 rounded-16"><span
+                                v-text="students.list[studentId] || trans('Unknown')"></span></li>
                     </ul>
                 </div>
 
@@ -214,10 +217,11 @@ getTeachers();
                 <div class="mt-3">
                     <button type="submit" class="primary-button" :disabled="radioForm.processing">
                         {{ radioForm.processing ? trans('Please wait') : (
-                            radioForm.update ? trans('Update') : trans('Save')
-                        ) }}
+                radioForm.update ? trans('Update') : trans('Save')
+            ) }}
                     </button>
-                    <button type="button" class="secondary-button ms-2" @click="closeModal()">{{ trans('Close') }}</button>
+                    <button type="button" class="secondary-button ms-2" @click="closeModal()">{{ trans('Close')
+                        }}</button>
                 </div>
             </form>
         </div>

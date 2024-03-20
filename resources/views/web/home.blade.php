@@ -1,27 +1,32 @@
 @extends('web.layouts.master')
 @section('content')
         @include('web.layouts.partials.header')
+        @php
+            $hero = $frontendContent->where('section', 'hero')->first();
 
+            $whyus = $frontendContent->where('section', 'whyus')->first();
+
+            $features = $frontendContent->where('section', 'features')->first();
+
+            $subscribers = $frontendContent->where('section', 'subscribers')->first();
+
+            $faq = $frontendContent->where('section', 'faq')->first();
+        @endphp
         <!-- Start : Hero -->
+        @if ($hero && $hero->active)
         <section id="hero">
             <div class="container">
                 <div class="row mx-0 align-items-center">
                     <div class="col-lg-6 mb-4">
                         <!-- Start : Hero content -->
+
                         <div class="hero-content">
-                            <h1 class="welcome" data-aos="fade-up" data-aos-easing="ease-out-cubic">
-                                أهلا بكم في الإذاعة
-                                <div><span class="main-blue">المدرسية</span> الصباحــــــــــــية</div>
-                            </h1>
-                            <p data-aos="fade-up" data-aos-delay="100">منصة الإذاعة المدرسية هي أداة تعليمية مبتكرة تهدف إلى
-                                تعزيز التفاعل والتواصل في بيئة التعليم. تعتبر هذه المنصة جسراً مهماً بين المدارس والطلاب وأولياء
-                                الأمور، حيث تتيح للمدارس إدارة وتنظيم الإذاعات الصباحية بشكل مبتكر وبناء على معايير تقنية عالية.
-                            </p>
+                            <h1 class="welcome" data-aos="fade-up" data-aos-easing="ease-out-cubic">{!! $hero->content->title !!}</h1>
+                            <p data-aos="fade-up" data-aos-delay="100">{{ $hero->content->description }}</p>
 
                             <div>
-                                <a href="#" class="button-main mb-2 me-md-3 me-2" data-aos="fade-up" data-aos-delay="200">تواصل
-                                    معنا</a>
-                                <a href="#" class="link-dark" data-aos="fade-up" data-aos-delay="300">عرض المزيد حول المنصة
+                                <a href="{{ $hero->content->button_1->url }}" class="button-main mb-2 me-md-3 me-2" data-aos="fade-up" data-aos-delay="200">{{ $hero->content->button_1->text }}</a>
+                                <a href="{{ $hero->content->button_2->url }}" class="link-dark" data-aos="fade-up" data-aos-delay="300">{{ $hero->content->button_2->text }}
                                     <ion-icon name="chevron-forward-outline"></ion-icon></a>
                             </div>
 
@@ -55,20 +60,18 @@
                 </div>
             </div>
         </section>
+        @endif
         <!-- End : Hero -->
 
         <!-- Start : Why us -->
+        @if ($whyus && $whyus->active)
         <section id="whyus">
             <div class="container">
                 <!-- Start : Why us brief -->
                 <div class="section-heading">
-                    <h6 data-aos="fade-up" data-aos-delay="200">لوريم ايبسوم</h6>
-                    <h4 data-aos="fade-up" data-aos-delay="300">لماذا قد تختار <span class="main-blue">صوت المدرسة</span>
-                        لإذاعتك المدرسية ؟</h4>
-                    <p data-aos="fade-up" data-aos-delay="400">منصتنا الفريدة تجمع بين التكنولوجيا الحديثة والتعليم التفاعلي
-                        لخلق تجربة تعليمية محورية. إنها أداة قوية تسهل عملية تنظيم وإدارة الإذاعات الصباحية في المدارس بأسلوب
-                        فعّال وبناء. من خلال منصتنا، يمكن للمديرين والمعلمين والطلاب التفاعل بسهولة والمشاركة في تنظيم وتقديم
-                        الإذاعات وتقييم الأداء بناءً على معايير محددة</p>
+                    <h6 data-aos="fade-up" data-aos-delay="200">{{ $whyus->content->heading_text }}</h6>
+                    <h4 data-aos="fade-up" data-aos-delay="300">{!! $whyus->content->title !!}</h4>
+                    <p data-aos="fade-up" data-aos-delay="400">{{ $whyus->content->description }}</p>
                 </div>
                 <!-- End : Why us brief -->
 
@@ -111,90 +114,40 @@
                 <!-- End : Why us cards -->
             </div>
         </section>
+        @endif
         <!-- Start : Why us -->
 
         <!-- Start : Our Features -->
+        @if ($features && $features->active)
         <section id="our-features">
             <div class="container">
+                @foreach ($features->content as $feature)
                 <!-- Start : Feature row -->
                 <div class="feature-row row mx-0 align-items-center">
                     <div class="col-md-6">
                         <div class="feature-image" data-aos="fade-up" data-aos-delay="300">
                             <div class="feature-image-content">
-                                <img src="/web-assets/images/pic1.jpeg" alt="Feature 1">
+                                <img src="{{ asset($feature->image) }}" alt="{{ $feature->title }}">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="feature-description">
-                            <h4 data-aos="fade-up" data-aos-delay="400">لوريم إيبسوم</h4>
-                            <p data-aos="fade-up" data-aos-delay="500">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على
-                                العميل ليتصور طريقه وضع النصوص بالتصاميم
-                                سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع انترنت ...</p>
+                            <h4 data-aos="fade-up" data-aos-delay="400">{{ $feature->title }}</h4>
+                            <p data-aos="fade-up" data-aos-delay="500">{{ $feature->description }}</p>
                             <div>
-                                <a href="#" class="button-main mb-2 me-md-3 me-2" data-aos="fade-up" data-aos-delay="200">تواصل
-                                    معنا</a>
-                                <a href="#" class="link-dark" data-aos="fade-up" data-aos-delay="300">عرض المزيد حول المنصة
+                                <a href="{{ $feature->button_1->url }}" class="button-main mb-2 me-md-3 me-2" data-aos="fade-up" data-aos-delay="200">{{ $feature->button_1->text }}</a>
+                                <a href="{{ $feature->button_2->url }}" class="link-dark" data-aos="fade-up" data-aos-delay="300">{{ $feature->button_2->text }}
                                     <ion-icon name="chevron-forward-outline"></ion-icon></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- End : Feature row -->
-
-                <!-- Start : Feature row -->
-                <div class="feature-row row mx-0 align-items-center">
-                    <div class="col-md-6">
-                        <div class="feature-image" data-aos="fade-up" data-aos-delay="300">
-                            <div class="feature-image-content">
-                                <img src="/web-assets/images/pic2.jpeg" alt="Feature 2">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="feature-description">
-                            <h4 data-aos="fade-up" data-aos-delay="400">لوريم إيبسوم</h4>
-                            <p data-aos="fade-up" data-aos-delay="500">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على
-                                العميل ليتصور طريقه وضع النصوص بالتصاميم
-                                سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع انترنت ...</p>
-                            <div>
-                                <a href="#" class="button-main mb-2 me-md-3 me-2" data-aos="fade-up" data-aos-delay="200">تواصل
-                                    معنا</a>
-                                <a href="#" class="link-dark" data-aos="fade-up" data-aos-delay="300">عرض المزيد حول المنصة
-                                    <ion-icon name="chevron-forward-outline"></ion-icon></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End : Feature row -->
-
-                <!-- Start : Feature row -->
-                <div class="feature-row row mx-0 align-items-center">
-                    <div class="col-md-6">
-                        <div class="feature-image" data-aos="fade-up" data-aos-delay="300">
-                            <div class="feature-image-content">
-                                <img src="/web-assets/images/pic3.png" alt="Feature 3">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="feature-description">
-                            <h4 data-aos="fade-up" data-aos-delay="400">لوريم إيبسوم</h4>
-                            <p data-aos="fade-up" data-aos-delay="500">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على
-                                العميل ليتصور طريقه وضع النصوص بالتصاميم
-                                سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع انترنت ...</p>
-                            <div>
-                                <a href="#" class="button-main mb-2 me-md-3 me-2" data-aos="fade-up" data-aos-delay="200">تواصل
-                                    معنا</a>
-                                <a href="#" class="link-dark" data-aos="fade-up" data-aos-delay="300">عرض المزيد حول المنصة
-                                    <ion-icon name="chevron-forward-outline"></ion-icon></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End : Feature row -->
+                @endforeach
             </div>
         </section>
+        @endif
         <!-- End : Our Features -->
 
         <!-- Start : Our Services -->
@@ -349,61 +302,40 @@
         <!-- End : Subscription Section -->
 
         <!-- Start : Our subscribers -->
+        @if ($subscribers && $subscribers->active)
         <section id="our-subscribers">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-4">
-                        <h4 data-aos="fade-up" data-aos-delay="300">بعض من مشتركينا</h4>
-                        <p data-aos="fade-up" data-aos-delay="400">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على
-                            العميل ليتصور طريقه وضع النصوص بالتصاميم,</p>
+                        <h4 data-aos="fade-up" data-aos-delay="300">{{ $subscribers->content->title }}</h4>
+                        <p data-aos="fade-up" data-aos-delay="400">{{ $subscribers->content->description }}</p>
                         <a href="{{ route('school.register') }}" class="button-secondary" data-aos="fade-up" data-aos-delay="500">سجل الآن</a>
                     </div>
                     <div class="col mt-5 mt-md-0">
-                        <our-subscribers-slider-component />
+                        <our-subscribers-slider-component :subscribers='{!! json_encode($subscribers->content) !!}' />
                     </div>
                 </div>
             </div>
         </section>
+        @endif
         <!-- End : Our subscribers -->
 
         <!-- Start : FAQ -->
+        @if ($faq && $faq->active)
         <section id="faq">
             <div class="container">
                 <div class="text-center">
-                    <h4 data-aos="fade-up" data-aos-delay="300">الأسئلة الشائعة</h4>
-                    <p class="col-md-8 col-lg-6 mx-auto mb-5" data-aos="fade-up" data-aos-delay="400">لوريم ايبسوم هو نموذج
-                        افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه وضع النصوص بالتصاميم سواء كانت تصاميم مطبوعه ...
-                        بروشور او فلاير على سبيل المثال ... او نماذج مواقع انترنت ...</p>
+                    <h4 data-aos="fade-up" data-aos-delay="300">{{ $faq->content->title }}</h4>
+                    <p class="col-md-8 col-lg-6 mx-auto mb-5" data-aos="fade-up" data-aos-delay="400">{{ $faq->content->description }}</p>
                 </div>
 
                 <div>
+                    @foreach ($faq->content->list as $qa)
                     <faq-item-component data-aos="fade-up" data-aos-delay="300">
-                        <template #question>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم</template>
-                        <template #answer>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه وضع
-                            النصوص بالتصاميم سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع
-                            انترنت ... </template>
+                        <template #question>{{ $qa->question }}</template>
+                        <template #answer>{{ $qa->answer }}</template>
                     </faq-item-component>
-
-                    <faq-item-component data-aos="fade-up" data-aos-delay="300">
-                        <template #question>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم</template>
-                        <template #answer>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه وضع
-                            النصوص بالتصاميم سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع
-                            انترنت ... </template>
-                    </faq-item-component>
-
-                    <faq-item-component data-aos="fade-up" data-aos-delay="300">
-                        <template #question>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم</template>
-                        <template #answer>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه وضع
-                            النصوص بالتصاميم سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع
-                            انترنت ... </template>
-                    </faq-item-component>
-
-                    <faq-item-component data-aos="fade-up" data-aos-delay="400">
-                        <template #question>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم</template>
-                        <template #answer>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه وضع
-                            النصوص بالتصاميم سواء كانت تصاميم مطبوعه ... بروشور او فلاير على سبيل المثال ... او نماذج مواقع
-                            انترنت ... </template>
-                    </faq-item-component>
+                    @endforeach
                 </div>
 
                 <div class="text-center mt-5">
@@ -419,6 +351,7 @@
                 </div>
             </div>
         </section>
+        @endif
         <!-- End : FAQ -->
 
         @include('web.layouts.partials.footer')

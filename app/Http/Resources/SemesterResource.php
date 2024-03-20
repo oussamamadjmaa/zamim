@@ -18,8 +18,10 @@ class SemesterResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'startDate' => $this->start_date->format('Y-m-d'),
+            'startDateHijri' => hijriDate($this->start_date, 'Y/m/d'),
             'startDateFormated' => hijriDate($this->start_date, 'j F , Y'),
             'endDate' => $this->end_date->format('Y-m-d'),
+            'endDateHijri' => hijriDate($this->end_date, 'Y/m/d'),
             'endDateFormated' => hijriDate($this->end_date, 'j F , Y'),
             'isCurrent' => now()->between($this->start_date, $this->end_date),
         ];

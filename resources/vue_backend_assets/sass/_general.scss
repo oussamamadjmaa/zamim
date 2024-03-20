@@ -451,3 +451,17 @@ svg.down {
         background-color: #fff!important;
     }
 }
+
+table.weekly-radios-table {
+    background: var(--main-dark);
+    color: #fff;
+    td, th {
+        border: solid 3px #fff;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    th {
+        font-size: 23px;
+    }
+}

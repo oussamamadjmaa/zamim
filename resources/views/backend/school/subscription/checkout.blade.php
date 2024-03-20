@@ -16,6 +16,7 @@
         <input type="hidden" name="plan_id" value="{{ $plan->id }}">
         <div class="row mx-0 justify-content-center">
             @foreach (config('payment-methods') as $paymentMethod)
+            @continue(!$paymentMethod['active'])
             <div class="col-md-4">
                 <div class="form-check payment-method h-100">
                     <input class="d-none" type="radio" name="payment_method" id="{{ $paymentMethod['key'] }}" value="{{ $paymentMethod['key'] }}" @checked(old('payment_method', $paymentMethod['is_default'] ?? false)) />

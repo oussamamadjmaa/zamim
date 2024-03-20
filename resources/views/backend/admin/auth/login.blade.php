@@ -16,7 +16,7 @@
                             <div class="form-input mb-3">
                                 <label for="username" class="label_"><ion-icon name="person"></ion-icon></label>
                                 <input type="text" class="input_ @error('username') is-invalid @enderror" id="username" name="username"
-                                    placeholder="@lang('Username')">
+                                    placeholder="@lang('Username')" value="{{ old('username') }}">
                                 @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

@@ -14,10 +14,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Shetabit\Visitor\Traits\Visitor;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 
 class School extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasSubscription, AvatarAttribute, Visitor;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasSubscription, AvatarAttribute, Visitor, CanResetPasswordTrait;
 
     /**
      * The attributes that are mass assignable.

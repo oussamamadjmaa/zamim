@@ -20,7 +20,7 @@ class Radio extends Model
     ];
 
     protected $casts = [
-        'radio_date' => 'date'
+        'radio_date' => 'date:Y-m-d'
     ];
 
     public function school() : BelongsTo {

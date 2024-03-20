@@ -27,5 +27,6 @@ app.component('notifications-component', NotificationsComponent);
 app.provide('trans', translation.translate);
 
 app.config.globalProperties.trans = translation.translate;
+app.config.globalProperties._app = window._app;
 app.config.compilerOptions.isCustomElement = (tag) => tag.startsWith('ion-icon');
 app.mount('#app');

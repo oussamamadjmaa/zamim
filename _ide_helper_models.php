@@ -1,6 +1,7 @@
 <?php
 
 // @formatter:off
+// phpcs:ignoreFile
 /**
  * A helper file for your Eloquent Models
  * Copy the phpDocs from this file to the correct Model,
@@ -66,7 +67,7 @@ namespace App\Models{
  * @property string $username
  * @property string $email
  * @property string $password
- * @property string|null $avatar
+ * @property-read string|null $avatar
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -91,6 +92,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereUsername($value)
  */
 	class Admin extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\FrontendContent
+ *
+ * @property int $id
+ * @property string $section
+ * @property object $content
+ * @property int $active
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent whereSection($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|FrontendContent whereUpdatedAt($value)
+ */
+	class FrontendContent extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -167,6 +191,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\RadioContent
+ *
+ * @property int $id
+ * @property int $school_id
+ * @property string $title
+ * @property string|null $attachment
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\School $school
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereAttachment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereSchoolId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereUpdatedAt($value)
+ */
+	class RadioContent extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\RadioStudent
  *
  * @property-read \App\Models\Radio|null $radio
@@ -192,7 +240,7 @@ namespace App\Models{
  * @property string|null $id_number
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
- * @property string|null $avatar
+ * @property-read string|null $avatar
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -246,9 +294,21 @@ namespace App\Models{
 /**
  * App\Models\Semester
  *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property \Illuminate\Support\Carbon $end_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Semester newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Semester newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Semester query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Semester whereUpdatedAt($value)
  */
 	class Semester extends \Eloquent {}
 }
@@ -266,7 +326,7 @@ namespace App\Models{
  * @property string $password
  * @property string|null $phone_verification_code
  * @property string|null $role
- * @property string|null $avatar
+ * @property-read string|null $avatar
  * @property \Illuminate\Support\Carbon|null $last_phone_code_at
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -501,7 +561,7 @@ namespace App\Models{
  * @property string $password
  * @property string|null $phone_verification_code
  * @property string|null $role
- * @property string|null $avatar
+ * @property-read string|null $avatar
  * @property \Illuminate\Support\Carbon|null $last_phone_code_at
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -555,7 +615,7 @@ namespace App\Models{
  * @property string $password
  * @property string|null $phone_verification_code
  * @property string|null $role
- * @property string|null $avatar
+ * @property-read string|null $avatar
  * @property \Illuminate\Support\Carbon|null $last_phone_code_at
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $deleted_at

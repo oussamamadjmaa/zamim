@@ -30,6 +30,8 @@ subscriptionPayments.value.without_pagination = props.without_pagination;
 
 const getSubscriptionPayments = async (url = null) => {
     await fetchAll(url ?? (pageUrl + (props.school ? '/subscriber/'+props.school.id : '')), subscriptionPayments);
+
+    console.log(subscriptionPayments.value)
 }
 
 const getSubscriptionPayment = async (subscriptionPaymentId) => {

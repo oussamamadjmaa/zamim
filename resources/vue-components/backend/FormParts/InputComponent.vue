@@ -60,7 +60,16 @@ const props = defineProps({
     options: {
         type: Object,
         default: {}
-    }
+    },
+    minDate: {
+        type: String,
+        default: null
+    },
+    maxDate: {
+        type: String,
+        default: null
+    },
+
 })
 
 const showSelectDropdown = ref(false)
@@ -138,7 +147,8 @@ onMounted(async () => {
     if (props.type == 'date') {
         await nextTick();
         const hijriDatepicker = $(datepickerRef.value);
-        hijriDatepicker.hijriDatePicker({
+
+        let dateOptions = {
             hijri: true,
             locale:$('html').attr('lang') == 'ar' ? 'ar-SA' : 'en-US',
             defaultDate: props.modelValue,
@@ -150,7 +160,17 @@ onMounted(async () => {
             showClear: true,
             showTodayButton: true,
             // showSwitcher:false
-        });
+        };
+
+        if (props.minDate) {
+            dateOptions.minDate = props.minDate;
+        }
+
+        if (props.maxDate) {
+            dateOptions.maxDate = props.maxDate;
+        }
+
+        hijriDatepicker.hijriDatePicker(dateOptions);
 
         // Attach the dp.change event listener
         hijriDatepicker.on("dp.change", (e) => {
@@ -163,9 +183,9 @@ onMounted(async () => {
             emit('update:modelValue', miladiDate)
         });
 
-        hijriDatepicker.on("dp.update", (e) => {
-            console.log('gg')
-        });
+        // hijriDatepicker.on("dp.update", (e) => {
+        //     console.log('gg')
+        // });
     }
 })
 </script>

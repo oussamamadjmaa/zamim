@@ -38,7 +38,8 @@
         window._app = {
             url: '{{ url("/") }}',
             notificationsRoute: "{{ route($routePrefix.'.notifications.stats') }}",
-            notificationUrl: "{{ route($routePrefix.'.notifications.redirect', 'notificationId') }}"
+            notificationUrl: "{{ route($routePrefix.'.notifications.redirect', 'notificationId') }}",
+            currentSemester: {!! json_encode($currentSemester) !!}
         }
         window._locale = "{{ app()->getLocale() }}";
     </script>

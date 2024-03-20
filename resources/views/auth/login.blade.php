@@ -25,7 +25,7 @@
                             <div class="form-input mb-3">
                                 <label for="email" class="label_"><ion-icon name="person"></ion-icon></label>
                                 <input type="email" class="input_ @error('email') is-invalid @enderror" id="email"
-                                    name="email" placeholder="@lang('Email Address')" required>
+                                    name="email" placeholder="@lang('Email Address')" value="{{ old('email') }}" required>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

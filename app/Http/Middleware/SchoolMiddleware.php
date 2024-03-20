@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Http\Request;
 
 class SchoolMiddleware
@@ -17,6 +18,15 @@ class SchoolMiddleware
     public function handle(Request $request, Closure $next)
     {
         auth()->shouldUse('school');
+
+        config()->set('auth.defaults.passwords', 'schools');
+
+        ResetPassword::createUrlUsing(function ($notifiable, $token) {
+            return url(route('school.password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], false));
+        });
 
         return $next($request);
     }

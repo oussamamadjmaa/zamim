@@ -19,7 +19,7 @@ export default function useCommon() {
         } catch (err) {
             let errorMessage = err.response.data.message || err.message;
             if (errorMessage == 'Unauthenticated.') {
-                window.location.href = `${window._app.url}/login?logged_out=true`;
+                window.location.href = `${window._app.url}/login?unauthenticated=true`;
             }
             if(showErrorNotification && err.response && errorMessage) {
                 window.toast.error(errorMessage)

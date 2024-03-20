@@ -25,7 +25,7 @@
                             <div class="form-input mb-3">
                                 <label for="email" class="label_"><ion-icon name="person"></ion-icon></label>
                                 <input type="email" class="input_ @error('email') is-invalid @enderror" id="email"
-                                    name="email" placeholder="@lang('Email Address')" required>
+                                    name="email" placeholder="@lang('Email Address')" value="{{ old('email') }}" required>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -36,7 +36,7 @@
                         </form>
 
                         <div class="text-center py-3">
-                            @lang('Not registered yet on our platform?') <a href="{{ route('school.register') }}">@lang('Create an account')</a>
+                            <a href="{{ route('school.login') }}">@lang('Login')</a>
                         </div>
                     </div>
 

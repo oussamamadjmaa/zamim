@@ -1,4 +1,7 @@
 <footer id="footer" class="bg-transparent">
+    @php
+    $footer = $frontendContent->where('section', 'footer')->first();
+    @endphp
     <div class="footer-copyright bg-transparent">
         <div class="container pb-3 px-0">
             <ul class="footer-links list-unstyled d-flex flex-wrap mb-0" style="gap: 0.4rem;">
@@ -21,13 +24,13 @@
                                 fill="#0864AF" />
                         </svg></a></li>
             </ul>
+            @if ($footer && $footer->content && $footer->content->social_media)
             <ul class="social-links gray list-unstyled d-flex flex-wrap">
-                <li><a href="#"><ion-icon name="logo-linkedin"></ion-icon></a></li>
-                <li><a href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
-                <li><a href="#"><ion-icon name="logo-twitter"></ion-icon></a></li>
-                <li><a href="#"><ion-icon name="logo-facebook"></ion-icon></a></li>
-                <li><a href="#"><ion-icon name="logo-youtube"></ion-icon></a></li>
+                @foreach ($footer->content->social_media as $socialMedia)
+                    <li><a href="{{ $socialMedia->url ?? '' }}" title="{{ $socialMedia->title ?? '' }}">{!! $socialMedia->icon ?? '' !!}</a></li>
+                @endforeach
             </ul>
+            @endif
         </div>
     </div>
 </footer>

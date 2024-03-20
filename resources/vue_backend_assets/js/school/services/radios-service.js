@@ -23,6 +23,7 @@ export default function useRadios() {
     ///
     const destroyRadio = (radio) => {
         radios.value.list = radios.value.list.filter((dep) => dep != radio)
+
         callApi({url: pageUrl+ '/' + radio.id, method: 'POST', data: { _method: "DELETE" }})
     }
 

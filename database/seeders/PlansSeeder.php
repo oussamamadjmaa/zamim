@@ -40,7 +40,7 @@ class PlansSeeder extends Seeder
                ]
             ],
             'price'     => 120,
-            'currency'   => 'AED',
+            'currency'   => env('DEFAULT_CURRENCY'),
             'billing_interval'  => 'month',
             'billing_period'    => 1,
             'sort_order'    => 2,
@@ -63,7 +63,7 @@ class PlansSeeder extends Seeder
                 ],
             ],
             'price'     => 950,
-            'currency'   => 'AED',
+            'currency'   => env('DEFAULT_CURRENCY'),
             'billing_interval'  => 'year',
             'billing_period'    => 1,
             'sort_order'    => 1,

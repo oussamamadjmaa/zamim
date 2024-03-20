@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\FrontendContent;
+use Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Log;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -37,7 +41,23 @@ class ViewServiceProvider extends ServiceProvider
             'routePrefix' => $routePrefix,
             'sidebarLinks' => $this->getSidebarLinks($routePrefix),
             'viteIncludes' => $this->getViteIncludes($routePrefix),
+            'currentSemester' => json_decode(json_encode(getCurrentSemester())),
+            'frontendContent' => $this->getFrontendContent()
         ]);
+
+
+    }
+
+    private function getFrontendContent() {
+        try {
+            return Cache::rememberForever('frontend_contents', function() {
+                return FrontendContent::all();
+            });
+        } catch (\Exception $e) {
+            Log::alert('Failed to get data from frontend_contents table: ' . $e->getMessage());
+
+            return (object)[];
+        }
     }
 
     private function getSidebarLinks($routePrefix)
