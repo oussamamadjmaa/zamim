@@ -77,7 +77,7 @@ if(!function_exists('getCurrentSemester')) {
         }
 
         $pastSemester = $semesters->where('end_date', '<', $currentDate)
-                            ->sortBy('end_date', 'desc')
+                            ->sortByDesc('end_date')
                             ->first();
 
         if ($pastSemester) {
@@ -85,7 +85,7 @@ if(!function_exists('getCurrentSemester')) {
             return $pastSemester;
         }
 
-        return null;
+        return new Semester();
     }
 }
 

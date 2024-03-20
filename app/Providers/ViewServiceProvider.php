@@ -44,8 +44,6 @@ class ViewServiceProvider extends ServiceProvider
             'currentSemester' => json_decode(json_encode(getCurrentSemester())),
             'frontendContent' => $this->getFrontendContent()
         ]);
-
-
     }
 
     private function getFrontendContent() {

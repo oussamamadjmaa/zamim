@@ -47,7 +47,7 @@ class RadioController extends Controller
     {
         $weeks = [];
         $weekNumber = 1;
-        while ($startDate->lessThanOrEqualTo($endDate)) {
+        while ($startDate?->lessThanOrEqualTo($endDate)) {
             if ($startDate->dayOfWeek === Carbon::SUNDAY) {
                 $weekStart = $startDate->copy()->format('Y-m-d');
                 $weekEnd = $startDate->copy()->addDays(4)->endOfDay()->format('Y-m-d');
