@@ -1,92 +1,70 @@
 {
   "NotificationsComponent.css": {
-    "file": "assets/NotificationsComponent-ba060b11.css",
+    "file": "assets/NotificationsComponent-73f7966d.css",
     "src": "NotificationsComponent.css"
   },
-  "_NotificationsComponent-2ae8e6b8.js": {
+  "_NotificationsComponent-b7260d2b.js": {
     "css": [
-      "assets/NotificationsComponent-ba060b11.css"
+      "assets/NotificationsComponent-73f7966d.css"
     ],
-    "file": "assets/NotificationsComponent-2ae8e6b8.js",
+    "file": "assets/NotificationsComponent-b7260d2b.js",
     "imports": [
-      "_common-1985a037.js"
+      "_common-7bc2effa.js"
     ]
   },
-  "_common-1985a037.js": {
-    "file": "assets/common-1985a037.js"
+  "_common-7bc2effa.js": {
+    "file": "assets/common-7bc2effa.js"
   },
   "resources/vue_backend_assets/js/app.js": {
-    "file": "assets/app-73578ce8.js",
+    "file": "assets/app-49ddcdd2.js",
     "imports": [
-      "_NotificationsComponent-2ae8e6b8.js",
-      "_common-1985a037.js"
+      "_NotificationsComponent-b7260d2b.js",
+      "_common-7bc2effa.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app.js"
   },
   "resources/vue_backend_assets/js/app_admin.js": {
-    "file": "assets/app_admin-b69d80f3.js",
+    "file": "assets/app_admin-12e47e3b.js",
     "imports": [
-      "_NotificationsComponent-2ae8e6b8.js",
-      "_common-1985a037.js"
+      "_NotificationsComponent-b7260d2b.js",
+      "_common-7bc2effa.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app_admin.js"
   },
   "resources/vue_backend_assets/sass/style.scss": {
-    "file": "assets/style-23999335.css",
+    "file": "assets/style-dd2e8838.css",
     "isEntry": true,
     "src": "resources/vue_backend_assets/sass/style.scss"
   },
   "resources/vue_web_assets/images/ellipse-87.svg": {
-    "file": "assets/ellipse-87-7e69f472.svg",
+    "file": "assets/ellipse-87-98724df9.svg",
     "src": "resources/vue_web_assets/images/ellipse-87.svg"
   },
   "resources/vue_web_assets/images/ellipse-89.svg": {
-    "file": "assets/ellipse-89-31827711.svg",
+    "file": "assets/ellipse-89-94421c62.svg",
     "src": "resources/vue_web_assets/images/ellipse-89.svg"
   },
   "resources/vue_web_assets/images/ellipse-90.svg": {
-    "file": "assets/ellipse-90-f5bcf670.svg",
+    "file": "assets/ellipse-90-a6335cbd.svg",
     "src": "resources/vue_web_assets/images/ellipse-90.svg"
   },
   "resources/vue_web_assets/images/pic4.jpg": {
     "file": "assets/pic4-529fe507.jpg",
     "src": "resources/vue_web_assets/images/pic4.jpg"
   },
-  "resources/vue_web_assets/images/school-avatar.jpeg": {
-    "file": "assets/school-avatar-e0e61def.jpeg",
-    "src": "resources/vue_web_assets/images/school-avatar.jpeg"
-  },
-  "resources/vue_web_assets/images/slider1.jpeg": {
-    "file": "assets/slider1-334616a7.jpeg",
-    "src": "resources/vue_web_assets/images/slider1.jpeg"
-  },
-  "resources/vue_web_assets/images/slider2.jpeg": {
-    "file": "assets/slider2-ff8c0e5a.jpeg",
-    "src": "resources/vue_web_assets/images/slider2.jpeg"
-  },
-  "resources/vue_web_assets/images/slider3.jpeg": {
-    "file": "assets/slider3-a11e0347.jpeg",
-    "src": "resources/vue_web_assets/images/slider3.jpeg"
-  },
   "resources/vue_web_assets/js/app.css": {
     "file": "assets/app-f78bf56b.css",
     "src": "resources/vue_web_assets/js/app.css"
   },
   "resources/vue_web_assets/js/app.js": {
-    "assets": [
-      "assets/slider3-a11e0347.jpeg",
-      "assets/school-avatar-e0e61def.jpeg",
-      "assets/slider2-ff8c0e5a.jpeg",
-      "assets/slider1-334616a7.jpeg"
-    ],
     "css": [
       "assets/app-f78bf56b.css"
     ],
-    "file": "assets/app-47b3bde4.js",
+    "file": "assets/app-fa88730e.js",
     "imports": [
-      "_common-1985a037.js"
+      "_common-7bc2effa.js"
     ],
     "isEntry": true,
     "src": "resources/vue_web_assets/js/app.js"
@@ -97,7 +75,7 @@
     "src": "resources/vue_web_assets/js/scripts.js"
   },
   "resources/vue_web_assets/sass/style.scss": {
-    "file": "assets/style-08f8c9b2.css",
+    "file": "assets/style-bcfaad39.css",
     "isEntry": true,
     "src": "resources/vue_web_assets/sass/style.scss"
   }
