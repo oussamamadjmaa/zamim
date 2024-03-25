@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Events\SubscriptionPaymentStatus;
 use App\Models\Subscription\SubscriptionPayment;
 use App\Notifications\SubscriptionCreatedNotification;
+use Log;
 
 class SubscriptionPaymentObserver
 {
@@ -99,9 +100,13 @@ class SubscriptionPaymentObserver
         } else {
             $subscription = $subscriber->subscription()->create($subscriptionAttributes);
 
-            $subscriber->notify(new SubscriptionCreatedNotification(
-                $subscription
-            ));
+            try {
+                $subscriber->notify(new SubscriptionCreatedNotification(
+                    $subscription
+                ));
+            } catch (\Exception $e) {
+                Log::alert('فشل اشعار المدرسية: '. $e->getMessage());
+            }
         }
 
         return $subscriber->subscription;
