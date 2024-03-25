@@ -46,7 +46,11 @@ if(!function_exists('getSemesters')) {
 
 if(!function_exists('getCurrentSemester')) {
     function getCurrentSemester() {
-        $semesters = getSemesters();
+        try {
+            $semesters = getSemesters();
+        } catch (\Throwable $th) {
+            return new Semester();
+        }
 
         if ($semesterId = session()->get('selected_semester_id')) {
             $selectedSemester = $semesters->where('id', $semesterId)

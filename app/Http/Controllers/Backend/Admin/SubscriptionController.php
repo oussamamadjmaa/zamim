@@ -70,7 +70,7 @@ class SubscriptionController extends Controller
         ]);
 
         if($action == 'confirm') $subscriptionPayment = $subscriptionPayment->complete($request->comment);
-        else if($action == 'cancel') $subscriptionPayment = $subscriptionPayment->failed($request->comment);
+        else if($action == 'cancel') $subscriptionPayment = $subscriptionPayment->cancel($request->comment);
 
         $subscriptionPayment->load(['payer', 'plan', 'receipt']);
         return new SubscriptionPaymentResource($subscriptionPayment);

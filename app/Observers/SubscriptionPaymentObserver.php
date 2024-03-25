@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Events\SubscriptionPaymentStatus;
 use App\Models\Subscription\SubscriptionPayment;
-use Log;
+use App\Notifications\SubscriptionCreatedNotification;
 
 class SubscriptionPaymentObserver
 {
@@ -97,7 +97,11 @@ class SubscriptionPaymentObserver
         if ($subscriber->subscription) {
             $subscriber->subscription()->update(array_merge($subscriptionAttributes, ['renewed_at' => now()]));
         } else {
-            $subscriber->subscription()->create($subscriptionAttributes);
+            $subscription = $subscriber->subscription()->create($subscriptionAttributes);
+
+            $subscriber->notify(new SubscriptionCreatedNotification(
+                $subscription
+            ));
         }
 
         return $subscriber->subscription;

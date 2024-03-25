@@ -32,14 +32,12 @@ class NotificationsController extends Controller
         $type = explode('\\', $notification->type);
         $type = end($type);
 
-        // $urls = [
-        //     'NewSubscriptionPayment' => route('admin.subscription-payments.index', ['subscriptionPaymentId' => $notification->data['subscription_payment_id']]),
-        //     'SubscriptionPaymentConfirmed' => route('school.subscription.index', ['subscriptionPaymentId' => $notification->data['subscription_payment_id']]),
-        //     'SubscriptionPaymentCanceled' => route('school.subscription.index', ['subscriptionPaymentId' => $notification->data['subscription_payment_id']]),
-        // ];
-        $urls = [];
+        $urls = [
+            'subscription_payment_status.in_review' => route('admin.subscriptions.index', ['payment_id' => $notification->data['data_id']]),
+            'SubscriptionPaymentStatusNotification' => route('school.subscription.index', ['payment_id' => $notification->data['data_id']])
+        ];
 
-        return $urls[$type] ?? route(getRoutePrefix().'.notifications.index');
+        return $urls[$notification->data['notification_type']] ?? $urls[$type] ?? route(getRoutePrefix().'.notifications.index');
     }
 
     protected function guardName() {

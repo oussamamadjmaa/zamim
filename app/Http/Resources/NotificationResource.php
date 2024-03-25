@@ -15,13 +15,10 @@ class NotificationResource extends JsonResource
      */
     public function toArray($request)
     {
-        $type = explode('\\', $this->type);
-        $type = end($type);
-
         return [
             'id' => $this->id,
-            'title' => __('notifications.'.$type.'.title'),
-            'description' => __('notifications.'.$type.'.description'),
+            'title' => __('notifications.'.$this->data['notification_type'].'.title'),
+            'description' => __('notifications.'.$this->data['notification_type'].'.description', $this->data),
             'readAt' => $this->read_at ? Carbon::parse($this->read_at)->translatedFormat('d M Y H:i') : null,
             'createdAtForHumans' => $this->created_at->diffForHumans(),
             'createdAt' => $this->created_at->translatedFormat('d M y h:i A')
