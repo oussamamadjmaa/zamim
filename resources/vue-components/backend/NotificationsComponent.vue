@@ -55,8 +55,7 @@ setTimeout(() => {
             <!-- else Show notifications list -->
             <template v-else>
                 <div class="mb-4">
-                    <a v-for="notification in notifications.data.data" :href="notificationUrl(notification)" class="col-12 px-0 d-block text-dark"
-                        href="#">
+                    <a v-for="notification in notifications.data.data" :href="notificationUrl(notification)" class="col-12 px-0 d-block text-dark" :key="notification.id">
                         <div class="notification-item___ d-flex py-3 px-3 border-bottom" :class="{'bg-light': !notification.readAt}"
                             style="border-color: #bababa6b!important;">
                             <div class="notification-body__ ms-2">

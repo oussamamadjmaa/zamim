@@ -101,7 +101,7 @@ const onSearch = (event) => {
                                 <th scope="col">{{ trans('Subscription details') }}</th>
                             </tr>
                         </template>
-                        <tr v-for="subscription in subscriptions.list">
+                        <tr v-for="subscription in subscriptions.list" :key="subscription.id">
                             <td scope="row" v-text="subscription.id"></td>
                             <td v-text="subscription.subscriber.id"></td>
                             <td v-text="subscription.subscriber.name"></td>

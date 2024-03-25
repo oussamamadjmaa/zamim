@@ -67,7 +67,7 @@ getSubscriptionPayments();
                                 <th scope="col">{{ trans('Comment') }}</th>
                             </tr>
                         </template>
-                        <tr v-for="subscriptionPayment in subscriptionPayments.list">
+                        <tr v-for="subscriptionPayment in subscriptionPayments.list" :key="subscriptionPayment.id">
                             <td scope="row" v-text="subscriptionPayment.id"></td>
                             <td v-text="trans(subscriptionPayment.plan.name)"></td>
                             <td v-text="subscriptionPayment.paymentMethodText"></td>

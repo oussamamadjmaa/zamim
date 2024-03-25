@@ -17,8 +17,8 @@ class NotificationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => __('notifications.'.$this->data['notification_type'].'.title'),
-            'description' => __('notifications.'.$this->data['notification_type'].'.description', $this->data),
+            'title' => __('db_notifications.'.$this->data['notification_type'].'.title'),
+            'description' => __('db_notifications.'.$this->data['notification_type'].'.description', $this->data),
             'readAt' => $this->read_at ? Carbon::parse($this->read_at)->translatedFormat('d M Y H:i') : null,
             'createdAtForHumans' => $this->created_at->diffForHumans(),
             'createdAt' => $this->created_at->translatedFormat('d M y h:i A')

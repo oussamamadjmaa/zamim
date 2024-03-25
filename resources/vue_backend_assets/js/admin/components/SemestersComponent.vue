@@ -125,7 +125,7 @@ const onSearch = (event) => {
                             <th>{{ trans('Operations') }}</th>
                         </tr>
                     </template>
-                    <tr v-for="semester in semesters.list">
+                    <tr v-for="semester in semesters.list" :key="semester.id">
                         <td scope="row" v-text="semester.id"></td>
                         <td v-text="semester.name"></td>
                         <td v-text="semester.startDateFormated"></td>

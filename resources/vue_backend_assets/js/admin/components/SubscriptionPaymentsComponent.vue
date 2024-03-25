@@ -124,7 +124,7 @@ onMounted(async () => {
                                 <th v-if="!props.without_pagination" scope="col">{{ trans('Operations') }}</th>
                             </tr>
                         </template>
-                        <tr v-for="subscriptionPayment in subscriptionPayments.list">
+                        <tr v-for="subscriptionPayment in subscriptionPayments.list" :key="subscriptionPayment.id">
                             <td scope="row" v-text="subscriptionPayment.id"></td>
                             <td v-text="trans(subscriptionPayment.plan.name)"></td>
                             <td v-if="!props.without_pagination" v-text="subscriptionPayment.payer.id"></td>

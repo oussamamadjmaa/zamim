@@ -21,51 +21,9 @@
             <div class="search-bar"></div>
 
             <!-- Notifications -->
-            {{-- <div class="dropdown">
-                <a class="nav-link" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="iconsax" icon-name="bell-2"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-start phone-fixed-dropdown" aria-labelledby="notificationsDropdown">
-                    <li>
-                        <div class="dropdown-item">
-                            <h6 class="dropdown-header">آخر الاشعارات</h6>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <div class="d-flex">
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-0">رسالة جديدة</h6>
-                                    <p class="p4 mb-0">لديك رسالة جديدة.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <div class="d-flex">
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-0">تسجيل مدرسة جديد</h6>
-                                    <p class="p4 mb-0">قامت مدرسة جديدة بالاشتراك.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <div class="d-flex">
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-0">وضع الصيانة</h6>
-                                    <p class="p4 mb-0">سيتم وضع السيرفر تحت وضع الصيانة اليوم.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div> --}}
-            <!-- Notifications -->
             <navbar-notifications-component></navbar-notifications-component>
+            <!-- Notifications -->
+
 
             <!-- Messages -->
             {{-- <div class="dropdown">

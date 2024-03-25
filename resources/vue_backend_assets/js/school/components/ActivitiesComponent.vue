@@ -149,7 +149,7 @@ const onSearch = (event) => {
 
         <!-- else Show activities list -->
         <template v-else>
-            <div class="col-12 mb-5" v-for="activity in activities.list">
+            <div class="col-12 mb-5" v-for="activity in activities.list" :key="activity.id">
                 <div class="activity-box">
                     <div class="bg-image me-2">
                         <div class="bg-image-holder">

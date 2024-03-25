@@ -136,7 +136,7 @@ const onSearch = (event) => {
                             <th>{{ trans('Operations') }}</th>
                         </tr>
                     </template>
-                    <tr v-for="teacher in teachers.list">
+                    <tr v-for="teacher in teachers.list" :key="teacher.id">
                         <td scope="row" v-text="teacher.id"></td>
                         <td v-text="teacher.name"></td>
                         <td><a :href="'mailto:'+teacher.email" v-text="teacher.email"></a></td>
