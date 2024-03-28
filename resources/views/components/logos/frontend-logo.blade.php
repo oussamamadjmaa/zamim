@@ -1,5 +1,4 @@
 @props(['logoText'=>'صوت المدرسة'])
-<div {{ $attributes->merge(['class' => 'logo']) }}>
-    <ion-icon name="radio-outline"></ion-icon>
-    <span>{{ $logoText }}</span>
+<div {{ $attributes->merge([]) }}>
+    <img src="{{ asset('assets/images/logo.png') }}" alt="{{ config('app.name') }}" style="max-height: 66px;">
 </div>
