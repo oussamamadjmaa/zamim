@@ -83,7 +83,7 @@ const onSearch = (event) => {
     <!-- Teachers list -->
     <MainCardComponent>
         <template #header>
-            <div class="d-flex flex-wrap justify-content-between">
+            <div class="d-flex flex-wrap justify-content-between mb-4">
                 <h6 class="h7" v-text="trans('Teachers')"></h6>
                 <input type="text"
                         class="form-control mb-2" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
@@ -96,7 +96,7 @@ const onSearch = (event) => {
                     </button>
                 </div>
             </div>
-            <p class="p5 mb-4">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
+
         </template>
 
         <!-- Card Body -->

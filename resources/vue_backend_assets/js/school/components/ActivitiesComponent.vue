@@ -123,7 +123,7 @@ const onSearch = (event) => {
                     </button>
                 </div>
             </div>
-            <p class="p5 mb-4">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
+
         </div>
         <!-- Waiting for activities response (Loading) -->
         <template v-if="!activities.response">

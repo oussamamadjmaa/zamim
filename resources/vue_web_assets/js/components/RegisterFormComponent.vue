@@ -66,11 +66,13 @@ const nextStep = async () => {
         </div>
 
         <div v-else-if="registrationForm.data.step == 2">
+            <InputComponent :errors="registrationForm.errors.name" label='<ion-icon name="school"></ion-icon>' placeholder="School name" v-model='registrationForm.data.name' :required="true" />
+
+            <InputComponent type="select" :searchable="true" label='<ion-icon name="speedometer-outline"></ion-icon>' placeholder="Level"  :errors="registrationForm.errors.level" v-model="registrationForm.data.level" :options="{'primary' : trans('Primary'), 'middle' : trans('Middle') , 'secondary' : trans('Secondary')}"  :required="true" />
+
             <InputComponent :errors="registrationForm.errors.country" label='<ion-icon name="globe"></ion-icon>' placeholder="Country" v-model='registrationForm.data.country' :required="true" :readonly="true" />
 
             <InputComponent :errors="registrationForm.errors.city" label='<ion-icon name="location"></ion-icon>' placeholder="City" v-model='registrationForm.data.city' :required="true" />
-
-            <InputComponent :errors="registrationForm.errors.name" label='<ion-icon name="school"></ion-icon>' placeholder="School name" v-model='registrationForm.data.name' :required="true" />
 
             <InputComponent :errors="registrationForm.errors.accreditation_number" label='<ion-icon name="at"></ion-icon>' placeholder="Accreditation number" v-model='registrationForm.data.accreditation_number' :required="true" />
 

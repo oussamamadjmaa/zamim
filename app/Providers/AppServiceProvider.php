@@ -9,6 +9,7 @@ use App\Models\SiteConfig;
 use Cookie;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Session;
 
@@ -38,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
         $this->setAppLocale();
         $this->setConfig();
         Hijri::setLang(app()->getLocale());
+        $this->customValidators();
     }
 
     /**
@@ -84,5 +86,26 @@ class AppServiceProvider extends ServiceProvider
     public function setConfig()
     {
         config()->set('app.direction', app()->getLocale() == "ar" ? 'rtl' : 'ltr');
+    }
+
+    public function customValidators() {
+        Validator::extend('radio_date_validation', function ($attribute, $value, $parameters, $validator) {
+            // Ensure that the date is between Sunday and Thursday
+            $dayOfWeek = date('w', strtotime($value));
+            if ($dayOfWeek != 0) {
+                return false;
+            }
+
+            // Ensure that the date is between the provided start and end dates
+            $startDate = strtotime($parameters[0]);
+            $endDate = strtotime($parameters[1]);
+            $date = strtotime($value);
+            if ($date < $startDate || $date > $endDate) {
+                return false;
+            }
+
+            return true;
+        });
+
     }
 }

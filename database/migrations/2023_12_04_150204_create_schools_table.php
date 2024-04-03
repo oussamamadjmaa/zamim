@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('level', ['primary', 'middle', 'secondary']);
             $table->string('mod_name');
             $table->string('email')->unique();
             $table->char('country', 2)->default('SA');

@@ -12,6 +12,7 @@ import ChartJsComponent from './components/ChartJsComponent.vue';
 import NavbarNotificationsComponent from '../../vue-components/backend/NavbarNotificationsComponent.vue';
 import NotificationsComponent from '../../vue-components/backend/NotificationsComponent.vue';
 import SemestersComponent from './admin/components/SemestersComponent.vue';
+import RadioWeeksComponent from './admin/components/RadioWeeksComponent.vue';
 
 app.component('subscriptions-component', SubscriptionsComponent);
 app.component('subscription-payments-component', SubscriptionPaymentsComponent);
@@ -20,6 +21,7 @@ app.component('chartjs-component', ChartJsComponent);
 app.component('navbar-notifications-component', NavbarNotificationsComponent);
 app.component('notifications-component', NotificationsComponent);
 app.component('semesters-component', SemestersComponent);
+app.component('radio-weeks-component', RadioWeeksComponent);
 
 app.provide('trans', translation.translate);
 

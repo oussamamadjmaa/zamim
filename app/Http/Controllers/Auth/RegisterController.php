@@ -91,8 +91,9 @@ class RegisterController extends Controller
 
         if ($step > 1) {
             $rules = array_merge($rules, [
-                'city' => ['required', 'string', 'max:70'],
                 'name' => ['required', 'string', 'max:255'],
+                'level' => ['required', 'string', 'in:primary,middle,secondary'],
+                'city' => ['required', 'string', 'max:70'],
                 'accreditation_number' => ['required', 'string', 'max:255'],
                 'mod_name' => ['required', 'string', 'max:255'],
                 'id_number' => ['required', 'string', 'max:255'],
@@ -108,6 +109,7 @@ class RegisterController extends Controller
     {
         return School::create([
             'name' => $data['name'],
+            'level' => $data['level'],
             'email' => $data['email'],
             'city' =>  $data['city'],
             'accreditation_number' =>  $data['accreditation_number'],

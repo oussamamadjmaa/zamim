@@ -163,28 +163,34 @@ namespace App\Models{
  * App\Models\Radio
  *
  * @property int $id
- * @property int $school_id
- * @property int|null $teacher_id
- * @property string $class
+ * @property int $semester_id
+ * @property string $level
+ * @property string|null $subject
+ * @property string|null $attachment
+ * @property int $week_number
  * @property \Illuminate\Support\Carbon $radio_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\School $school
+ * @property-read \App\Models\Semester $semester
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
- * @property-read \App\Models\Teacher|null $teacher
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $teachers
+ * @property-read int|null $teachers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Shetabit\Visitor\Models\Visit> $visitLogs
  * @property-read int|null $visit_logs_count
  * @method static \Illuminate\Database\Eloquent\Builder|Radio newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Radio newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Radio query()
- * @method static \Illuminate\Database\Eloquent\Builder|Radio whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio weekly()
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereAttachment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereLevel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereRadioDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Radio whereSchoolId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Radio whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereSemesterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereSubject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Radio whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Radio whereWeekNumber($value)
  */
 	class Radio extends \Eloquent {}
 }
@@ -228,10 +234,24 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\RadioTeacher
+ *
+ * @property-read \App\Models\Radio|null $radio
+ * @property-read \App\Models\Teacher|null $teacher
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher query()
+ */
+	class RadioTeacher extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\School
  *
  * @property int $id
  * @property string $name
+ * @property string $level
  * @property string $mod_name
  * @property string $email
  * @property string $country
@@ -279,6 +299,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|School whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School whereIdNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|School whereLevel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School whereModName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|School wherePassword($value)
@@ -300,6 +321,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $end_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Radio> $radios
+ * @property-read int|null $radios_count
  * @method static \Illuminate\Database\Eloquent\Builder|Semester newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Semester newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Semester query()
@@ -376,7 +399,7 @@ namespace App\Models{
  * @property int $student_id
  * @property string|null $parent_name
  * @property string|null $parent_email
- * @property string|null $level
+ * @property string $level
  * @property string|null $class
  * @property string|null $division
  * @property \Illuminate\Support\Carbon|null $created_at

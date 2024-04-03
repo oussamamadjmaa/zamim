@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Admin\AuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
+use App\Http\Controllers\Backend\Admin\RadioWeekController;
 use App\Http\Controllers\Backend\Admin\SchoolController;
 use App\Http\Controllers\Backend\Admin\SemesterController;
 use App\Http\Controllers\Backend\Admin\StatisticsController;
@@ -38,11 +39,12 @@ Route::middleware(['auth:admin'])->group(function() {
         Route::post('login-as/school/{school}', 'processloginAs');
     });
 
-     //Semesters
-     Route::apiResource('/semesters', SemesterController::class);
-
+    //Semesters
+    Route::apiResource('/semesters', SemesterController::class);
 
     Route::get('statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+
+    Route::apiResource('/radio-weeks', RadioWeekController::class);
 
     //Upload
     Route::post('/upload', [UploadFilesController::class, 'upload'])->name('upload');

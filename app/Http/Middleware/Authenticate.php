@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
@@ -33,7 +34,7 @@ class Authenticate extends Middleware
     protected function customRedirectTo($request, $guards)
     {
         if (! $request->expectsJson()) {
-            return route(getRoutePrefix().'.login');
+            return in_array('web', $guards) ? route('portal.login') : route(($guards[0] ?? 'portal') .'.login');
         }
     }
 }

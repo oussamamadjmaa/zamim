@@ -24,6 +24,15 @@ class SemesterController extends Controller
 
     private function jsonResponse($request)
     {
+        if ($request->data_type == 'select') {
+            $semesters = Semester::latest('start_date')->get(['id', 'name', 'start_date', 'end_date'])
+            ->map(fn($sem) => [
+                    'id' => $sem->id,
+                    'name' => $sem->name . '(' . (hijriDate($sem->start_date, 'Y/m/d')) . ' - ' . (hijriDate($sem->end_date, 'Y/m/d')) . ')'
+                    ])->pluck('name', 'id')->toArray();
+
+            return response()->json(['data' => $semesters]);
+        }
         $semesters = Semester::latest('start_date')->paginate(15)->withQueryString();
 
         return SemesterResource::collection($semesters);

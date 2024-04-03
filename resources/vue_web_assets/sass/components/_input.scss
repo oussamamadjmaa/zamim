@@ -1,6 +1,6 @@
 .form-input {
     position: relative;
-    .input_ {
+    .input_, .custom-select .form-control {
         border-radius: 2px;
         border: 1px solid rgba(102, 112, 128, 0.20);
         background: var(--main-white);

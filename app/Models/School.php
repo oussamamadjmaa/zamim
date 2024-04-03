@@ -27,6 +27,7 @@ class School extends Authenticatable implements CanResetPassword
      */
     protected $fillable = [
         'name',
+        'level',
         'mod_name',
         'email',
         'country',

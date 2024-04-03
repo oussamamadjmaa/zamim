@@ -29,43 +29,18 @@ class RadioController extends Controller
 
     private function jsonResponse($request)
     {
-        $currentSemester = getCurrentSemester();
+        // $currentSemester = getCurrentSemester();
 
-        $radiosList = Radio::whereBetween('radio_date', [$currentSemester->start_date, $currentSemester->end_date])
-                          ->whereSchoolId(auth()->user()->school_id)
-                          ->with(['students:id,name','teacher:id,name'])
-                          ->latest('radio_date')
-                          ->get();
+        // $radiosList = Radio::whereBetween('radio_date', [$currentSemester->start_date, $currentSemester->end_date])
+        //                   ->whereSchoolId(auth()->user()->school_id)
+        //                   ->with(['students:id,name','teacher:id,name'])
+        //                   ->latest('radio_date')
+        //                   ->get();
 
-        return response()->json([
-            'data' => RadioResource::collection($radiosList),
-            'weeks' => $this->getWeeksCarbonBetween($currentSemester->start_date, $currentSemester->end_date)
-        ]);
-    }
-
-    private function getWeeksCarbonBetween($startDate, $endDate)
-    {
-        $weeks = [];
-        $weekNumber = 1;
-        while ($startDate?->lessThanOrEqualTo($endDate)) {
-            if ($startDate->dayOfWeek === Carbon::SUNDAY) {
-                $weekStart = $startDate->copy()->format('Y-m-d');
-                $weekEnd = $startDate->copy()->addDays(4)->endOfDay()->format('Y-m-d');
-
-                $weeks['week-'.$weekNumber] = [
-                    'title' => __('Week ') . transNumber($weekNumber),
-                    'weekNumber' => $weekNumber,
-                    'weekRange' => dateRangeFormatter($weekStart, $weekEnd),
-                    'weekRangeHijri' => dateRangeFormatter(hijriDate($weekStart, 'Y/m/d'), hijriDate($weekEnd, 'Y/m/d'), '/', 'ar'),
-                ];
-
-                $weekNumber++;
-            }
-
-            $startDate->addDay(); // Move to the next day
-        }
-
-        return $weeks;
+        // return response()->json([
+        //     'data' => RadioResource::collection($radiosList),
+        //     'weeks' => $this->getWeeksCarbonBetween($currentSemester->start_date, $currentSemester->end_date)
+        // ]);
     }
 
     /**

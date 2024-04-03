@@ -71,7 +71,7 @@ onMounted(async () => {
     <!-- SubscriptionPayments list -->
     <MainCardComponent>
         <template #header>
-            <div class="d-flex flex-wrap justify-content-between">
+            <div class="d-flex flex-wrap justify-content-between mb-4">
                 <h6 class="h7" v-text="trans('Payments history')"></h6>
                 <div class="text-end" v-if="props.without_pagination">
                     <a :href="pageUrl" class="primary-button">
@@ -79,7 +79,7 @@ onMounted(async () => {
                     </a>
                 </div>
             </div>
-            <p class="p5 mb-4">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
+
         </template>
 
         <!-- Card Body -->

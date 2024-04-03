@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('radios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_id')->references('id')->on('schools')->cascadeOnDelete();
-            $table->foreignId('teacher_id')->nullable()->references('id')->on('users')->nullOnDelete();
-            $table->string('class');
+            $table->foreignId('semester_id')->references('id')->on('semesters')->cascadeOnDelete();
+            $table->enum('level', ['primary', 'middle', 'secondary']);
+            $table->string('subject')->nullable();
+            $table->string('attachment')->nullable();
+            $table->unsignedTinyInteger('week_number');
             $table->date('radio_date');
             $table->timestamps();
         });

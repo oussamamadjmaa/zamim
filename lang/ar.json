@@ -230,5 +230,16 @@
     "Start date" : "تاريخ البداية",
     "End date" : "تاريخ النهاية",
     "Week " : "الأسبوع ",
-    "Latest notifications" : "آخر الإشعارات"
+    "Latest notifications" : "آخر الإشعارات",
+    "Week information" : "بيانات الأسبوع",
+    "Add radio week" : "إضافة أسبوع إذاعة",
+    "Week number" : "رقم الأسبوع",
+    "Radio Weeks" : "أسابيع الإذاعة",
+    "Week start date" : "تاريخ بداية الأسبوع",
+    "Subject" : "الموضوع",
+    "Sunday" : "الاحد",
+    "Monday" : "الاثنين",
+    "Tuesday" : "الثلاثاء",
+    "Wednesday" : "الاربعاء",
+    "Thursday" : "الخميس"
 }
