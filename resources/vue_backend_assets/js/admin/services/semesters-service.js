@@ -8,7 +8,7 @@ export default function useSemesters() {
     ///
     const semesters = makeFetchAllRef();
     const getSemesters = async (url = null) => {
-        await fetchAll(url ?? pageUrl, semesters);
+        await fetchAll(url || pageUrl, semesters);
     }
     const getSemester = async (semesterId) => {
         return await fetchOne(`${pageUrl}/${semesterId}`)

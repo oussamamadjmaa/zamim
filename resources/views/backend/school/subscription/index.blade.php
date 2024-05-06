@@ -3,10 +3,9 @@
 @section('content')
     <div class="container">
         <div class="bg-white border rounded-16 py-4 px-4 h-100 col-lg-6 col-md-8 mb-4">
-            <div class="d-flex flex-wrap justify-content-between">
+            <div class="d-flex flex-wrap justify-content-between mb-3">
                 <h6 class="h7">{{ trans('Current subscription') }}</h6>
             </div>
-            <p class="p5 mb-4">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
 
             @if ($subscription)
             <div class="d-flex justify-content-between">

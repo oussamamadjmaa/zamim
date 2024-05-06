@@ -8,7 +8,7 @@ export default function useActivities() {
     ///
     const activities = makeFetchAllRef();
     const getActivities = async (url = null) => {
-        await fetchAll(url ?? pageUrl, activities);
+        await fetchAll(url || pageUrl, activities);
     }
     const getActivity = async (activityId) => {
         return await fetchOne(`${pageUrl}/${activityId}`)

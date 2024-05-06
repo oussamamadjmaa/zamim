@@ -25,7 +25,8 @@ class RadioWeekResource extends JsonResource
             ]), //Relationship
             'level' => $this->level,
             'levelText' => __(ucfirst($this->level)),
-            'weekNumber' => $this->week_number,
+            'weekNumberEn' => $this->week_number,
+            'weekNumber' => transNumber($this->week_number),
             'startDate' => $startDate,
             'startDateHijri' => hijriDate($startDate, 'Y/m/d'),
             'endDate' => $endDate,

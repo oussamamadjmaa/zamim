@@ -11,6 +11,8 @@ const trans = inject('trans');
 
 const { semesters, getSemesters, getSemester, storeSemester, semesterForm, destroySemester } = useSemesters()
 
+const radioWeeksUrl = window._app.url + '/radio-weeks?semester_id=semesterId';
+
 const createSemester = async () => {
     await storeSemester();
 
@@ -131,6 +133,7 @@ const onSearch = (event) => {
                         <td v-text="semester.startDateFormated"></td>
                         <td v-text="semester.endDateFormated"></td>
                         <td class="d-flex">
+                            <a type="button" class="secondary-button p-0 px-2 me-2" :href="radioWeeksUrl.replace('semesterId', semester.id)" v-text="trans('Radio Weeks')"></a>
                             <button type="button" class="primary-button p-0 px-2 me-2" @click="editSemester(semester)"><ion-icon
                                     name="create-outline"></ion-icon></button>
                             <button type="button" @click="deleteSemester(semester)"

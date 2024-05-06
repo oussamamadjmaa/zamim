@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Admin\RadioWeekRequest;
-use App\Http\Resources\SemesterResource;
 use App\Http\Resources\RadioWeekResource;
 use App\Models\Radio;
 use App\Models\Semester;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Termwind\Components\Raw;
 
 class RadioWeekController extends Controller
 {
@@ -21,11 +19,11 @@ class RadioWeekController extends Controller
     }
 
     private function jsonResponse(Request $request) {
-        $semesterId = $request->get('semester_id');
+        $semesterId = (int) $request->get('semester_id');
         $level = $request->get('level');
 
         $radios = Radio::when($semesterId, fn($q) => $q->where('semester_id', $semesterId))
-                        ->when($level, fn($q) => $q->where('level', $level))
+                        ->when($level && in_array($level, ['primary', 'middle', 'secondary']), fn($q) => $q->where('level', $level))
                         ->weekly()
                         ->with('semester')
                         ->latest('semester_id')
@@ -34,6 +32,7 @@ class RadioWeekController extends Controller
 
         return RadioWeekResource::collection($radios);
     }
+
     public function store(RadioWeekRequest $request)
     {
         $semesterId = $request->semester_id;
@@ -76,14 +75,73 @@ class RadioWeekController extends Controller
                         ->where('week_number', $weekNumber)
                         ->weekly()
                         ->with('semester')
-                        ->latest('semester_id')
-                        ->latest('week_number')
                         ->first();
 
         return response()->json([
             'status' => 200,
-            'message' => __('Data created successfully'),
+            'message' => __('Data saved successfully'),
             'data' => new RadioWeekResource($radio)
+        ]);
+    }
+
+    public function getRadioWeek(Request $request)
+    {
+        // Validate the incoming request
+        $validated = $request->validate([
+            'semester_id' => 'required|integer',
+            'level' => 'required|string',
+            'week_number' => 'required|integer',
+        ]);
+
+        // Destructure the validated data
+        ['semester_id' => $semesterId, 'level' => $level, 'week_number' => $weekNumber] = $validated;
+
+        $radios = Radio::where('semester_id', $semesterId)
+                        ->where('level', $level)
+                        ->where('week_number', $weekNumber)
+                        ->oldest('radio_date')
+                        ->get();
+
+        // Throw 404 if no radios found
+        abort_if(!$radios->count(), 404);
+
+        // Prepare response data
+        $data = [
+            'semester_id' => $semesterId,
+            'level' => $level,
+            'week_number' => $weekNumber,
+            'start_date' => $radios->first()->radio_date->format('Y-m-d'),
+            'radios' =>  $radios->mapWithKeys(function ($radio) {
+                return [$radio->radio_date->format('l') => ['subject' => $radio->subject]];
+            })->all(),
+        ];
+
+        // Return JSON response
+        return response()->json([
+            'status' => 200,
+            'data' => $data
+        ]);
+    }
+
+    public function deleteRadioWeek(Request $request) {
+        // Validate the incoming request
+        $validated = $request->validate([
+            'semester_id' => 'required|integer',
+            'level' => 'required|string',
+            'week_number' => 'required|integer',
+        ]);
+
+        // Destructure the validated data
+        ['semester_id' => $semesterId, 'level' => $level, 'week_number' => $weekNumber] = $validated;
+
+        Radio::where('semester_id', $semesterId)
+                ->where('level', $level)
+                ->where('week_number', $weekNumber)
+                ->delete();
+
+        return response()->json([
+            'status' => 200,
+            'message' => __('Data deleted successfully')
         ]);
     }
 

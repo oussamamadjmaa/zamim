@@ -89,10 +89,10 @@ const onSelectDeleteStudent = (studentId) => {
     activityForm.value.data.students = activityForm.value.data.students.filter(sId => sId.student_id != studentId);
 }
 //
-students.value.data_type = 'select';
+students.value.dataType = 'select';
 getStudents();
 
-teachers.value.data_type = 'select';
+teachers.value.dataType = 'select';
 getTeachers();
 
 const searchTiemout = ref(null);

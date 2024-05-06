@@ -13,6 +13,7 @@ import NavbarNotificationsComponent from '../../vue-components/backend/NavbarNot
 import NotificationsComponent from '../../vue-components/backend/NotificationsComponent.vue';
 import SemestersComponent from './admin/components/SemestersComponent.vue';
 import RadioWeeksComponent from './admin/components/RadioWeeksComponent.vue';
+import ArticlesComponent from './admin/components/ArticlesComponent.vue';
 
 app.component('subscriptions-component', SubscriptionsComponent);
 app.component('subscription-payments-component', SubscriptionPaymentsComponent);
@@ -22,6 +23,7 @@ app.component('navbar-notifications-component', NavbarNotificationsComponent);
 app.component('notifications-component', NotificationsComponent);
 app.component('semesters-component', SemestersComponent);
 app.component('radio-weeks-component', RadioWeeksComponent);
+app.component('articles-component', ArticlesComponent);
 
 app.provide('trans', translation.translate);
 

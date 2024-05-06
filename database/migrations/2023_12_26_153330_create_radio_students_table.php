@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('radio_student', function (Blueprint $table) {
-            $table->foreignId('radio_id')->references('id')->on('radios')->cascadeOnDelete();
+        Schema::create('radio_students', function (Blueprint $table) {
+            $table->foreignId('radio_id')->constrained()->cascadeOnDelete();
             $table->foreignId('student_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('article_id')->constrained('articles')->cascadeOnDelete();
+            $table->unsignedTinyInteger('rating')->nullable();
+            $table->primary(['radio_id', 'student_id']);
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('radio_student');
+        Schema::dropIfExists('radio_students');
     }
 };

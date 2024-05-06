@@ -8,7 +8,7 @@ export default function useTeachers() {
     ///
     const teachers = makeFetchAllRef();
     const getTeachers = async (url = null) => {
-        await fetchAll(url ?? pageUrl, teachers);
+        await fetchAll(url || pageUrl, teachers);
     }
     const getTeacher = async (teacherId) => {
         return await fetchOne(`${pageUrl}/${teacherId}`)

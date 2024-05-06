@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import MainTableComponent from '../../../../vue-components/backend/MainTableComponent.vue'
 import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue'
 // import MainModalComponent from '../../../../vue-components/backend/MainModalComponent.vue'
@@ -8,11 +8,17 @@ import MainPaginationComponent from '../../../../vue-components/backend/MainPagi
 import useCommon from '../../../../vue-services/common';
 
 const props = defineProps({
-    without_pagination : {
+    withoutpagination : {
         default: false,
         type: Boolean
     }
 })
+
+const subscriptionPlans = {
+    '': 'All',
+    'monthly': 'Monthly subscription',
+    'yearly': 'Yearly subscription',
+};
 
 const { makeFetchAllRef, fetchAll } = useCommon();
 //
@@ -21,10 +27,10 @@ const subscriptionPaymentsHistoryUrl = `${window._app.url}/subscriptions/payment
 
 ///
 const subscriptions = makeFetchAllRef();
-subscriptions.value.without_pagination = props.without_pagination;
+subscriptions.value.withoutPagination = props.withoutpagination;
 
 const getSubscriptions = async (url = null) => {
-    await fetchAll(url ?? pageUrl, subscriptions);
+    await fetchAll(url || pageUrl, subscriptions);
 }
 
 onMounted(() => {
@@ -43,6 +49,11 @@ const onSearch = (event) => {
         getSubscriptions();
     }, 600)
 }
+
+//watches
+watch(subscriptions.value.extraParams, () => {
+    getSubscriptions();
+}, { deep: true });
 </script>
 <template>
     <!-- Subscriptions list -->
@@ -52,10 +63,28 @@ const onSearch = (event) => {
                 <h6 class="h7" v-text="trans('Subscriptions')"></h6>
                 <input type="text"
                         class="form-control mb-2" style="max-width: 300px;" :placeholder="trans('Search')" @keyup="onSearch($event)">
-                <div class="text-end" v-if="props.without_pagination">
+                <div class="text-end" v-if="props.withoutpagination">
                     <a :href="pageUrl" class="primary-button">
                         {{ trans('Show more') }}
                     </a>
+                </div>
+            </div>
+
+            <div class="mb-4 d-flex">
+                <div class="dropdown">
+                    <button
+                        class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        id="filterLevel"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        v-text="trans(('') || 'Subscription plan')"
+                    >
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="filterLevel">
+                        <a v-for="(plan, planType) in subscriptionPlans" class="dropdown-item" href="#" v-on:click="subscriptions.extraParams.planType = planType" v-text="trans(plan)"></a>
+                    </div>
                 </div>
             </div>
 

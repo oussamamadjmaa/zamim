@@ -135,9 +135,13 @@ const uploadFile = async (input, path, isFile = false) => {
     if (typeof res != "undefined") {
         isProccessing = false;
         if (res.status == 200) {
-            emit('onFileUpload', res.data);
+            emit('onFileUpload', res.data, file);
             emit('update:modelValue', res.data.path)
+        }else{
+            document.getElementById(inputId).value = '';
         }
+    }else {
+        document.getElementById(inputId).value = '';
     }
 }
 
@@ -200,7 +204,7 @@ onMounted(async () => {
 
         <input v-if="(['text', 'email', 'password']).includes(type)" :type="type" class="input_"
             :class="{ 'is-invalid': errors }" :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label)" :id="inputId" :readonly="readonly" :required="required">
+            @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label) + (!required ? ' ('+trans('Optional')+')' : '')" :id="inputId" :readonly="readonly" :required="required">
 
         <input v-else-if="type == 'date'" type="text" class="input_ datepicker_input" readonly
             :class="{ 'is-invalid': errors }"

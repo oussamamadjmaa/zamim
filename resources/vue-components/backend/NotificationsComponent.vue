@@ -6,9 +6,7 @@ import useNotifications from '../../vue_backend_assets/js/services/notifications
 
 const { getNotifications, notifications,notificationUrl, notificationsUrl } = useNotifications()
 
-setTimeout(() => {
-    getNotifications()
-}, 100);
+getNotifications()
 
 </script>
 <template>

@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('radio_contents', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('school_id')->references('id')->on('schools')->cascadeOnDelete();
-            $table->string('title');
-            $table->string('attachment')->nullable();
-            $table->timestamps();
+        Schema::create('school_radio', function (Blueprint $table) {
+            $table->foreignId('radio_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('school_id')->constrained()->cascadeOnDelete();
+            $table->primary(['radio_id', 'school_id']);
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('radio_contents');
+        Schema::dropIfExists('school_radio');
     }
 };

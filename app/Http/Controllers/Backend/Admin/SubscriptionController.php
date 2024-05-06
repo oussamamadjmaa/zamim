@@ -80,14 +80,40 @@ class SubscriptionController extends Controller
 
     protected function getSubscriptions($request)
     {
-        $subscriptions = PlanSubscription::with(['subscriber', 'plan'])->search($request->search)->latest()->when($request->get('without_pagination'), fn ($q) => $q->limit(5)->get(), fn ($q) => $q->latest()->paginate(15)->withQueryString());
+        $planType = $request->get('planType');
+
+        // Build the query for plan subscriptions
+        $query = PlanSubscription::with(['subscriber', 'plan'])
+            ->search($request->search)
+            ->latest();
+
+        // Conditionally apply filters based on the plan type
+        $query->where(function ($query) use ($planType) {
+            if ($planType == 'monthly') {
+                $query->where('plan_id', 1);
+            } elseif ($planType == 'yearly') {
+                $query->where('plan_id', 2);
+            }
+        });
+
+        // Conditionally paginate the results or limit them to 5 items
+        $subscriptions = $request->get('withoutPagination')
+            ? $query->limit(5)->get()
+            : $query->paginate(15)->withQueryString();
 
         return SubscriptionResource::collection($subscriptions);
     }
 
     protected function getPaymentsHistory($request, $school)
     {
-        $subscriptionPayments = ($school ? $school->subscription_payments() : SubscriptionPayment::query())->with(['plan', 'payer', 'receipt'])->latest()->when($request->get('without_pagination'), fn ($q) => $q->limit(5)->get(), fn ($q) => $q->latest()->paginate(15)->withQueryString());
+        $query = $school ? $school->subscription_payments() : SubscriptionPayment::query();
+
+        $query->with(['plan', 'payer', 'receipt'])
+            ->latest();
+
+        $subscriptionPayments = $request->get('withoutPagination')
+            ? $query->limit(5)->get()
+            : $query->paginate(15)->withQueryString();
 
         return SubscriptionPaymentResource::collection($subscriptionPayments);
     }

@@ -10,7 +10,7 @@ import SubscriptionPaymentReviewComponent from './SubscriptionPaymentReviewCompo
 import useCommon from '../../../../vue-services/common';
 
 const props = defineProps({
-    without_pagination : {
+    withoutpagination : {
         type: Boolean,
         default: false
     },
@@ -26,12 +26,10 @@ const pageUrl = `${window._app.url}/subscriptions/payments_history`;
 
 ///
 const subscriptionPayments = makeFetchAllRef();
-subscriptionPayments.value.without_pagination = props.without_pagination;
+subscriptionPayments.value.withoutPagination = props.withoutpagination;
 
 const getSubscriptionPayments = async (url = null) => {
     await fetchAll(url ?? (pageUrl + (props.school ? '/subscriber/'+props.school.id : '')), subscriptionPayments);
-
-    console.log(subscriptionPayments.value)
 }
 
 const getSubscriptionPayment = async (subscriptionPaymentId) => {
@@ -56,7 +54,7 @@ const updateSubscriptionPayment = (subscriptionPayment) => {
 onMounted(async () => {
     getSubscriptionPayments();
 
-    if (props.without_pagination == true) {
+    if (props.withoutpagination == true) {
         setInterval(() => {
             getSubscriptionPayments();
         }, 10100);
@@ -73,7 +71,7 @@ onMounted(async () => {
         <template #header>
             <div class="d-flex flex-wrap justify-content-between mb-4">
                 <h6 class="h7" v-text="trans('Payments history')"></h6>
-                <div class="text-end" v-if="props.without_pagination">
+                <div class="text-end" v-if="props.withoutpagination">
                     <a :href="pageUrl" class="primary-button">
                         {{ trans('Show more') }}
                     </a>
@@ -114,31 +112,31 @@ onMounted(async () => {
                             <tr>
                                 <th>#</th>
                                 <th scope="col">{{ trans('Plan name') }}</th>
-                                <th v-if="!props.without_pagination" scope="col">{{ trans('School id') }}</th>
+                                <th v-if="!props.withoutpagination" scope="col">{{ trans('School id') }}</th>
                                 <th scope="col">{{ trans('School name') }}</th>
-                                <th v-if="!props.without_pagination" scope="col">{{ trans('Payment method') }}</th>
-                                <th v-if="!props.without_pagination" scope="col">{{ trans('Period') }}</th>
+                                <th v-if="!props.withoutpagination" scope="col">{{ trans('Payment method') }}</th>
+                                <th v-if="!props.withoutpagination" scope="col">{{ trans('Period') }}</th>
                                 <th scope="col">{{ trans('Amount') }}</th>
                                 <th scope="col">{{ trans('Payment status') }}</th>
-                                <th v-if="!props.without_pagination" scope="col">{{ trans('Last update') }}</th>
-                                <th v-if="!props.without_pagination" scope="col">{{ trans('Operations') }}</th>
+                                <th v-if="!props.withoutpagination" scope="col">{{ trans('Last update') }}</th>
+                                <th v-if="!props.withoutpagination" scope="col">{{ trans('Operations') }}</th>
                             </tr>
                         </template>
                         <tr v-for="subscriptionPayment in subscriptionPayments.list" :key="subscriptionPayment.id">
                             <td scope="row" v-text="subscriptionPayment.id"></td>
                             <td v-text="trans(subscriptionPayment.plan.name)"></td>
-                            <td v-if="!props.without_pagination" v-text="subscriptionPayment.payer.id"></td>
+                            <td v-if="!props.withoutpagination" v-text="subscriptionPayment.payer.id"></td>
                             <td><a :href="pageUrl+'/subscriber/'+subscriptionPayment.payer.id" v-text="subscriptionPayment.payer.name"></a></td>
-                            <td v-if="!props.without_pagination" v-text="trans(subscriptionPayment.paymentMethodText)"></td>
-                            <td v-if="!props.without_pagination" v-text="subscriptionPayment.subscriptionPeriodText"></td>
+                            <td v-if="!props.withoutpagination" v-text="trans(subscriptionPayment.paymentMethodText)"></td>
+                            <td v-if="!props.withoutpagination" v-text="subscriptionPayment.subscriptionPeriodText"></td>
                             <td>{{ subscriptionPayment.amount + ' ' + trans(subscriptionPayment.currencyText) }}</td>
                             <td>
                                 <span class="badge" :class="'bg-'+subscriptionPayment.status" v-text="trans(subscriptionPayment.statusText)"></span>
                             </td>
-                            <td v-if="!props.without_pagination" v-text="subscriptionPayment.updatedAt"></td>
+                            <td v-if="!props.withoutpagination" v-text="subscriptionPayment.updatedAt"></td>
                             <td>
                                 <button type="button" @click="reviewPayment = subscriptionPayment"
-                                    class="btn btn-info p-0 px-2 text-white text-nowrap" :title="trans('Review')"><ion-icon name="eye-outline"></ion-icon> {{  !props.without_pagination ? trans("Review") : '' }}</button>
+                                    class="btn btn-info p-0 px-2 text-white text-nowrap" :title="trans('Review')"><ion-icon name="eye-outline"></ion-icon> {{  !props.withoutpagination ? trans("Review") : '' }}</button>
                             </td>
                         </tr>
                 </MainTableComponent>

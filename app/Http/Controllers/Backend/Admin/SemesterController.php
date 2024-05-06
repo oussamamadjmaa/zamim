@@ -24,7 +24,7 @@ class SemesterController extends Controller
 
     private function jsonResponse($request)
     {
-        if ($request->data_type == 'select') {
+        if ($request->dataType == 'select') {
             $semesters = Semester::latest('start_date')->get(['id', 'name', 'start_date', 'end_date'])
             ->map(fn($sem) => [
                     'id' => $sem->id,

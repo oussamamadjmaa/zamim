@@ -29,7 +29,7 @@
 
     <div class="row mx-0">
         <div class="col-md-6 mb-4 mb-md-0">
-            <subscription-payments-component :without_pagination="true"></subscription-payments-component>
+            <subscription-payments-component :withoutPagination="true"></subscription-payments-component>
         </div>
 
         <div class="col-md-6">

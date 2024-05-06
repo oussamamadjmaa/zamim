@@ -8,22 +8,24 @@ export default function useRadioWeeks() {
     ///
     const radioWeeks = makeFetchAllRef();
     const getRadioWeeks = async (url = null) => {
-        await fetchAll(url ?? pageUrl, radioWeeks);
+        await fetchAll(url || pageUrl, radioWeeks);
     }
-    const getRadioWeek = async (radioWeekId) => {
-        return await fetchOne(`${pageUrl}/${radioWeekId}`)
+    const getRadioWeek = async (semesterId, level, weekNumber) => {
+        return await fetchOne(`${pageUrl}/get?semester_id=${semesterId}&level=${level}&week_number=${weekNumber}`)
     }
 
     ///
     const radioWeekForm = makeFormRef({radios: {Sunday:{}, Monday:{}, Tuesday:{}, Wednesday:{}, Thursday:{}}}, pageUrl)
     const storeRadioWeek = async () => {
-        await storeForm(radioWeekForm, radioWeeks)
+        await storeForm(radioWeekForm, radioWeeks, {successCallback: function(res) {
+            getRadioWeeks()
+        }})
     }
 
     ///
     const destroyRadioWeek = (radioWeek) => {
         radioWeeks.value.list = radioWeeks.value.list.filter((dep) => dep != radioWeek)
-        callApi({url: pageUrl+ '/' + radioWeek.id, method: 'POST', data: { _method: "DELETE" }})
+        callApi({url: pageUrl+ `?semester_id=${radioWeek.semesterId}&level=${radioWeek.level}&week_number=${radioWeek.weekNumberEn}`, method: 'POST', data: { _method: "DELETE" }})
     }
 
     return {

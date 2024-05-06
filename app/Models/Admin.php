@@ -34,4 +34,8 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function articles() {
+        return $this->morphMany(Article::class, 'author');
+    }
 }

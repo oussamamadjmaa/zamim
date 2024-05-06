@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Contracts\Container\Container;
-
+use Illuminate\Session\TokenMismatchException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -72,6 +72,10 @@ class Handler extends ExceptionHandler
             } elseif (in_array($routePrefix, ['school', 'portal', 'admin'])) {
                 return response()->view('errors.backend.404', [], 404);
             }
+        }
+
+        if (!$request->expectsJson() && $exception instanceof TokenMismatchException) {
+            return response()->view('errors.frontend.419', [], 404);
         }
 
         return parent::render($request, $exception);

@@ -45,14 +45,14 @@ if(!function_exists('getSemesters')) {
 }
 
 if(!function_exists('getCurrentSemester')) {
-    function getCurrentSemester() {
+    function getCurrentSemester($semesterIdParam = null) {
         try {
             $semesters = getSemesters();
         } catch (\Throwable $th) {
             return new Semester();
         }
 
-        if ($semesterId = session()->get('selected_semester_id')) {
+        if ($semesterId = ($semesterIdParam ?? session()->get('selected_semester_id'))) {
             $selectedSemester = $semesters->where('id', $semesterId)
                                 ->first();
 

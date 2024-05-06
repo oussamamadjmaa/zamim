@@ -71,6 +71,8 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Article> $articles
+ * @property-read int|null $articles_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
@@ -92,6 +94,37 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereUsername($value)
  */
 	class Admin extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Article
+ *
+ * @property int $id
+ * @property int $radio_id
+ * @property string $author_type
+ * @property int $author_id
+ * @property string $title
+ * @property string|null $attachment
+ * @property int $is_public
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $author
+ * @property-read \App\Models\Radio $radio
+ * @method static \Illuminate\Database\Eloquent\Builder|Article newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Article newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Article query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereAttachment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereAuthorType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereIsPublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereRadioId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Article whereUpdatedAt($value)
+ */
+	class Article extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -197,37 +230,21 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\RadioContent
- *
- * @property int $id
- * @property int $school_id
- * @property string $title
- * @property string|null $attachment
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\School $school
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent query()
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereAttachment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereSchoolId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RadioContent whereUpdatedAt($value)
- */
-	class RadioContent extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\RadioStudent
  *
- * @property-read \App\Models\Radio|null $radio
- * @property-read \App\Models\Student|null $student
+ * @property int $radio_id
+ * @property int $student_id
+ * @property int $article_id
+ * @property int|null $rating
+ * @property-read \App\Models\Radio $radio
+ * @property-read \App\Models\Student $student
  * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent whereArticleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent whereRadioId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent whereStudentId($value)
  */
 	class RadioStudent extends \Eloquent {}
 }
@@ -236,11 +253,17 @@ namespace App\Models{
 /**
  * App\Models\RadioTeacher
  *
- * @property-read \App\Models\Radio|null $radio
- * @property-read \App\Models\Teacher|null $teacher
+ * @property int $radio_id
+ * @property int $teacher_id
+ * @property int|null $rating
+ * @property-read \App\Models\Radio $radio
+ * @property-read \App\Models\Teacher $teacher
  * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher whereRadioId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher whereRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RadioTeacher whereTeacherId($value)
  */
 	class RadioTeacher extends \Eloquent {}
 }

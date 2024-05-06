@@ -76,6 +76,8 @@ class ViewServiceProvider extends ServiceProvider
             $this->sidebarLink('Statistics', route('admin.statistics.index'), 'admin.statistics.*', 'bar-graph-3'),
             $this->sidebarLink('Subscriptions', route('admin.subscriptions.index'), 'admin.subscriptions.*', 'cash'),
             $this->sidebarLink('Semesters', route('admin.semesters.index'), 'admin.semesters.*', 'calendar-1'),
+            $this->sidebarLink('Radio Weeks', route('admin.radio-weeks.index'), 'admin.radio-weeks.*', 'radio'),
+            $this->sidebarLink('Articles', route('admin.articles.index'), 'admin.articles.*', 'bookmark-page'),
             $this->sidebarLink('Profile', route('admin.profile.index'), 'admin.profile.*', 'user-2'),
         ];
     }

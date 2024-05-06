@@ -31,7 +31,12 @@ class ActivityController extends Controller
 
     private function jsonResponse($request)
     {
-        $activities = Activity::whereSchoolId(auth()->user()->school_id)->with(['students:id,name','teacher:id,name'])->search($request->search)->latest('activity_date')->paginate(15)->withQueryString();
+        $query = Activity::whereSchoolId(auth()->user()->school_id)
+                    ->with(['students:id,name','teacher:id,name'])
+                    ->search($request->search)
+                    ->latest('activity_date');
+
+        $activities = $query->paginate(15)->withQueryString();
 
         return ActivityResource::collection($activities);
     }

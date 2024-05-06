@@ -1,5 +1,5 @@
 <script setup>
-import { watchEffect, inject, ref, computed } from 'vue';
+import { watchEffect, inject, watch, computed, ref } from 'vue';
 import useRadios from '../services/radios-service.js'
 import useStudents from '../services/students-service.js'
 import useTeachers from '../services/teachers-service.js'
@@ -8,8 +8,9 @@ import InputComponent from '../../../../vue-components/backend/FormParts/InputCo
 import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue';
 
 const trans = inject('trans');
+const selectedSemesterName = ref('Unknown');
 
-const { radios, getRadios, getRadio, storeRadio, radioForm, destroyRadio } = useRadios()
+const { radios, getRadios, getRadio, storeRadio, radioForm } = useRadios()
 const { students, getStudents } = useStudents()
 const { teachers, getTeachers } = useTeachers()
 
@@ -40,10 +41,9 @@ const closeModal = () => {
     radioForm.value.errors = []
 }
 
-const filteredRadios = (weekNumber) => {
-    let filteredRadios = radios.value.list.filter(radio => radio.weekNumber === parseInt(weekNumber));
-
-    radios.value.response.data.weeks[`week-${weekNumber}`].show = filteredRadios.length;
+const filteredRadios = (week) => {
+    let filteredRadios = radios.value.list.filter(radio => radio.semesterId === parseInt(week.semesterId) && radio.level == week.level && radio.weekNumber === parseInt(week.weekNumber));
+    radios.value.response.data.weeks[`${week.semesterId}-${week.level}-${week.weekNumber}`].show = filteredRadios.length;
 
     return filteredRadios.sort((a, b) => new Date(a.radioDate) - new Date(b.radioDate));
 }
@@ -71,13 +71,7 @@ const studentsList = computed(() => {
     return result;
 })
 
-const deleteRadio = (radio) => {
-    if (!confirm(trans('Do you really want to delete this record?'))) return;
 
-    destroyRadio(radio)
-}
-
-getRadios()
 
 const onSelectAddStudent = (studentId) => {
     radioForm.value.data.students = [...radioForm.value.data.students, parseInt(studentId)]
@@ -88,29 +82,57 @@ const onSelectDeleteStudent = (studentId) => {
 
     radioForm.value.data.students = radioForm.value.data.students.filter(sId => sId != studentId);
 }
+
+watch(radios.value.extraParams, async (newVal) => {
+    await getRadios();
+
+    if (radios.value.response?.data) {
+        let semesterId = radios.value.extraParams.semester_id;
+        let semester = radios.value.response.data.semesters.filter(semester => semester.id == semesterId)[0] ?? [];
+
+        selectedSemesterName.value = semester ? semester.name + ' ('+ semester.startDateHijri + ' - ' + semester.endDateHijri +')' : trans('Unknown');
+    }
+}, { deep: true });
 //
-students.value.data_type = 'select';
+radios.value.extraParams.semester_id = window._app.currentSemester.id
+getRadios();
+
+students.value.dataType = 'select';
 getStudents();
 
-teachers.value.data_type = 'select';
+teachers.value.dataType = 'select';
 getTeachers();
 
 </script>
 <template>
     <!-- Radios list -->
     <MainCardComponent>
-        <div class="d-flex flex-wrap justify-content-between">
-            <h6 class="h7 mb-2"><ion-icon name="radio-outline"></ion-icon> <span v-text="trans('School Radio')"></span>
-            </h6>
-            <div class="text-end">
-                <button class="primary-button mb-2" @click="radioForm.show = !radioForm.show">
-                    <ion-icon name="add"></ion-icon> {{ trans('Create your school radio') }}
-                </button>
+        <template #header>
+            <div class="d-flex flex-wrap justify-content-between mb-4">
+                <h6 class="h7 mb-2"><ion-icon name="radio-outline"></ion-icon> <span
+                        v-text="trans('School Radio')"></span>
+                </h6>
             </div>
-        </div>
-        <p class="p5 mb-5">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
+
+            <div class="mb-4 d-flex">
+                <template
+                    v-if="radios.response && radios.response.status == 200 && radios.response.data.semesters.length">
+                    <div class="dropdown ms-3">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="filterLevel"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            v-text="trans('Semester') + ' ('+ selectedSemesterName +')'">
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="filterLevel">
+                            <a v-for="semester in radios.response.data.semesters" :class="{'dropdown-item': true, 'active': radios.extraParams.semester_id == semester.id}"
+                                href="javascript:;" v-on:click="radios.extraParams.semester_id = semester.id"
+                                v-text="semester.name + ' ('+ semester.startDateHijri + ' - ' + semester.endDateHijri +')'"></a>
 
 
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
         <!-- Waiting for radios response (Loading) -->
         <template v-if="!radios.response">
             <div class="text-center">
@@ -143,25 +165,21 @@ getTeachers();
                         <table class="table weekly-radios-table">
                             <thead>
                                 <tr>
-                                    <th colspan="5" v-text="week.title + ' (' + week.weekRangeHijri + ')'">
+                                    <th colspan="4" v-text="week.title + ' (' + week.weekRangeHijri + ')'">
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="radio in filteredRadios(week.weekNumber)">
+                                <tr v-for="radio in filteredRadios(week)">
                                     <td scope="row" v-text="radio.radioDay"></td>
                                     <td v-text="radio.radioDateHijri"></td>
-                                    <td v-text="radio.class"></td>
-                                    <td v-text="radio.teacher.name"></td>
+                                    <td v-text="radio.subject"></td>
                                     <td>
                                         <button type="button" class="button secondary-button py-1 px-2 me-2"
                                             @click="editRadio(radio)"><ion-icon name="eye-outline"></ion-icon></button>
                                         <button type="button" class="primary-button me-2 py-1 px-2"
                                             @click="editRadio(radio)"><ion-icon
                                                 name="create-outline"></ion-icon></button>
-                                        <button type="button" @click="deleteRadio(radio)"
-                                            class="button button-red py-1 px-2"><ion-icon
-                                                name="trash-outline"></ion-icon></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -217,8 +235,8 @@ getTeachers();
                 <div class="mt-3">
                     <button type="submit" class="primary-button" :disabled="radioForm.processing">
                         {{ radioForm.processing ? trans('Please wait') : (
-                radioForm.update ? trans('Update') : trans('Save')
-            ) }}
+                            radioForm.update ? trans('Update') : trans('Save')
+                        ) }}
                     </button>
                     <button type="button" class="secondary-button ms-2" @click="closeModal()">{{ trans('Close')
                         }}</button>

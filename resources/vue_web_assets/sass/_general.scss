@@ -148,7 +148,7 @@ h1 {
         top: 100%;
         width: 100%;
         left: 0;
-        background-color: #fff;
+        background-color: var(--main-white);
         border: solid 1px #eee;
         border-radius: 11px;
         z-index: 9;
@@ -181,7 +181,7 @@ h1 {
                 transition: all 0.13s ease-in-out;
 
                 &.selected {
-                    background-color: #eee;
+                    background-color: var(--main-gray);
                 }
 
                 &:hover {

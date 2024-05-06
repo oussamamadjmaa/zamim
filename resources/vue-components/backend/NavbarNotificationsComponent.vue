@@ -10,9 +10,7 @@ const updateNotifications = (btn) => {
         getNotifications()
     }
 }
-setTimeout(() => {
-    getNotifications()
-}, 100);
+getNotifications()
 
 setInterval(() => {
     getNotifications()

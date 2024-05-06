@@ -30,7 +30,7 @@ class TeacherController extends Controller
 
     private function jsonResponse($request)
     {
-        if ($request->data_type == 'select') {
+        if ($request->dataType == 'select') {
             $teachers = Teacher::whereSchoolId(auth()->user()->school_id)->latest('name')->get(['id', 'name'])->pluck('name', 'id')->toArray();
 
             return response()->json(['data' => $teachers]);

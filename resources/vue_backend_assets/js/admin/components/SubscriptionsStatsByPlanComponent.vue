@@ -57,7 +57,7 @@ const pageUrl = `${window._app.url}/subscriptions/stats/plans-subsribers`;
 const stats = makeFetchAllRef();
 
 const getStats = async (url = null) => {
-    await fetchAll(url ?? pageUrl, stats);
+    await fetchAll(url || pageUrl, stats);
 }
 
 

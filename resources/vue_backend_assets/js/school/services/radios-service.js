@@ -8,7 +8,7 @@ export default function useRadios() {
     ///
     const radios = makeFetchAllRef();
     const getRadios = async (url = null) => {
-        await fetchAll(url ?? pageUrl, radios);
+        await fetchAll(url || pageUrl, radios);
     }
     const getRadio = async (radioId) => {
         return await fetchOne(`${pageUrl}/${radioId}`)

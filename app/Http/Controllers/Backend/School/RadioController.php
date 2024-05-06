@@ -11,11 +11,6 @@ use Illuminate\Http\Request;
 
 class RadioController extends Controller
 {
-    public function __construct()
-    {
-        //Middleware
-        $this->authorizeResource(Radio::class);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -29,18 +24,35 @@ class RadioController extends Controller
 
     private function jsonResponse($request)
     {
-        // $currentSemester = getCurrentSemester();
+        $currentSemester = getCurrentSemester($request->get('semester_id'));
 
-        // $radiosList = Radio::whereBetween('radio_date', [$currentSemester->start_date, $currentSemester->end_date])
-        //                   ->whereSchoolId(auth()->user()->school_id)
-        //                   ->with(['students:id,name','teacher:id,name'])
-        //                   ->latest('radio_date')
-        //                   ->get();
+        $radiosList =   $currentSemester->radios()
+                          ->whereLevel(auth()->user()->level)
+                          ->oldest('week_number')
+                          ->oldest('radio_date')
+                          ->get();
 
-        // return response()->json([
-        //     'data' => RadioResource::collection($radiosList),
-        //     'weeks' => $this->getWeeksCarbonBetween($currentSemester->start_date, $currentSemester->end_date)
-        // ]);
+        // Available weeks
+        $weeks = $radiosList->groupBy(fn ($radio) =>  $radio->semester_id . '-' . $radio->level . '-' . $radio->week_number)->map(function ($radios) {
+            $rad = $radios->first();
+            $weekStart = $rad->radio_date->format('Y-m-d');
+            $weekEnd = $rad->radio_date->copy()->addDays(4)->format('Y-m-d');
+
+            return [
+                'title' => __('Week ') . transNumber($rad->week_number),
+                'semesterId' => $rad->semester_id,
+                'level' => $rad->level,
+                'weekNumber' => $rad->week_number,
+                'weekRange' => dateRangeFormatter($weekStart, $weekEnd),
+                'weekRangeHijri' => dateRangeFormatter(hijriDate($weekStart, 'Y/m/d'), hijriDate($weekEnd, 'Y/m/d'), '/', 'ar'),
+            ];
+        })->filter();
+
+        return response()->json([
+            'data' => RadioResource::collection($radiosList),
+            'weeks' => $weeks,
+            'semesters' => getSemesters()
+        ]);
     }
 
     /**

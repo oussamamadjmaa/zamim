@@ -8,7 +8,7 @@ export default function useStudents() {
     ///
     const students = makeFetchAllRef();
     const getStudents = async (url = null) => {
-        await fetchAll(url ?? pageUrl, students);
+        await fetchAll(url || pageUrl, students);
     }
     const getStudent = async (studentId) => {
         return await fetchOne(`${pageUrl}/${studentId}`)

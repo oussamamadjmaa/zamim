@@ -1,79 +1,101 @@
 <script setup>
-import { watchEffect, inject, ref } from 'vue';
-import useRadioWeeks from '../services/radio-weeks-service.js'
-import useSemesters from '../services/semesters-service.js'
-import MainTableComponent from '../../../../vue-components/backend/MainTableComponent.vue'
-import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue'
-import MainModalComponent from '../../../../vue-components/backend/MainModalComponent.vue'
+import { watch, inject } from 'vue';
+import useRadioWeeks from '../services/radio-weeks-service.js';
+import useSemesters from '../services/semesters-service.js';
+import MainTableComponent from '../../../../vue-components/backend/MainTableComponent.vue';
+import MainCardComponent from '../../../../vue-components/backend/MainCardComponent.vue';
+import MainModalComponent from '../../../../vue-components/backend/MainModalComponent.vue';
 import InputComponent from '../../../../vue-components/backend/FormParts/InputComponent.vue';
 import MainPaginationComponent from '../../../../vue-components/backend/MainPaginationComponent.vue';
 
+// Injected translation function
 const trans = inject('trans');
 
-const { radioWeeks, getRadioWeeks, getRadioWeek, storeRadioWeek, radioWeekForm, destroyRadioWeek } = useRadioWeeks()
-const { semesters, getSemesters } = useSemesters()
+// Services
+const { radioWeeks, getRadioWeeks, getRadioWeek, storeRadioWeek, radioWeekForm, destroyRadioWeek } = useRadioWeeks();
+const { semesters, getSemesters } = useSemesters();
 
+// Levels
+const levels = {
+    '': 'All',
+    'primary': 'Primary',
+    'middle': 'Middle',
+    'secondary': 'Secondary',
+};
+
+// Actions
 const createRadioWeek = async () => {
     await storeRadioWeek();
-
-    if(radioWeekForm.value.response.status == 200 && !radioWeekForm.value.update) {
+    console.log(radioWeekForm.value.defaultData, radioWeekForm.value.response.status)
+    if (radioWeekForm.value.response.status === 200) {
+        radioWeekForm.value.data = radioWeekForm.value.defaultData;
+        radioWeekForm.value.data.semester_id = radioWeeks.value.extraParams.semester_id;
+        radioWeekForm.value.data.level = radioWeeks.value.extraParams.level;
         radioWeekForm.value.show = false;
     }
-}
+};
+
 const editRadioWeek = async (radioWeek) => {
-    radioWeeks.value.isProccessing = true
-    radioWeek = await getRadioWeek(radioWeek.id)
-    radioWeeks.value.isProccessing = false
-    if(!radioWeek) return;
+    radioWeeks.value.isProccessing = true;
+    let res = await getRadioWeek(radioWeek.semesterId, radioWeek.level, radioWeek.weekNumberEn);
+    radioWeeks.value.isProccessing = false;
+    if (!res) return;
 
-    radioWeeks.value.list = radioWeeks.value.list.map((techRec) => techRec.id == radioWeek.id ? radioWeek : techRec)
+    radioWeekForm.value.show = true;
+    radioWeekForm.value.data = { ...res };
+    radioWeekForm.value.isUpdate = true;
+};
 
-    radioWeekForm.value.show = true
-    radioWeekForm.value.data = {name: radioWeek.name, start_date: radioWeek.startDate, end_date: radioWeek.endDate}
-
-    radioWeekForm.value.update = radioWeek
-}
-
-const closeModal = () => {
-    radioWeekForm.value.show = false
-    radioWeekForm.value.errors = []
-}
-
-watchEffect(() => {
-    if(!radioWeekForm.value.show) {
-        radioWeekForm.value.response = null
-        radioWeekForm.value.errors = []
-        if(radioWeekForm.value.update) {
-            radioWeekForm.value.data = radioWeekForm.value.defaultData;
-            radioWeekForm.value.update = null
-        }
-
-    }
-})
 
 const deleteRadioWeek = (radioWeek) => {
     if (!confirm(trans('Do you really want to delete this record?'))) return;
 
-    destroyRadioWeek(radioWeek)
-}
+    destroyRadioWeek(radioWeek);
+};
+
+const closeModal = () => {
+    radioWeekForm.value.show = false;
+    radioWeekForm.value.errors = [];
+};
 
 
-getRadioWeeks()
+// Watches
+watch(() => radioWeekForm.value.show, (newVal) => {
+    if (!newVal) {
+        radioWeekForm.value.response = null;
+        radioWeekForm.value.errors = [];
 
-const searchTiemout = ref(null);
+        if (radioWeekForm.value.update || radioWeekForm.value.isUpdate) {
+            radioWeekForm.value.data = radioWeekForm.value.defaultData;
+            radioWeekForm.value.data.semester_id = radioWeeks.value.extraParams.semester_id;
+            radioWeekForm.value.data.level = radioWeeks.value.extraParams.level;
+            radioWeekForm.value.update = null;
+        }
 
-const onSearch = (event) => {
-    if(searchTiemout.value) {
-        clearTimeout(searchTiemout.value)
+        radioWeekForm.value.isUpdate = false;
+    } else {
+        if (!Object.values(semesters.value.list).length) {
+            semesters.value.dataType = 'select';
+            getSemesters();
+        }
     }
+});
 
-    radioWeeks.value.search = event.target.value;
-    searchTiemout.value = setTimeout(() => {
-        getRadioWeeks();
-    }, 600)
-}
+watch(radioWeeks.value.extraParams, (newVal) => {
+    radioWeekForm.value.data.semester_id = newVal.semester_id;
+    radioWeekForm.value.data.level = newVal.level;
 
-semesters.value.data_type = 'select';
+    getRadioWeeks();
+}, { deep: true });
+
+// Initial fetch
+const urlParams = window.urlParams;
+radioWeeks.value.extraParams.semester_id = urlParams.get('semester_id');
+radioWeeks.value.extraParams.level = urlParams.get('level');
+
+getRadioWeeks();
+
+semesters.value.dataType = 'select';
 getSemesters();
 </script>
 <template>
@@ -87,6 +109,43 @@ getSemesters();
                         {{ trans('Add radio week') }}
                     </button>
                 </div>
+            </div>
+
+            <div class="mb-4 d-flex flex-wrap" style="gap: 1rem;">
+                <div class="dropdown">
+                    <button
+                        class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        id="filterLevel"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        v-text="trans('Level') + ' (' + trans((levels[radioWeeks.extraParams.level]) || 'All') + ')'"
+                    >
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="filterLevel">
+                        <a v-for="(level, levelKey) in levels" class="dropdown-item" href="#" v-on:click="radioWeeks.extraParams.level = levelKey" v-text="trans(level)"></a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button
+                        class="btn btn-secondary dropdown-toggle"
+                        style="text-wrap: wrap;"
+                        type="button"
+                        id="filterLevel"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        v-text="trans('Semester') + ' (' + trans((semesters.list[radioWeeks.extraParams.semester_id]) || 'All') + ')'"
+                    >
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="filterLevel">
+                        <a class="dropdown-item" href="#" v-on:click="radioWeeks.extraParams.semester_id = ''" v-text="trans('All')"></a>
+                        <a v-for="(semesterName, semesterId) in semesters.list" class="dropdown-item" href="#" v-on:click="radioWeeks.extraParams.semester_id = semesterId" v-text="semesterName"></a>
+                    </div>
+                </div>
+
             </div>
 
         </template>
@@ -121,18 +180,18 @@ getSemesters();
                 <MainTableComponent>
                     <template #thead>
                         <tr>
+                            <th>{{ trans('Week') }}</th>
                             <th>{{ trans('Semester') }}</th>
                             <th>{{ trans('Level') }}</th>
-                            <th>{{ trans('Week number') }}</th>
                             <th>{{ trans('Start date') }}</th>
                             <th>{{ trans('End date') }}</th>
                             <th>{{ trans('Operations') }}</th>
                         </tr>
                     </template>
                     <tr v-for="radioWeek in radioWeeks.list" :key="radioWeek.id">
-                        <td scope="row" v-text="radioWeek.semester.name"></td>
+                        <td scope="row" v-text="radioWeek.weekNumber"></td>
+                        <td v-text="radioWeek.semester.name"></td>
                         <td v-text="radioWeek.levelText"></td>
-                        <td v-text="radioWeek.weekNumber"></td>
                         <td v-text="radioWeek.startDateHijri"></td>
                         <td v-text="radioWeek.endDateHijri"></td>
                         <td class="d-flex">

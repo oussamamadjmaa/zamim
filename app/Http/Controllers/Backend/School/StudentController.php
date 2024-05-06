@@ -30,7 +30,7 @@ class StudentController extends Controller
 
     private function jsonResponse($request)
     {
-        if ($request->data_type == 'select') {
+        if ($request->dataType == 'select') {
 
             $students = Student::whereSchoolId(auth()->user()->school_id)->orderBy('name', 'ASC')->get(['id', 'name'])->pluck('name', 'id')->toArray();
 

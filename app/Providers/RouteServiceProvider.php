@@ -35,22 +35,22 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->as('web.')
-                ->domain(env('APP_DOMAIN'))
+                ->domain(config('app.domain'))
                 ->group(base_path('routes/web.php'));
 
             Route::middleware(['web', 'admin'])
                 ->as('admin.')
-                ->domain('admin.' . env('APP_DOMAIN'))
+                ->domain('admin.' . config('app.domain'))
                 ->group(base_path('routes/admin.php'));
 
             Route::middleware(['web', 'school'])
                 ->as('school.')
-                ->domain('app.' . env('APP_DOMAIN'))
+                ->domain('app.' . config('app.domain'))
                 ->group(base_path('routes/school.php'));
 
             Route::middleware(['web'])
                 ->as('portal.')
-                ->domain('portal.' . env('APP_DOMAIN'))
+                ->domain('portal.' . config('app.domain'))
                 ->group(base_path('routes/portal.php'));
         });
     }

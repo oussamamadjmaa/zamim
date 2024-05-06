@@ -17,11 +17,11 @@ export default function useCommon() {
 
             return res;
         } catch (err) {
-            let errorMessage = err.response.data.message || err.message;
+            let errorMessage = err.response?.data?.message || err.message;
             if (errorMessage == 'Unauthenticated.') {
                 window.location.href = `${window._app.url}/login?unauthenticated=true`;
             }
-            if(showErrorNotification && err.response && errorMessage) {
+            if(showErrorNotification && errorMessage) {
                 window.toast.error(errorMessage)
             }
             return err.response;
@@ -30,12 +30,13 @@ export default function useCommon() {
 
     const makeFetchAllRef = () => {
         return ref({
-            isProccessing: true,
+            isProccessing: false,
             response: null,
             list: [],
             search: '',
-            data_type: 'default',
-            without_pagination: false
+            dataType: 'default',
+            withoutPagination: false,
+            extraParams: {}
         })
     }
 
@@ -108,30 +109,31 @@ export default function useCommon() {
 
         appendSearchParams(url, '_t', new Date().getTime());
         appendSearchParams(url, 'search', fetchAllRef.value.search);
-        appendSearchParams(url, 'data_type', fetchAllRef.value.data_type);
-        appendSearchParams(url, 'without_pagination', fetchAllRef.value.without_pagination);
+        appendSearchParams(url, 'dataType', fetchAllRef.value.dataType);
+        appendSearchParams(url, 'withoutPagination', fetchAllRef.value.withoutPagination);
+
+        let { extraParams } = fetchAllRef.value;
+
+        let paramsKeys = Object.keys(extraParams);
+
+        if (paramsKeys.length) {
+            paramsKeys.forEach(function(param) {
+                let value = extraParams[param];
+                appendSearchParams(url, param, value);
+            });
+        }
 
         fetchAllRef.value.isProccessing = true
 
+        const res = await callApi({ url: url.href });
+        fetchAllRef.value.response = res;
+        fetchAllRef.value.isProccessing = false;
 
-        try {
-            const res = await new Promise((resolve) => {
-                setTimeout(async () => {
-                    const apiResponse = await callApi({ url: url.href });
-                    resolve(apiResponse);
-                }, 100);
-            });
-
-            fetchAllRef.value.response = res;
-            if (res.status === 200) {
-                fetchAllRef.value.list = res.data.data;
-            }
-        } catch (error) {
+        if (res.status === 200) {
+            fetchAllRef.value.list = res.data.data;
+        }else {
             console.error('Error fetching data:', error);
-        } finally {
-            fetchAllRef.value.isProccessing = false;
         }
-
     }
 
     const fetchOne = async (url) => {
@@ -139,18 +141,11 @@ export default function useCommon() {
         url.searchParams.append('timestamp', new Date().getTime())
         url = url.href
 
-        try {
-            const res = await new Promise((resolve) => {
-                setTimeout(async () => {
-                    const apiResponse = await callApi({url:url})
-                    resolve(apiResponse);
-                }, 100);
-            });
+        const res = await callApi({url:url})
 
-            if (res.status === 200) {
-                return res.data.data;
-            }
-        } catch (error) {
+        if (res.status === 200) {
+            return res.data.data;
+        }else{
             console.error('Error fetching data:', error);
         }
     }

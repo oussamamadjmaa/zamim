@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\ArticleController;
 use App\Http\Controllers\Backend\Admin\AuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\RadioWeekController;
@@ -44,7 +45,16 @@ Route::middleware(['auth:admin'])->group(function() {
 
     Route::get('statistics', [StatisticsController::class, 'index'])->name('statistics.index');
 
-    Route::apiResource('/radio-weeks', RadioWeekController::class);
+    //Radio weeks
+    Route::get('/radio-weeks', [RadioWeekController::class, 'index'])->name('radio-weeks.index');
+    Route::post('/radio-weeks', [RadioWeekController::class, 'store'])->name('radio-weeks.create');
+    Route::get('/radio-weeks/get', [RadioWeekController::class, 'getRadioWeek'])->name('radio-weeks.show');
+    Route::delete('/radio-weeks', [RadioWeekController::class, 'deleteRadioWeek'])->name('radio-weeks.delete');
+
+    //Articles
+    Route::get('/articles/get_radios', [ArticleController::class, 'getRadios'])->name('articles.get_radios');
+    Route::apiResource('/articles', ArticleController::class);
+
 
     //Upload
     Route::post('/upload', [UploadFilesController::class, 'upload'])->name('upload');

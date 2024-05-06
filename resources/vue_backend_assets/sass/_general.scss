@@ -464,3 +464,15 @@ table.weekly-radios-table {
         font-size: 23px;
     }
 }
+
+.custom-file-label {
+    text-align: center;
+    border-radius: 20px;
+    border: dashed 1px black;
+    padding: 10px 7px;
+    transition: all .27s ease-in-out;
+    cursor: pointer;
+    &:hover {
+        opacity: .8;
+    }
+}
