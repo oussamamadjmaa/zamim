@@ -226,7 +226,11 @@ return [
         'payment_method' => 'طريقة الدفع',
         'phone_number' => 'رقم الجوال',
         'image' => 'الصورة',
-        'level' => 'المستوى'
+        'level' => 'المستوى',
+        'students.*.article_id' => 'معرف المقال',
+        'students.*.article' => 'المقال',
+        'students.*.article.title' => 'عنوان المقال',
+        'students.*.article.attachment' => 'مرفق المقال',
     ],
 
 ];

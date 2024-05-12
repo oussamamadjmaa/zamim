@@ -91,6 +91,7 @@
     "Data saved successfully" : "تم الحفظ بنجاح",
     "Data deleted successfully" : "تم الحذف بنجاح",
     "Do you really want to delete this record?" : "هل تريد بالفعل القيام بعملية الحذف؟",
+    "Delete" : "حذف",
     "Are you sure that you want to close this modal?" : "هل متأكد من أنك تريد إغلاق هذا النموذج؟",
     "No Data" : "لا توجد بيانات",
     "Home" : "الرئيسية",
@@ -100,6 +101,7 @@
     "School Radio" : "الإذاعة المدرسية",
     "Participating students" : "الطلاب المشاركين",
     "Radio name" : "إسم الإذاعة",
+    "Radio information" : "معلومات الإذاعة",
     "Class leader" : "رائد الصف",
     "Create your school radio" : "أنشئ إذاعتكم المدرسية",
     "Activities" : "النشاطات",
@@ -161,6 +163,7 @@
     "School id" : "الرقم التسلسلي للمدرسة",
     "Subscription details for" : "تفاصيل الإشتراك ل",
     "Not subscribed" : "غير مشترك",
+    "Subscribe" : "إشتراك",
     "Last update" : "آخر تحديث",
     "Today" : "اليوم",
     "Last week" : "آخر أسبوع",
@@ -259,5 +262,10 @@
     "Choose subject" : "حدد الموضوع",
     "Optional" : "إختياري",
     "Select article attachment" : "إختيار مرفق المقالة",
-    "Change article attachment" : "تغيير مرفق المقالة"
+    "Change article attachment" : "تغيير مرفق المقالة",
+    "Share article" : "مشاركة المقال",
+    "Article" : "المقال",
+    "Class leader performance evaluation" : "تقييم أداء رائد الصف",
+    "Student performance evaluation" : "تقييم أداء الطالب",
+    "Save rating" : "حفظ التقييم"
 }

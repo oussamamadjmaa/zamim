@@ -16,6 +16,7 @@ class UploadFilesController extends Controller
         return [
             'radio-bgs' => ['mimetypes:image/png,image/jpeg,image/webp', 'max:5120'],
             'activity-bgs' => ['mimetypes:image/png,image/jpeg,image/webp', 'max:5120'],
+            'article-attachments' => ['mimes:doc,docx,pdf', 'max:5120'],
         ];
     }
 }

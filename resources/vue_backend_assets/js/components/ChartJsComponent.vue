@@ -200,9 +200,6 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <p class="p5" v-if="props.box">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
-
-
 
         <!-- Waiting for stats response (Loading) -->
         <template v-if="!stats.response">

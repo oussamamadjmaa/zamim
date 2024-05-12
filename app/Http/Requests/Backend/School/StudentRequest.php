@@ -33,7 +33,6 @@ class StudentRequest extends FormRequest
             'profile'               => ['required', 'array'],
             'profile.parent_name'   => ['required', 'string', 'max:255'],
             'profile.parent_email'  => ['nullable', 'string', 'max:255'],
-            'profile.level'         => ['required', 'string', 'in:primary,middle,secondary'],
             'profile.class'         => ['required', 'string', 'max:20'],
             'profile.division'      => ['required', 'string', 'max:1'],
             // 'password'              => [$this->isMethod('PUT') ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'],

@@ -30,7 +30,8 @@ Route::middleware(['auth:school', 'school-subscription'])->group(function() {
     Route::apiResource('/teachers', TeacherController::class);
 
     //Radios
-    Route::apiResource('/radios', RadioController::class);
+    Route::put('/radios/{radio}/rating', [RadioController::class, 'storeRating'])->name('radios.rating');
+    Route::apiResource('/radios', RadioController::class)->except(['store', 'destroy']);
 
     //Activities
     Route::apiResource('/activities', ActivityController::class);

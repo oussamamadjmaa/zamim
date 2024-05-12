@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\RadioRequest;
 use App\Http\Resources\RadioResource;
 use App\Models\Radio;
+use App\Models\School;
+use App\Rules\isSchoolStudent;
+use App\Rules\isSchoolTeacher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -30,7 +33,11 @@ class RadioController extends Controller
                           ->whereLevel(auth()->user()->level)
                           ->oldest('week_number')
                           ->oldest('radio_date')
-                          ->get();
+                          ->with(['schools' => fn($q) => $q->select('id')->where('school_id', auth()->user()->id)])
+                          ->get()
+                          ->each(function ($radio) {
+                                $radio->hasCurrentSchool = !$radio->schools->isEmpty();
+                          });
 
         // Available weeks
         $weeks = $radiosList->groupBy(fn ($radio) =>  $radio->semester_id . '-' . $radio->level . '-' . $radio->week_number)->map(function ($radios) {
@@ -48,35 +55,9 @@ class RadioController extends Controller
             ];
         })->filter();
 
-        return response()->json([
-            'data' => RadioResource::collection($radiosList),
+        return RadioResource::collection($radiosList)->additional([
             'weeks' => $weeks,
             'semesters' => getSemesters()
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(RadioRequest $request)
-    {
-        //
-        $radioData = $request->only(['class', 'radio_date', 'teacher_id']);
-
-        //
-        $radio = auth()->user()->school()->radios()->create($radioData);
-
-        $radio->students()->attach($request->students);
-
-        $radio->load(['students:id,name','teacher:id,name']);
-
-        return response()->json([
-            'status' => 200,
-            'message' => __('Data created successfully'),
-            'data' => new RadioResource($radio)
         ]);
     }
 
@@ -90,7 +71,14 @@ class RadioController extends Controller
     {
         abort_if(!request()->expectsJson(), 404);
 
-        $radio->load(['teacher:id,name', 'students:id,name']);
+        $schoolId = auth()->user()->school_id;
+
+        $radio->load(['schools' => fn($q) => $q->select('id')->where('school_id', $schoolId)]);
+        $radio->load(['teachers' => fn($q) => $q->select('id' , 'school_id', 'name')->where('school_id', $schoolId)]);
+        $radio->load(['students' => fn($q) => $q->select('id' , 'school_id', 'name')->where('school_id', $schoolId)]);
+        $radio->load(['articles' => fn($q) => $q->whereIsPublic(true)->orWhereMorphRelation('author', School::class, 'id', $schoolId)]);
+
+        $radio->hasCurrentSchool = !$radio->schools->isEmpty();
 
         return response()->json([
             'status' => 200,
@@ -98,24 +86,40 @@ class RadioController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Radio  $radio
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(RadioRequest $request, Radio $radio)
     {
+        $data = $request->validated();
+        $schoolId = auth()->user()->school_id;
+
+        $studentsList = [];
+        foreach ($data['students'] as $student) {
+            $articleId = $student['article_id'];
+            if (!$student['article_id']) {
+                $student['article']['radio_id'] = $radio->id;
+                $article = auth()->user()->articles()->create($student['article']);
+                $articleId = $article->id;
+            }
+
+            $studentsList[$student['student_id']] = ['article_id' => $articleId];
+        }
         //
-        $radio->class = $request->class;
-        $radio->radio_date = $request->radio_date;
-        $radio->teacher_id = $request->teacher_id;
-        $radio->save();
 
-        $radio->students()->sync($request->students);
+        $radio->students()->sync($studentsList);
+        $radio->teachers()->sync($data['teacher_id']);
 
-        $radio->load(['teacher:id,name', 'students:id,name']);
+        $radio->load([
+            'schools' => fn($q) => $q->select('id')->where('school_id', $schoolId),
+            'teachers' => fn($q) => $q->select('id', 'school_id', 'name')->where('school_id', $schoolId),
+            'students' => fn($q) => $q->select('id', 'school_id', 'name')->where('school_id', $schoolId),
+            'articles' => fn($q) => $q->whereIsPublic(true)->orWhereMorphRelation('author', School::class, 'id', $schoolId),
+        ]);
+
+        if ($radio->schools->isEmpty()) {
+            $radio->schools()->sync(auth()->user()->school_id);
+        }
+
+        $radio->hasCurrentSchool = true;
 
         return response()->json([
             'status' => 200,
@@ -124,18 +128,48 @@ class RadioController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Radio  $radio
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Radio $radio)
+    public function storeRating(Request $request, Radio $radio)
     {
-        $radio->delete();
+        $schoolId = auth()->user()->school_id;
+
+        $radio->load([
+            'schools' => fn($q) => $q->select('id')->where('school_id', $schoolId),
+            'teachers' => fn($q) => $q->select('id', 'school_id', 'name')->where('school_id', $schoolId),
+        ]);
+
+        abort_if($radio->schools->isEmpty(), 403);
+
+        $data = $request->validate([
+            'teacher_rating' => ['required', 'integer', 'between:0,5'],
+            'students' => ['required', 'array'],
+            'students.*.student_id' => ['required', 'integer', new isSchoolStudent($schoolId)],
+            'students.*.rating' => ['required', 'integer', 'between:0,5'],
+        ]);
+
+
+        if ($radio->teachers->count()) {
+            $radio->teachers()->updateExistingPivot($radio->teachers->first()->id, ['rating' => $data['teacher_rating']]);
+        }
+
+
+        $pivotData = collect($data['students'])->mapWithKeys(function ($student) {
+            return [$student['student_id'] => ['rating' => $student['rating']]];
+        })->all();
+
+        $radio->students()->syncWithoutDetaching($pivotData);
+
+        $radio->load([
+            'teachers' => fn($q) => $q->select('id', 'school_id', 'name')->where('school_id', $schoolId),
+            'students' => fn($q) => $q->select('id', 'school_id', 'name')->where('school_id', $schoolId),
+            'articles' => fn($q) => $q->whereIsPublic(true)->orWhereMorphRelation('author', School::class, 'id', $schoolId),
+        ]);
+
+        $radio->hasCurrentSchool = true;
+
         return response()->json([
             'status' => 200,
-            'message' => __('Data deleted successfully')
+            'message' => __('Data updated successfully'),
+            'data' => new RadioResource($radio)
         ]);
     }
 

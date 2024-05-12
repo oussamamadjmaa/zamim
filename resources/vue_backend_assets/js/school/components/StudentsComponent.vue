@@ -31,7 +31,6 @@ const editStudent = async (student) => {
     studentForm.value.data = {name: student.name, email: student.email, phone_number: student.phoneNumber, profile: {
         parent_name: student.profile.parentName,
         parent_email: student.profile.parentEmail,
-        level: student.profile.level,
         class: student.profile.class,
         division: student.profile.division,
     }}
@@ -147,9 +146,8 @@ const onSearch = (event) => {
                             <th>{{ trans('Student name') }}</th>
                             <th>{{ trans('Official email') }}</th>
                             <th>{{ trans('Guardian name') }}</th>
-                            <th>{{ trans('Guardian phone number') }}</th>
+                            <th>{{ trans('Guardian phone') }}</th>
                             <th>{{ trans('Guardian email') }}</th>
-                            <th>{{ trans('Level') }}</th>
                             <th>{{ trans('Class') }}</th>
                             <th>{{ trans('Division') }}</th>
                             <th>{{ trans('Operations') }}</th>
@@ -168,7 +166,6 @@ const onSearch = (event) => {
                             <a v-if="student.profile.parentEmail" :href="'mailto:'+student.profile.parentEmail" v-text="student.profile.parentEmail" dir="ltr"></a>
                             <template v-else>{{ trans('Not included') }}</template>
                         </td>
-                        <td v-text="student.profile.levelText"></td>
                         <td v-text="student.profile.class"></td>
                         <td v-text="student.profile.division"></td>
                         <td class="d-flex">
@@ -206,9 +203,6 @@ const onSearch = (event) => {
 
                     <InputComponent class="col-md-6" type="email" :errors="studentForm.errors.email" label='<ion-icon name="mail"></ion-icon>' placeholder="Official email" v-model='studentForm.data.email' :required="true" />
 
-                    <InputComponent class="col-md-6" type="select" :searchable="true" label='<ion-icon name="school"></ion-icon>' placeholder="Level"  :errors="studentForm.errors['profile.level']" v-model="studentForm.data.profile.level" :options="{'primary' : trans('Primary'), 'middle' : trans('Middle') , 'secondary' : trans('Secondary')}"  :required="true">
-                    </InputComponent>
-
                     <InputComponent class="col-md-6" :errors="studentForm.errors['profile.class']" label='<ion-icon name="bookmark"></ion-icon>' placeholder="Class" v-model='studentForm.data.profile.class' :required="true" />
 
                     <InputComponent class="col-md-6" :errors="studentForm.errors['profile.division']" label='<ion-icon name="bookmark"></ion-icon>' placeholder="Division" v-model='studentForm.data.profile.division' :required="true" />
@@ -241,10 +235,6 @@ const onSearch = (event) => {
     <MainModalComponent v-if="importStudentForm.show" @closeModal="closeImportModal()" :class="{'w-1000px': true}">
         <div class="p-5 px-4">
             <form @submit.prevent="importStudents()">
-
-                <InputComponent type="select" :searchable="true" label='<ion-icon name="school"></ion-icon>' placeholder="Level"  :errors="importStudentForm.errors.level" v-model="importStudentForm.data.level" :options="{'primary' : trans('Primary'), 'middle' : trans('Middle') , 'secondary' : trans('Secondary')}" :required="true">
-                </InputComponent>
-
                 <div class="mb-3 col-12">
                     <div class="mb-3">
                         <label for="file" class="form-label" v-text="trans('Excel file')"></label>

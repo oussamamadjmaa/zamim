@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\DB;
 use Shetabit\Visitor\Traits\Visitable;
 
@@ -31,11 +34,19 @@ class Radio extends Model
     }
 
     public function students() : BelongsToMany {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class, RadioStudent::class)->withPivot(['article_id', 'rating']);
     }
 
     public function teachers() : BelongsToMany {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Teacher::class, RadioTeacher::class)->withPivot(['rating']);
+    }
+
+    public function schools() : BelongsToMany {
+        return $this->belongsToMany(School::class, 'school_radio');
+    }
+
+    public function articles() : HasMany {
+        return $this->hasMany(Article::class);
     }
 
     public function scopeWeekly($q) {

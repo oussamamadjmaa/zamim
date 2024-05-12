@@ -1,5 +1,5 @@
 <script setup>
-import { ref, useSlots, onMounted, nextTick, inject } from 'vue';
+import { ref, computed, watch, useSlots, onMounted, nextTick, inject } from 'vue';
 import useCommon from '../../../vue-services/common';
 
 const emit = defineEmits(['onFileUpload', 'onChange', 'update:modelValue'])
@@ -17,6 +17,7 @@ const props = defineProps({
     },
     label: String | null,
     placeholder: String | null,
+    object: Object | null,
     errors: Array | Object | null,
     modelValue: {
         type: [Number, String],
@@ -61,6 +62,10 @@ const props = defineProps({
         type: Object,
         default: {}
     },
+    preOptions: {
+        type: Object,
+        default: {}
+    },
     minDate: {
         type: String,
         default: null
@@ -72,7 +77,21 @@ const props = defineProps({
 
 })
 
+
 const showSelectDropdown = ref(false)
+const selectOptionsContainer = ref(null);
+
+watch(showSelectDropdown, (show) => {
+    if (show) {
+        nextTick(() => {
+            const selectedElement = selectOptionsContainer.value.querySelector('.selected');
+            if (selectedElement) {
+                selectedElement.scrollIntoView();
+            }
+        })
+    }
+})
+
 const search = ref('')
 
 let CancelToken;
@@ -84,7 +103,7 @@ const uploadEvents = ref({});
 
 const getRandomIntInRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const inputId = 'input_'+ Math.random().toString(36).substr(2, 9);;
+const inputId = 'input_' + Math.random().toString(36).substr(2, 9);;
 
 const uploadFile = async (input, path, isFile = false) => {
     let file = input;
@@ -137,10 +156,10 @@ const uploadFile = async (input, path, isFile = false) => {
         if (res.status == 200) {
             emit('onFileUpload', res.data, file);
             emit('update:modelValue', res.data.path)
-        }else{
+        } else {
             document.getElementById(inputId).value = '';
         }
-    }else {
+    } else {
         document.getElementById(inputId).value = '';
     }
 }
@@ -154,11 +173,11 @@ onMounted(async () => {
 
         let dateOptions = {
             hijri: true,
-            locale:$('html').attr('lang') == 'ar' ? 'ar-SA' : 'en-US',
+            locale: $('html').attr('lang') == 'ar' ? 'ar-SA' : 'en-US',
             defaultDate: props.modelValue,
-            format:'YYYY-MM-DD',
-            hijriFormat:'iYYYY-iMM-iDD',
-            timeZone:'Asia/Riyadh',
+            format: 'YYYY-MM-DD',
+            hijriFormat: 'iYYYY-iMM-iDD',
+            timeZone: 'Asia/Riyadh',
             isRTL: $('body').hasClass('rtl'),
             ignoreReadonly: true,
             showClear: true,
@@ -180,7 +199,7 @@ onMounted(async () => {
         hijriDatepicker.on("dp.change", (e) => {
             let miladiDate = '';
 
-            if(e.date) {
+            if (e.date) {
                 miladiDate = e.date.format("YYYY-MM-DD");
             }
 
@@ -192,6 +211,38 @@ onMounted(async () => {
         // });
     }
 })
+
+const selectedOption = computed(() => {
+    if (props.object) {
+        return selectOptions.value.find(option => option[props.object.key] === props.modelValue) || {};
+    }
+
+    return selectOptions.value[props.modelValue] || null;
+});
+
+const onChangeSelect = (option) => {
+    let newModelValue = option ? option[props.object.key] : null;
+
+    if (props.isModel) {
+        emit('update:modelValue', newModelValue);
+    } else {
+        emit('onChange', newModelValue);
+    }
+
+    showSelectDropdown.value = false;
+}
+
+const selectOptions = computed(() => {
+    let options;
+    if (props.object) {
+        options = [...Object.values(props.preOptions), ...Object.values(props.options)];
+    } else {
+        options = { ...props.preOptions, ...props.options };
+    }
+
+    return options;
+});
+
 </script>
 <template>
     <div class="form-input mb-3">
@@ -200,53 +251,81 @@ onMounted(async () => {
                 <slot name="customLabel"></slot>
             </label>
         </div>
-        <label :for="inputId" class="label_" @click="showSelectDropdown = !showSelectDropdown" v-if="label && !slots.customLabel"><span v-html="trans(label)"></span> <span v-if="required" class="text-danger">*</span></label>
+        <label :for="inputId" class="label_" @click="showSelectDropdown = !showSelectDropdown"
+            v-if="label && !slots.customLabel"><span v-html="trans(label)"></span> <span v-if="required"
+                class="text-danger">*</span></label>
 
         <input v-if="(['text', 'email', 'password']).includes(type)" :type="type" class="input_"
             :class="{ 'is-invalid': errors }" :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label) + (!required ? ' ('+trans('Optional')+')' : '')" :id="inputId" :readonly="readonly" :required="required">
+            @input="$emit('update:modelValue', $event.target.value)"
+            :placeholder="trans(placeholder || label) + (!required ? ' (' + trans('Optional') + ')' : '')" :id="inputId"
+            :readonly="readonly" :required="required">
 
         <input v-else-if="type == 'date'" type="text" class="input_ datepicker_input" readonly
-            :class="{ 'is-invalid': errors }"
-            :placeholder="trans(placeholder || label)" :id="inputId" :readonly="readonly" :required="required" ref="datepickerRef">
+            :class="{ 'is-invalid': errors }" :placeholder="trans(placeholder || label)" :id="inputId"
+            :readonly="readonly" :required="required" ref="datepickerRef">
 
         <template v-else-if="type == 'select'">
             <select v-if="!searchable" class="form-select form-control" :class="{ 'is-invalid': errors }"
                 :value="modelValue"
                 @change="isModel ? $emit('update:modelValue', $event.target.value) : $emit('onChange', $event.target.value)"
                 :required="required">
-                <option value="" v-text="trans(placeholder || label)+'...'"></option>
+                <option value="" v-text="trans(placeholder || label) + '...'"></option>
                 <slot></slot>
             </select>
 
-            <div v-else :class="{'custom-select': true, 'is-invalid': errors }" v-on:clickout="showSelectDropdown = false">
-                <div class="custom-select-selected form-control" @click="showSelectDropdown = !showSelectDropdown" >
-                    {{ options[modelValue] || (trans(placeholder || label)+'...')}}
+            <div v-else :class="{ 'custom-select': true, 'is-invalid': errors }"
+                v-on:clickout="showSelectDropdown = false">
+                <div class="custom-select-selected form-control" @click="showSelectDropdown = !showSelectDropdown">
+                    {{ (object ? selectedOption[object.value] : selectedOption) || (trans(placeholder
+            || label) + '...') }}
                 </div>
                 <div class="custom-select-dropdown" v-if="showSelectDropdown">
                     <div class="custom-select-search">
                         <input type="text" :placeholder="trans('Search')" v-model="search">
                     </div>
-                    <div class="custom-select-options">
-                        <div :class="{'custom-select-option': true, 'selected': modelValue==optionKey, 'hide': search && !option.toLowerCase().includes(search.toLowerCase())}" v-for="option, optionKey in options" @click="isModel ? $emit('update:modelValue', optionKey) : $emit('onChange', optionKey); showSelectDropdown=false" v-text="option">
-                        </div>
+                    <div class="custom-select-options" ref="selectOptionsContainer">
+                        <template v-if="object">
+                            <div :class="{ 'custom-select-option': true, 'selected': modelValue == null, 'hide': search }"
+                                @click="onChangeSelect(null)" v-text="(trans(placeholder
+            || label) + '...')">
+                            </div>
+                            <div :class="{ 'custom-select-option': true, 'selected': modelValue == option[object.key], 'hide': search && !(option[object.value]).toLowerCase().includes(search.toLowerCase()) }"
+                                v-for="option in selectOptions" @click="onChangeSelect(option)"
+                                v-text="option[object.value]">
+                            </div>
+                        </template>
+
+                        <template v-else>
+                            <div :class="{ 'custom-select-option': true, 'selected': modelValue == null, 'hide': search }"
+                                @click="isModel ? $emit('update:modelValue', null) : $emit('onChange', null); showSelectDropdown = false"
+                                v-text="(trans(placeholder
+            || label) + '...')">
+                            </div>
+                            <div :class="{ 'custom-select-option': true, 'selected': modelValue == optionKey, 'hide': search && !option.toLowerCase().includes(search.toLowerCase()) }"
+                                v-for="option, optionKey in selectOptions"
+                                @click="isModel ? $emit('update:modelValue', optionKey) : $emit('onChange', optionKey); showSelectDropdown = false"
+                                v-text="option">
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
         </template>
 
         <textarea v-if="type == 'textarea'" :type="type" class="form-control" :rows="rows" :cols="cols"
-            :class="{ 'is-invalid': errors }"
-            @input="$emit('update:modelValue', $event.target.value)" :placeholder="trans(placeholder || label)" :required="required" v-text="modelValue"></textarea>
+            :class="{ 'is-invalid': errors }" @input="$emit('update:modelValue', $event.target.value)"
+            :placeholder="trans(placeholder || label)" :required="required" v-text="modelValue"></textarea>
 
         <template v-else-if="type == 'file'">
-            <input type="file" :class="{'form-control': true, 'is-invalid': errors, 'd-none' : slots.customLabel}" :multiple="multiple"
-                @change="uploadFile($event.target, path)" :placeholder="trans(placeholder || label)" :required="required" :id="inputId">
+            <input type="file" :class="{ 'form-control': true, 'is-invalid': errors, 'd-none': slots.customLabel }"
+                :multiple="multiple" @change="uploadFile($event.target, path)"
+                :placeholder="trans(placeholder || label)" :required="required && !slots.customLabel" :id="inputId">
             <div class="file-upload-progress" v-for="uploadEvent in uploadEvents">
                 <a @click="uploadEvent.source.cancel('Canceled by user')" href="javascript:;" class="text-danger">X</a>
                 <ion-icon name="attach-outline"></ion-icon>
                 <span>({{ uploadEvent.percent }}%) {{ uploadEvent.fileInfo.name }}</span>
-                <div class="progress" :style="{'width': uploadEvent.percent+'%'}"></div>
+                <div class="progress" :style="{ 'width': uploadEvent.percent + '%' }"></div>
             </div>
         </template>
 

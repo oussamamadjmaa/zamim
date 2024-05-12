@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Shetabit\Visitor\Traits\Visitor;
 use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class School extends Authenticatable implements CanResetPassword
 {
@@ -71,6 +72,10 @@ class School extends Authenticatable implements CanResetPassword
 
     public function activities() : HasMany {
         return $this->hasMany(Activity::class);
+    }
+
+    public function articles() : MorphMany {
+        return $this->morphMany(Article::class, 'author');
     }
 
     /////////////////////////////////////////////////

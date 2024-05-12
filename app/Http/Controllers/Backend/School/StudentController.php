@@ -59,7 +59,7 @@ class StudentController extends Controller
         $student->profile()->create([
             'parent_name' => $request->profile['parent_name'],
             'parent_email' => $request->profile['parent_email'],
-            'level' => $request->profile['level'],
+            'level' => auth()->user()->level,
             'class' => $request->profile['class'],
             'division' => $request->profile['division'],
         ]);
@@ -74,12 +74,11 @@ class StudentController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'level' => ['required', 'string', 'in:primary,middle,secondary'],
             'file' => ['required', 'file', 'mimes:xlsx,xls', 'max:20480'],
         ]);
 
         try {
-            Excel::import(new StudentsImport(auth()->user()->school, $request->input('level', 'primary')), $request->file('file'));
+            Excel::import(new StudentsImport(auth()->user()->school, auth()->user()->level), $request->file('file'));
 
             return response(['message' => __(':count Students has been imported successfully', ['count' => session()->pull('imported_students')])]);
         } catch (\Throwable $th) {
@@ -120,7 +119,6 @@ class StudentController extends Controller
 
         $student->profile->parent_name = $request->profile['parent_name'];
         $student->profile->parent_email = $request->profile['parent_email'];
-        $student->profile->level = $request->profile['level'];
         $student->profile->class = $request->profile['class'];
         $student->profile->division = $request->profile['division'];
         $student->profile->save();

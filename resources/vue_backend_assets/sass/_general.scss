@@ -476,3 +476,20 @@ table.weekly-radios-table {
         opacity: .8;
     }
 }
+
+.star-rating {
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .star-rating span {
+    color: gray;
+  }
+
+  .star-rating span.filled {
+    color: gold;
+  }
+
+  .dropdown-toggle {
+    text-wrap: wrap;
+  }

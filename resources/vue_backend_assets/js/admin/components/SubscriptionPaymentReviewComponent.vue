@@ -5,18 +5,25 @@ import MainTableComponent from '../../../../vue-components/backend/MainTableComp
 // import SchoolShowComponent from './SchoolShowComponent.vue';
 import useCommon from '../../../../vue-services/common';
 
-const props = defineProps({
-    subscriptionPayment: Array | Object
-})
-
-const emit = defineEmits(['updateSubscriptionPayment'])
-
+// Services
 const { callApi } = useCommon();
 
-const action = ref(null)
-const isProccessing = ref(false)
-const comment = ref(null)
+// Emits && props
+const emit = defineEmits(['updateSubscriptionPayment']);
 
+const props = defineProps({
+    subscriptionPayment: Array | Object
+});
+
+
+// Vars
+const historyPageUrl = `${window._app.url}/subscriptions/payments_history`;
+const action = ref(null);
+const isProccessing = ref(false);
+const comment = ref(null);
+
+
+// Actions
 const closeActionModal = () => {
     if (isProccessing.value) return;
     action.value = comment.value = null
@@ -40,8 +47,20 @@ const doAction = async () => {
         <h4 v-text="trans('Subscription payment details')"></h4>
         <MainTableComponent :class="{'fd-bold' : true}">
             <tr>
-                <td>ID</td>
+                <td>#</td>
                 <td v-text="subscriptionPayment.id"></td>
+            </tr>
+            <tr>
+                <td v-text="trans('School id')"></td>
+                <td v-text="subscriptionPayment.payer.id"></td>
+            </tr>
+            <tr>
+                <td v-text="trans('School name')"></td>
+                <td><a :href="historyPageUrl+'/subscriber/'+subscriptionPayment.payer.id" v-text="subscriptionPayment.payer.name"></a></td>
+            </tr>
+            <tr>
+                <td v-text="trans('Email Address')"></td>
+                <td v-text="subscriptionPayment.payer.email"></td>
             </tr>
             <tr>
                 <td v-text="trans('Payment method')"></td>

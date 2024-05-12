@@ -11,6 +11,7 @@ class StudentProfile extends Model
 
     protected $fillable = [
         'parent_name',
+        'parent_email',
         'level',
         'class',
         'division'

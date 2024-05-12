@@ -3,38 +3,38 @@
     "file": "assets/NotificationsComponent-73f7966d.css",
     "src": "NotificationsComponent.css"
   },
-  "_NotificationsComponent-d6fe5fd3.js": {
+  "_NotificationsComponent-6d2a1678.js": {
     "css": [
       "assets/NotificationsComponent-73f7966d.css"
     ],
-    "file": "assets/NotificationsComponent-d6fe5fd3.js",
+    "file": "assets/NotificationsComponent-6d2a1678.js",
     "imports": [
-      "_common-7c3a6321.js"
+      "_common-120e602e.js"
     ]
   },
-  "_common-7c3a6321.js": {
-    "file": "assets/common-7c3a6321.js"
+  "_common-120e602e.js": {
+    "file": "assets/common-120e602e.js"
   },
   "resources/vue_backend_assets/js/app.js": {
-    "file": "assets/app-ea7fcd92.js",
+    "file": "assets/app-48da9c69.js",
     "imports": [
-      "_NotificationsComponent-d6fe5fd3.js",
-      "_common-7c3a6321.js"
+      "_NotificationsComponent-6d2a1678.js",
+      "_common-120e602e.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app.js"
   },
   "resources/vue_backend_assets/js/app_admin.js": {
-    "file": "assets/app_admin-9f0800be.js",
+    "file": "assets/app_admin-6ff16590.js",
     "imports": [
-      "_NotificationsComponent-d6fe5fd3.js",
-      "_common-7c3a6321.js"
+      "_NotificationsComponent-6d2a1678.js",
+      "_common-120e602e.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app_admin.js"
   },
   "resources/vue_backend_assets/sass/style.scss": {
-    "file": "assets/style-fc005190.css",
+    "file": "assets/style-33e1cdde.css",
     "isEntry": true,
     "src": "resources/vue_backend_assets/sass/style.scss"
   },
@@ -62,9 +62,9 @@
     "css": [
       "assets/app-f78bf56b.css"
     ],
-    "file": "assets/app-612d36ef.js",
+    "file": "assets/app-f9d5077d.js",
     "imports": [
-      "_common-7c3a6321.js"
+      "_common-120e602e.js"
     ],
     "isEntry": true,
     "src": "resources/vue_web_assets/js/app.js"
@@ -75,7 +75,7 @@
     "src": "resources/vue_web_assets/js/scripts.js"
   },
   "resources/vue_web_assets/sass/style.scss": {
-    "file": "assets/style-bc9cc716.css",
+    "file": "assets/style-c7483b4f.css",
     "isEntry": true,
     "src": "resources/vue_web_assets/sass/style.scss"
   }

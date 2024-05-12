@@ -18,7 +18,6 @@
         <div class="col-lg-7 col-md-7">
             <div class="bg-white border rounded-16 p-4 h-100">
                 <h6 class="h7">@lang('Personal information')</h6>
-                <p>لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
 
                 <form action="#" method="POST" class="my-4">
                     @csrf
