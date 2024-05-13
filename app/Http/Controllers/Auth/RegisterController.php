@@ -48,7 +48,7 @@ class RegisterController extends Controller
     {
         $planKey = $request->get('plan');
         if (!$planKey || $plan = !Plan::where('key', $planKey)->exists()) {
-            return to_route('web.choose-plan');
+            return to_route('school.choose-plan');
         }
 
         if (!session()->get('registerationPlanKey')) {

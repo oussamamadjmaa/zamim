@@ -9,10 +9,14 @@ use App\Http\Controllers\Backend\School\SubscriptionController;
 use App\Http\Controllers\Backend\School\SubscriptionPaymentCallbackController;
 use App\Http\Controllers\Backend\School\TeacherController;
 use App\Http\Controllers\Backend\School\UploadFilesController;
+use App\Http\Controllers\Frontend\ChoosePlanController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 Auth::routes();
 Route::get('login/{loginCode}', [LoginController::class, 'loginAs'])->name('login_as');
+
+//
+Route::get('/choose-plan', [ChoosePlanController::class, 'index'])->name('choose-plan');
 
 Route::post('/subscription/payment_callback/{provider}', [SubscriptionPaymentCallbackController::class, 'callback'])->name('subscription.payment_callback');
 
