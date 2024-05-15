@@ -267,5 +267,8 @@
     "Article" : "المقال",
     "Class leader performance evaluation" : "تقييم أداء رائد الصف",
     "Student performance evaluation" : "تقييم أداء الطالب",
-    "Save rating" : "حفظ التقييم"
+    "Save rating" : "حفظ التقييم",
+    "Notify parents" : "إشعار أولياء الأمور",
+    "Via email" : "عبر البريد الإلكتروني",
+    "Via Whatsapp" : "عبر الواتساب"
 }

@@ -200,7 +200,7 @@ radios.value.show = false;
                         <td scope="row" v-text="article.id"></td>
                         <td v-text="article.radio.subject"></td>
                         <td v-text="article.title"></td>
-                        <td v-text="article.author.name"></td>
+                        <td v-text="article.author?.name"></td>
                         <td v-text="article.isPublicText"></td>
                         <td v-text="article.createdAt"></td>
                         <td class="d-flex">

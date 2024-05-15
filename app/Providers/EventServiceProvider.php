@@ -28,7 +28,7 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $observers = [
-        SubscriptionPayment::class => SubscriptionPaymentObserver::class
+        SubscriptionPayment::class => SubscriptionPaymentObserver::class,
     ];
 
     /**

@@ -3,32 +3,32 @@
     "file": "assets/NotificationsComponent-73f7966d.css",
     "src": "NotificationsComponent.css"
   },
-  "_NotificationsComponent-6d2a1678.js": {
+  "_NotificationsComponent-b31ce612.js": {
     "css": [
       "assets/NotificationsComponent-73f7966d.css"
     ],
-    "file": "assets/NotificationsComponent-6d2a1678.js",
+    "file": "assets/NotificationsComponent-b31ce612.js",
     "imports": [
-      "_common-120e602e.js"
+      "_common-2edb5868.js"
     ]
   },
-  "_common-120e602e.js": {
-    "file": "assets/common-120e602e.js"
+  "_common-2edb5868.js": {
+    "file": "assets/common-2edb5868.js"
   },
   "resources/vue_backend_assets/js/app.js": {
-    "file": "assets/app-48da9c69.js",
+    "file": "assets/app-457b94cd.js",
     "imports": [
-      "_NotificationsComponent-6d2a1678.js",
-      "_common-120e602e.js"
+      "_NotificationsComponent-b31ce612.js",
+      "_common-2edb5868.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app.js"
   },
   "resources/vue_backend_assets/js/app_admin.js": {
-    "file": "assets/app_admin-6ff16590.js",
+    "file": "assets/app_admin-c4abeb25.js",
     "imports": [
-      "_NotificationsComponent-6d2a1678.js",
-      "_common-120e602e.js"
+      "_NotificationsComponent-b31ce612.js",
+      "_common-2edb5868.js"
     ],
     "isEntry": true,
     "src": "resources/vue_backend_assets/js/app_admin.js"
@@ -62,9 +62,9 @@
     "css": [
       "assets/app-f78bf56b.css"
     ],
-    "file": "assets/app-f9d5077d.js",
+    "file": "assets/app-489de4f9.js",
     "imports": [
-      "_common-120e602e.js"
+      "_common-2edb5868.js"
     ],
     "isEntry": true,
     "src": "resources/vue_web_assets/js/app.js"

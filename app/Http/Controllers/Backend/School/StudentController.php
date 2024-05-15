@@ -58,11 +58,12 @@ class StudentController extends Controller
 
         $student->profile()->create([
             'parent_name' => $request->profile['parent_name'],
-            'parent_email' => $request->profile['parent_email'],
+            'parent_email' => $request->profile['parent_email'] ?? null,
             'level' => auth()->user()->level,
             'class' => $request->profile['class'],
             'division' => $request->profile['division'],
         ]);
+
 
         return response()->json([
             'status' => 200,
@@ -117,11 +118,13 @@ class StudentController extends Controller
         $student->phone_number = $request->phone_number;
         $student->save();
 
-        $student->profile->parent_name = $request->profile['parent_name'];
-        $student->profile->parent_email = $request->profile['parent_email'];
-        $student->profile->class = $request->profile['class'];
-        $student->profile->division = $request->profile['division'];
-        $student->profile->save();
+        $student->profile()->updateOrCreate([], [
+            'parent_name' => $request->profile['parent_name'],
+            'parent_email' => $request->profile['parent_email'] ?? null,
+            'level' => auth()->user()->level,
+            'class' => $request->profile['class'],
+            'division' => $request->profile['division'],
+        ]);
 
         return response()->json([
             'status' => 200,

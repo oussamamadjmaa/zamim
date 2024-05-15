@@ -66,7 +66,7 @@ class ArticleController extends Controller
     {
         abort_if(!request()->expectsJson(), 404);
 
-        $article->load(['radio:id,semester_id,level,subject,week_number']);
+        $article->load(['radio:id,semester_id,level,subject,week_number', 'author:id,name']);
 
         return response()->json([
             'status' => 200,

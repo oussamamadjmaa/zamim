@@ -50,6 +50,13 @@ return [
         'account_holder' => env('ACCOUNT_HOLDER'),
         'account_number' => env('ACCOUNT_NUMBER'),
         'IBAN'  => env('IBAN')
+    ],
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'auth_token' => env('TWILIO_AUTH_TOKEN'),
+        'phone_number' => env('TWILIO_PHONE_NUMBER'),
+        'sandbox_mode' => env('TWILIO_SANDBOX_MODE'),
+        'sandbox_number' => env('TWILIO_SANDBOX_NUMBER'),
     ]
 
 ];

@@ -68,6 +68,14 @@ const onSelectDeleteStudent = (key) => {
     radioForm.value.data.students.splice(key, 1);
 }
 
+const toggleChannel = (channel) => {
+    if (radioForm.value.data.notification_channels.includes(channel)) {
+        radioForm.value.data.notification_channels = radioForm.value.data.notification_channels.filter(item => item !== channel);
+    } else {
+        radioForm.value.data.notification_channels.push(channel);
+    }
+}
+
 // Filters
 const filteredRadios = (week) => {
     let filteredRadios = radios.value.list.filter(radio => radio.semesterId === parseInt(week.semesterId) && radio.level == week.level && radio.weekNumber === parseInt(week.weekNumber));
@@ -113,7 +121,8 @@ watch(() => radioForm.value.show, (show) => {
 watch(() => radioForm.value.update, (radio) => {
     if (radio) {
         const data = {
-            students: []
+            students: [],
+            notification_channels: []
         };
 
         if (radioForm.value.rating) {
@@ -286,15 +295,15 @@ getTeachers();
                             :options="teachers.list" :required="true" />
 
                         <InputComponent v-else class="col-md-12" label='<ion-icon name="person"></ion-icon>'
-                                        :readonly="true"
-                                        :modelValue="teachers.list[radioForm.update.teacher.id]" />
+                            :readonly="true" :modelValue="teachers.list[radioForm.update.teacher.id]" />
 
                         <template v-if="radioForm.rating">
                             <div class="col-12">
                                 <h5 class="text-center" v-text="trans('Class leader performance evaluation')"></h5>
 
                                 <div class="star-rating text-center" style="font-size: 39px;">
-                                    <span v-for="(star, index) in stars" :key="index" @click="radioForm.data.teacher_rating = (index + 1)"
+                                    <span v-for="(star, index) in stars" :key="index"
+                                        @click="radioForm.data.teacher_rating = (index + 1)"
                                         :class="{ 'filled': index < radioForm.data.teacher_rating }">&#9733;</span>
                                 </div>
                             </div>
@@ -320,10 +329,11 @@ getTeachers();
                                 <template v-if="radioForm.rating">
                                     <InputComponent class="col-md-6" label='<ion-icon name="bookmark"></ion-icon>'
                                         :readonly="true"
-                                        :modelValue="radioForm.update.articles.find((art) => art.id == radioForm.update.students.find((std) => std.pivot.student_id==val.student_id).pivot.article_id)['title']" />
+                                        :modelValue="radioForm.update.articles.find((art) => art.id == radioForm.update.students.find((std) => std.pivot.student_id == val.student_id).pivot.article_id)['title']" />
 
                                     <div class="col-12">
-                                        <h5 class="text-center mt-3 mb-1" v-text="trans('Student performance evaluation')"></h5>
+                                        <h5 class="text-center mt-3 mb-1"
+                                            v-text="trans('Student performance evaluation')"></h5>
 
                                         <div class="star-rating text-center" style="font-size: 39px;">
                                             <span v-for="(star, index) in stars" :key="index"
@@ -383,13 +393,30 @@ getTeachers();
                                         </div>
                                     </template>
                                 </template>
-
                             </div>
                         </li>
                     </ul>
                 </div>
 
 
+                <template v-if="!radioForm.update.hasCurrentSchool">
+                    <h6 class="h9 border-bottom pb-3 my-4 col-12" v-text="trans('Notify parents')"></h6>
+                    <div>
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input me-2"
+                                :checked="radioForm.data.notification_channels.includes('mail')"
+                                @change="toggleChannel('mail')">
+                            <span v-text="trans('Via email')"></span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input me-2"
+                                :checked="radioForm.data.notification_channels.includes('whatsapp')"
+                                @change="toggleChannel('whatsapp')"> <span v-text="trans('Via Whatsapp')"></span>
+                        </label>
+                    </div>
+                </template>
                 <div class="mt-3">
                     <button type="submit" class="primary-button" :disabled="radioForm.processing">
                         {{ radioForm.processing ? trans('Please wait') : (

@@ -15,6 +15,10 @@ class RadioStudent extends Model
         return $this->belongsTo(Radio::class);
     }
 
+    public function article() {
+        return $this->belongsTo(Article::class);
+    }
+
     public function student() {
         return $this->belongsTo(Student::class);
     }

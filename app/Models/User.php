@@ -68,6 +68,11 @@ class User extends Authenticatable
         );
     }
 
+    public function routeNotificationForTwilio()
+    {
+        return $this->phone_number;
+    }
+
     protected function searchColumns() {
         return ['id', 'name', 'email', 'phone_number'];
     }

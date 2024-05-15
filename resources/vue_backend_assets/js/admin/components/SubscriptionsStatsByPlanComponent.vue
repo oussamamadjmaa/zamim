@@ -3,7 +3,6 @@
         <div>
             <h6 class="h7" v-text="trans('Subscription plan')"></h6>
         </div>
-        <p class="p5">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
 
         <!-- Waiting for stats response (Loading) -->
         <template v-if="!stats.response">

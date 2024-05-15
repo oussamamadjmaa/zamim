@@ -240,6 +240,7 @@ namespace App\Models{
  * @property int $student_id
  * @property int|null $article_id
  * @property int|null $rating
+ * @property-read \App\Models\Article|null $article
  * @property-read \App\Models\Radio $radio
  * @property-read \App\Models\Student $student
  * @method static \Illuminate\Database\Eloquent\Builder|RadioStudent newModelQuery()

@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Backend\School;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\School\RadioRequest;
 use App\Http\Resources\RadioResource;
+use App\Models\Article;
 use App\Models\Radio;
 use App\Models\School;
+use App\Models\Student;
+use App\Notifications\RadioStudentParentNotification;
 use App\Rules\isSchoolStudent;
 use App\Rules\isSchoolTeacher;
 use Carbon\Carbon;
@@ -21,6 +24,7 @@ class RadioController extends Controller
      */
     public function index(Request $request) {
         if($request->expectsJson()) return $this->jsonResponse($request);
+
         return view('backend.school.radios.index');
     }
 
@@ -90,10 +94,20 @@ class RadioController extends Controller
     public function update(RadioRequest $request, Radio $radio)
     {
         $data = $request->validated();
+
+        //
+        $notificationChannels = $request->input('notification_channels', null);
+
         $schoolId = auth()->user()->school_id;
 
+        // Get the current list of students associated with the radio
+        $currentStudents = $radio->students->pluck('id')->toArray();
+
         $studentsList = [];
+        $newlyAttachedStudents = [];
+
         foreach ($data['students'] as $student) {
+            $article = null;
             $articleId = $student['article_id'];
             if (!$student['article_id']) {
                 $student['article']['radio_id'] = $radio->id;
@@ -102,12 +116,21 @@ class RadioController extends Controller
             }
 
             $studentsList[$student['student_id']] = ['article_id' => $articleId];
-        }
-        //
 
+            // Track newly attached students
+            if (!in_array($student['student_id'], $currentStudents)) {
+                $newlyAttachedStudents[] = [
+                    'student_id' => $student['student_id'],
+                    'article' => ($article ?: Article::find($articleId)),
+                ];
+            }
+        }
+
+        // Sync students and teacher
         $radio->students()->sync($studentsList);
         $radio->teachers()->sync($data['teacher_id']);
 
+        // Load related data
         $radio->load([
             'schools' => fn($q) => $q->select('id')->where('school_id', $schoolId),
             'teachers' => fn($q) => $q->select('id', 'school_id', 'name')->where('school_id', $schoolId),
@@ -115,10 +138,24 @@ class RadioController extends Controller
             'articles' => fn($q) => $q->whereIsPublic(true)->orWhereMorphRelation('author', School::class, 'id', $schoolId),
         ]);
 
-        if ($radio->schools->isEmpty()) {
-            $radio->schools()->sync(auth()->user()->school_id);
+        try {
+            // Send notifications to newly attached students parents
+            if ($radio->schools->isEmpty() && is_array($notificationChannels)) {
+                foreach ($newlyAttachedStudents as $attachedStudent) {
+                    $student = Student::find($attachedStudent['student_id']);
+                    $student->notify(new RadioStudentParentNotification($radio, $attachedStudent['article'], $notificationChannels));
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
         }
 
+        // associate radio with the current school if not exists
+        if ($radio->schools->isEmpty()) {
+            $radio->schools()->sync($schoolId);
+        }
+
+        // Indicate that current school has been set
         $radio->hasCurrentSchool = true;
 
         return response()->json([
@@ -126,7 +163,7 @@ class RadioController extends Controller
             'message' => __('Data updated successfully'),
             'data' => new RadioResource($radio)
         ]);
-    }
+        }
 
     public function storeRating(Request $request, Radio $radio)
     {
@@ -150,7 +187,6 @@ class RadioController extends Controller
         if ($radio->teachers->count()) {
             $radio->teachers()->updateExistingPivot($radio->teachers->first()->id, ['rating' => $data['teacher_rating']]);
         }
-
 
         $pivotData = collect($data['students'])->mapWithKeys(function ($student) {
             return [$student['student_id'] => ['rating' => $student['rating']]];

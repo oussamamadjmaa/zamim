@@ -7,7 +7,6 @@
         <div class="d-flex flex-wrap justify-content-between">
             <h6 class="h7">{{ trans('Current subscription') }}</h6>
         </div>
-        <p class="p5 mb-4">لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل .</p>
 
         @if ($subscription)
         <div class="d-flex justify-content-between">
