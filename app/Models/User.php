@@ -73,6 +73,10 @@ class User extends Authenticatable
         return $this->phone_number;
     }
 
+    public function routeNotificationForMail($notification) {
+        return isset($notification->customEmail) ? $notification->customEmail :  $this->email;
+    }
+
     protected function searchColumns() {
         return ['id', 'name', 'email', 'phone_number'];
     }

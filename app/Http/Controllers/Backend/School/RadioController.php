@@ -25,6 +25,11 @@ class RadioController extends Controller
     public function index(Request $request) {
         if($request->expectsJson()) return $this->jsonResponse($request);
 
+        $student = Student::find(1);
+        $radio = Radio::find(1);
+        $article = Article::find(1);
+        return $student->notify(new RadioStudentParentNotification($radio, $article, ['mail']));
+
         return view('backend.school.radios.index');
     }
 

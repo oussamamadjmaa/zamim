@@ -20,6 +20,8 @@ class RadioStudentParentNotification extends Notification implements ShouldQueue
 
     protected $radio, $article, $notificationChannels;
 
+    public $customEmail;
+
     /**
      * Create a new notification instance.
      *
@@ -30,6 +32,7 @@ class RadioStudentParentNotification extends Notification implements ShouldQueue
         $this->radio = $radio;
         $this->article =  $article;
         $this->notificationChannels = $notificationChannels;
+
     }
 
     /**
@@ -40,15 +43,17 @@ class RadioStudentParentNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        $vie = [];
+        $via = [];
         if (in_array('mail', $this->notificationChannels) && $notifiable->profile?->parent_email) {
-            $vie[] = 'mail';
+            $this->customEmail = $notifiable->profile?->parent_email;
+
+            $via[] = 'mail';
         }
 
         if (in_array('whatsapp', $this->notificationChannels)) {
-            $vie[] = TwilioChannel::class;
+            $via[] = TwilioChannel::class;
         }
-        return $vie;
+        return $via;
     }
 
     /**
