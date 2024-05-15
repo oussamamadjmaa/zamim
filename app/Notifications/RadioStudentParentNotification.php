@@ -92,7 +92,7 @@ class RadioStudentParentNotification extends Notification implements ShouldQueue
 
         return [
             'body' => $message,
-            'mediaUrl' => Storage::disk('public')->url('storage/'.$this->article->attachment)
+            'mediaUrl' => Storage::disk('public')->url($this->article->attachment)
         ];
     }
 }
