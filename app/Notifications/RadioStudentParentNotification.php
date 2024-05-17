@@ -95,9 +95,14 @@ class RadioStudentParentNotification extends Notification implements ShouldQueue
         $message .= "شكرًا لدعمكم.\n\n";
         $message .= $notifiable->school?->name;
 
-        return [
+        $data = [
             'body' => $message,
-            'mediaUrl' => Storage::disk('public')->url($this->article->attachment)
         ];
+
+        if (!app()->isLocal()) {
+            $data['mediaUrl'] = Storage::disk('public')->url($this->article->attachment);
+        }
+
+        return $data;
     }
 }
